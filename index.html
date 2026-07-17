@@ -1,0 +1,2859 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>院前 ACS 急救啟動平台原型</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #1d252c;
+      --muted: #66717c;
+      --line: #d9dee5;
+      --danger: #c8352e;
+      --danger-soft: #fff0ee;
+      --amber: #b97012;
+      --amber-soft: #fff4df;
+      --green: #197a45;
+      --green-soft: #eaf7ef;
+      --blue: #2459a6;
+      --blue-soft: #edf4ff;
+      --teal: #147c7b;
+      --teal-soft: #e7f6f5;
+      --shadow: 0 12px 28px rgba(29, 37, 44, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      letter-spacing: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(246, 247, 249, .96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar {
+      max-width: 1440px;
+      margin: 0 auto;
+      min-height: 72px;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      min-width: 260px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 8px;
+      width: 100%;
+    }
+
+    .status-item {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 8px 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-item strong {
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    .status-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .layout {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 18px 24px 28px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 18px;
+    }
+
+    nav {
+      align-self: start;
+      position: sticky;
+      top: 90px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      text-align: left;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      min-height: 48px;
+    }
+
+    .nav-btn.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .toolbar .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .cols-2 {
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+    }
+
+    .cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .panel-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .panel-body {
+      padding: 16px;
+      overflow-x: auto;
+    }
+
+    .case-banner {
+      background: var(--danger-soft);
+      border: 1px solid #f0b8b1;
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .case-banner h3 {
+      margin: 0 0 6px;
+      color: var(--danger);
+      font-size: 20px;
+    }
+
+    .case-banner p {
+      margin: 0;
+      color: #5f2b28;
+      font-size: 14px;
+    }
+
+    .timer {
+      min-width: 132px;
+      text-align: center;
+      color: var(--danger);
+    }
+
+    .timer strong {
+      display: block;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 9px 10px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    button,
+    .button {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 9px 13px;
+      font: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .primary {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .secondary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .quiet {
+      background: #fff;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .ok {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .warn {
+      background: var(--amber);
+      color: #fff;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 13px;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip.red {
+      border-color: #f0b8b1;
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .chip.blue {
+      border-color: #bad1f7;
+      background: var(--blue-soft);
+      color: var(--blue);
+    }
+
+    .chip.green {
+      border-color: #b8e2c8;
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .ecg {
+      height: 280px;
+      border: 1px solid #e8caca;
+      border-radius: 8px;
+      background-color: #fffafa;
+      background-image:
+        linear-gradient(rgba(200, 53, 46, .18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 53, 46, .18) 1px, transparent 1px),
+        linear-gradient(rgba(200, 53, 46, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 53, 46, .08) 1px, transparent 1px);
+      background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ecg svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ecg-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid #e7b5b0;
+      border-radius: 6px;
+      padding: 5px 7px;
+      font-size: 12px;
+      color: #7c3934;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .event:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .event time {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .event strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .event span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .case-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .case-row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .case-row h4 {
+      margin: 0 0 5px;
+      font-size: 15px;
+    }
+
+    .case-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      background: #fbfcfd;
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 16px;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .metric strong {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .module-card {
+      min-height: 168px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      display: grid;
+      align-content: space-between;
+      gap: 12px;
+    }
+
+    button.module-card {
+      width: 100%;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .module-card h4 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .module-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .module-card.acs {
+      border-color: #f0b8b1;
+      background: var(--danger-soft);
+    }
+
+    .module-card.cpr {
+      border-color: #bad1f7;
+      background: var(--blue-soft);
+    }
+
+    .module-card.stroke {
+      border-color: #b8e2c8;
+      background: var(--green-soft);
+    }
+
+    .module-card.trauma {
+      border-color: #efcf98;
+      background: var(--amber-soft);
+    }
+
+    .rescue-console {
+      display: grid;
+      grid-template-columns: 210px minmax(320px, 1fr) 210px 190px;
+      gap: 10px;
+    }
+
+    .console-column {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f7f8fa;
+      min-width: 0;
+    }
+
+    .console-title {
+      background: #5d5d5d;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .console-title.orange {
+      background: #ef6c1a;
+    }
+
+    .console-list {
+      display: grid;
+      gap: 2px;
+      padding: 6px;
+    }
+
+    .console-list button {
+      width: 100%;
+      min-height: 38px;
+      border-radius: 4px;
+      border: 1px solid #bbb;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px;
+      justify-content: center;
+    }
+
+    .console-list button.urgent {
+      background: #ef1f1c;
+      border-color: #bf1210;
+      color: #fff;
+    }
+
+    .console-main {
+      background: #bfe8ef;
+      min-height: 360px;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .console-clock {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px;
+      background: #eef7d0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+
+    .console-clock label {
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .console-clock input {
+      min-height: 34px;
+      padding: 6px;
+    }
+
+    .console-timer {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      background: #d7fdff;
+      border: 1px solid #a7d6da;
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    .record-head {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      background: #70a0ff;
+      color: #101820;
+      font-weight: 700;
+      border-bottom: 1px solid #3e78e2;
+    }
+
+    .record-head span,
+    .record-row span {
+      padding: 7px;
+      border-right: 1px solid rgba(255, 255, 255, .55);
+    }
+
+    .record-list {
+      display: grid;
+      align-content: start;
+    }
+
+    .record-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      background: rgba(255, 255, 255, .36);
+      border-bottom: 1px solid rgba(255, 255, 255, .7);
+      min-height: 34px;
+    }
+
+    .med-row {
+      display: grid;
+      grid-template-columns: 1fr 36px;
+      align-items: stretch;
+    }
+
+    .med-row button {
+      border-radius: 0;
+      border-color: #d78c5f;
+      background: #f6bd9d;
+      min-height: 42px;
+    }
+
+    .med-row output {
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid #e6c1a6;
+      border-left: 0;
+    }
+
+    .acs-console {
+      grid-template-columns: 230px minmax(360px, 1fr) 220px 210px;
+    }
+
+    .role-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .role-strip button.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .big-action-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .big-action {
+      min-height: 86px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.25;
+      padding: 10px;
+      box-shadow: 0 8px 18px rgba(29, 37, 44, .12);
+    }
+
+    .big-action small {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      opacity: .92;
+    }
+
+    .big-action.red {
+      background: #d92d20;
+    }
+
+    .big-action.blue {
+      background: #2459a6;
+    }
+
+    .big-action.green {
+      background: #197a45;
+    }
+
+    .big-action.orange {
+      background: #d86416;
+    }
+
+    .big-action.gray {
+      background: #5d6470;
+    }
+
+    .big-action.purple {
+      background: #7156a5;
+    }
+
+    .patient-link {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(140px, 1fr)) auto;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .panel-subhead {
+      margin: 14px 0 8px;
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .step {
+      min-height: 116px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+      display: grid;
+      gap: 8px;
+    }
+
+    .step b {
+      color: var(--blue);
+      font-size: 13px;
+    }
+
+    .step strong {
+      font-size: 15px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mobile-frame {
+      max-width: 390px;
+      margin: 0 auto;
+      border: 10px solid #20252b;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 18px 40px rgba(29, 37, 44, .2);
+    }
+
+    .mobile-screen {
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .mobile-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-title strong {
+      font-size: 18px;
+    }
+
+    @media (max-width: 1100px) {
+      .topbar,
+      .layout {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .topbar {
+        display: grid;
+      }
+
+      .status-strip,
+      .cols-2,
+      .cols-3,
+      .workflow,
+      .module-grid,
+      .rescue-console {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .big-action-grid {
+        grid-template-columns: repeat(3, minmax(120px, 1fr));
+      }
+
+      .patient-link {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        position: static;
+        grid-template-columns: repeat(14, minmax(120px, 1fr));
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .status-strip,
+      .cols-2,
+      .cols-3,
+      .workflow,
+      .module-grid,
+      .rescue-console,
+      .big-action-grid,
+      .patient-link,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .case-banner {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        grid-template-columns: repeat(14, 150px);
+      }
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <h1>院前 ACS 急救啟動平台</h1>
+        <p>EMT 到心導管室的一條線協作原型</p>
+      </div>
+      <div class="status-strip" aria-label="即時狀態">
+        <div class="status-item"><span>活躍案件</span><strong>3</strong></div>
+        <div class="status-item"><span>AMI 啟動</span><strong>1</strong></div>
+        <div class="status-item"><span>最近 ETA</span><strong>07 分</strong></div>
+        <div class="status-item"><span>通報完成率</span><strong>92%</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav aria-label="角色切換">
+      <button class="nav-btn active" data-view="overview">總覽</button>
+      <button class="nav-btn" data-view="emt">EMT 端</button>
+      <button class="nav-btn" data-view="acsPanel">ACS 執行</button>
+      <button class="nav-btn" data-view="strokeConsole">Stroke 執行</button>
+      <button class="nav-btn" data-view="traumaConsole">Trauma 執行</button>
+      <button class="nav-btn" data-view="cprConsole">CPR/ECPR</button>
+      <button class="nav-btn" data-view="cvUnit">CV 單位</button>
+      <button class="nav-btn" data-view="neuroDoctor">神內醫師</button>
+      <button class="nav-btn" data-view="er">急診醫師/專師</button>
+      <button class="nav-btn" data-view="nurse">護理交班</button>
+      <button class="nav-btn" data-view="traumaDoctor">創傷科醫師</button>
+      <button class="nav-btn" data-view="modules">模組模型</button>
+      <button class="nav-btn" data-view="quality">品管報表</button>
+    </nav>
+
+    <main>
+      <section class="view active" id="overview">
+        <div class="toolbar">
+          <div>
+            <h2>流程總覽</h2>
+            <div class="meta">院外啟動、線上判讀、院內接手與品質追蹤</div>
+          </div>
+          <button class="primary" data-view-jump="emt">＋ EMT 獨立啟動</button>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>急重症啟動中心</h3>
+            <span class="chip blue">共用案件核心 + 分流模組</span>
+          </div>
+          <div class="panel-body">
+            <div class="module-grid">
+              <button class="module-card acs" data-view-jump="emt" data-case-type="ACS / STEMI">
+                <div>
+                  <h4>ACS / STEMI</h4>
+                  <p>胸痛啟動、ECG 上傳、心內判讀、AMI 啟動、心導管室通知。</p>
+                </div>
+                <span class="chip red">目前原型主流程</span>
+              </button>
+              <button class="module-card cpr" data-view-jump="emt" data-case-type="CPR / ECPR">
+                <div>
+                  <h4>CPR / ECPR</h4>
+                  <p>整合既有 CPR 按壓紀錄模型，接入電擊、給藥、ROSC、ECPR 評估。</p>
+                </div>
+                <span class="chip blue">可嵌入既有模型</span>
+              </button>
+              <button class="module-card stroke" data-view-jump="emt" data-case-type="Stroke">
+                <div>
+                  <h4>Stroke</h4>
+                  <p>Last known well、FAST/LAMS/NIHSS、CT/CTA、rtPA/EVT 流程。</p>
+                </div>
+                <span class="chip green">神內 / 放射通知</span>
+              </button>
+              <button class="module-card trauma" data-view-jump="emt" data-case-type="Major Trauma">
+                <div>
+                  <h4>Major Trauma</h4>
+                  <p>創傷機轉、GCS、Shock index、大量輸血、OR/CT/ICU 準備。</p>
+                </div>
+                <span class="chip">Trauma team</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="case-banner">
+          <div>
+            <h3>ACS-20260716-003 疑似 STEMI，心內已啟動 AMI 流程</h3>
+            <p>男性 58 歲，胸痛 40 分鐘，冒冷汗，V2-V5 ST elevation，救護車 ETA 7 分鐘。</p>
+          </div>
+          <div class="timer">
+            <strong>07:18</strong>
+            <span>預計到院</span>
+          </div>
+        </div>
+
+        <div class="grid workflow">
+          <div class="step"><b>01 EMT</b><strong>啟動胸痛 ACS</strong><span>輸入症狀、生命徵象、發作時間與 ETA</span></div>
+          <div class="step"><b>02 ECG</b><strong>上傳 12 導程</strong><span>手機拍照或由心電圖機匯入</span></div>
+          <div class="step"><b>03 心內</b><strong>即時判讀確認</strong><span>醫師線上確認 AMI 啟動或要求補資料</span></div>
+          <div class="step"><b>04 院內</b><strong>同步通知團隊</strong><span>急診、心導管、護理站同時準備</span></div>
+          <div class="step"><b>05 到院</b><strong>護理接手與續接</strong><span>病歷合併、ACS 準備、護理師/EMT 切換 CPCR</span></div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:14px;">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>即時案件</h3>
+              <span class="chip red">AMI 啟動</span>
+            </div>
+            <div class="panel-body case-list">
+              <div class="case-row">
+                <div>
+                  <h4>ACS-003 男 58 歲 / 胸痛</h4>
+                  <p>ST elevation，ETA 7 分鐘，送達急診 A 區</p>
+                </div>
+                <span class="chip red">最高優先</span>
+              </div>
+              <div class="case-row">
+                <div>
+                  <h4>ACS-002 女 71 歲 / 胸悶喘</h4>
+                  <p>ECG 已上傳，等待心內判讀</p>
+                </div>
+                <span class="chip blue">待判讀</span>
+              </div>
+              <div class="case-row">
+                <div>
+                  <h4>CPCR-001 男 63 歲 / OHCA</h4>
+                  <p>CPR 進行中，ROSC 未達成，ETA 11 分鐘</p>
+                </div>
+                <span class="chip red">CPCR</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>時間軸</h3>
+              <span class="chip green">自動留痕</span>
+            </div>
+            <div class="panel-body timeline">
+              <div class="event"><time>09:12</time><div><strong>EMT 啟動 ACS</strong><span>胸痛 40 分鐘，意識清楚，BP 146/92</span></div></div>
+              <div class="event"><time>09:15</time><div><strong>12 導程 ECG 完成</strong><span>V2-V5 ST elevation，疑似 anterior STEMI</span></div></div>
+              <div class="event"><time>09:16</time><div><strong>ECG 上傳成功</strong><span>通知心內群組與急診 ACS 群組</span></div></div>
+              <div class="event"><time>09:18</time><div><strong>心內醫師確認 AMI 啟動</strong><span>已通知心導管室與急診團隊</span></div></div>
+              <div class="event"><time>09:22</time><div><strong>心導管室回覆 ready</strong><span>值班團隊已確認</span></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="emt">
+        <div class="toolbar">
+          <div>
+            <h2>EMT 獨立入口</h2>
+            <div class="meta">不需連到醫院病歷，先以院前暫時案件啟動，再由院內到院後合併</div>
+          </div>
+          <span class="chip blue" id="selected-case-chip">目前選擇：ACS / STEMI</span>
+        </div>
+
+        <div class="case-banner" style="background:var(--blue-soft); border-color:#bad1f7;">
+          <div>
+            <h3 style="color:var(--blue);">建議叫出版面：<span id="suggested-specialty">CV 心臟內科</span></h3>
+            <p id="suggested-specialty-desc">胸痛 / STEMI 案件優先通知 CV，必要時同步心導管室與急診 ACS 團隊。</p>
+          </div>
+          <button class="secondary" id="suggested-unit-link" data-view-jump="cvUnit">開啟建議單位頁</button>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>選擇案件類型</h3>
+            <span class="chip green">EMT 先選類型即可啟動</span>
+          </div>
+          <div class="panel-body">
+            <div class="module-grid">
+              <button class="module-card acs case-type-btn" data-case-type="ACS / STEMI">
+                <div>
+                  <h4>ACS / STEMI</h4>
+                  <p>胸痛、疑似心肌梗塞、12 導程 ECG 上傳。</p>
+                </div>
+                <span class="chip red">胸痛</span>
+              </button>
+              <button class="module-card cpr case-type-btn" data-case-type="CPR / ECPR">
+                <div>
+                  <h4>CPR / ECPR</h4>
+                  <p>OHCA、CPR 進行中、ROSC 或 ECPR 評估。</p>
+                </div>
+                <span class="chip blue">急救</span>
+              </button>
+              <button class="module-card stroke case-type-btn" data-case-type="Stroke">
+                <div>
+                  <h4>Stroke</h4>
+                  <p>FAST 陽性、疑似中風、最後正常時間與血糖。</p>
+                </div>
+                <span class="chip green">中風</span>
+              </button>
+              <button class="module-card trauma case-type-btn" data-case-type="Major Trauma">
+                <div>
+                  <h4>Major Trauma</h4>
+                  <p>重大外傷、GCS 下降、低血壓或大量出血。</p>
+                </div>
+                <span class="chip">外傷</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-bottom:14px;">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>一鍵通報</h3>
+              <span class="chip red" id="notify-priority">高優先</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>通報對象</th><th>內容</th></tr>
+                <tbody id="notify-table">
+                  <tr><td>CV 心臟內科</td><td>胸痛、ECG、ETA、生命徵象</td></tr>
+                  <tr><td>急診 ACS 團隊</td><td>準備檢傷、抽血、院內 ECG</td></tr>
+                  <tr><td>心導管室</td><td>待 CV 確認後啟動</td></tr>
+                </tbody>
+              </table>
+              <div class="actions">
+                <button class="primary" id="one-click-notify">一鍵通報 ACS / STEMI</button>
+                <button class="quiet">只存草稿</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>急救 / 緊急處置面板</h3>
+              <span class="chip blue">依類型切換</span>
+            </div>
+            <div class="panel-body">
+              <div class="chips" id="action-panel">
+                <button class="chip red">上傳 12 lead ECG</button>
+                <button class="chip">Aspirin</button>
+                <button class="chip">N/S 500cc</button>
+                <button class="chip">留置針</button>
+                <button class="chip blue">更新 ETA</button>
+              </div>
+              <div class="actions">
+                <button class="secondary">新增處置時間點</button>
+                <button class="primary">切換 CPCR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>急救紀錄</h3>
+              <span class="chip green">自動時間軸</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>紀錄類別</th><th>欄位</th></tr>
+                <tbody id="record-table">
+                  <tr><td>症狀</td><td>胸痛開始時間、冒冷汗、放射痛</td></tr>
+                  <tr><td>ECG</td><td>完成時間、上傳時間、重傳原因</td></tr>
+                  <tr><td>處置</td><td>Aspirin、NTG、IV、N/S 500cc</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>急救面板模型</h3>
+            <span class="chip red">啟動時間 + 處置順序 + 藥物 + 紀錄</span>
+          </div>
+          <div class="panel-body">
+            <div class="rescue-console">
+              <div class="console-column">
+                <div class="console-title">建議處置</div>
+                <div class="console-list" id="sequence-list">
+                  <button class="urgent">確認 12 lead ECG</button>
+                  <button class="urgent">On EKG monitor</button>
+                  <button>On IV N/S 500cc</button>
+                  <button>抽血 / Troponin</button>
+                  <button>會診 CV</button>
+                  <button>啟動心導管室</button>
+                </div>
+              </div>
+
+              <div class="console-column console-main">
+                <div class="console-clock">
+                  <label>啟動時間<input id="activation-time" value="2026/07/17 19:55:49"></label>
+                  <label>紀錄時間<input id="record-time" value="2026/07/17 19:55:56"></label>
+                  <div class="console-timer" id="activation-timer">00:00</div>
+                  <button class="primary" id="activation-start">Start</button>
+                </div>
+                <div class="record-head"><span>記錄時間</span><span>記錄內容</span></div>
+                <div class="record-list" id="console-record-list">
+                  <div class="record-row"><span>19:55</span><span>急救面板待啟動</span></div>
+                </div>
+              </div>
+
+              <div class="console-column">
+                <div class="console-title orange">藥物</div>
+                <div class="console-list" id="medication-list">
+                  <div class="med-row"><button>N/S 500cc</button><output>0</output></div>
+                  <div class="med-row"><button>Aspirin / Bokey</button><output>0</output></div>
+                  <div class="med-row"><button>Brinta</button><output>0</output></div>
+                  <div class="med-row"><button>TAPA</button><output>0</output></div>
+                  <div class="med-row"><button>Heparin</button><output>0</output></div>
+                </div>
+              </div>
+
+              <div class="console-column">
+                <div class="console-title">處置</div>
+                <div class="console-list" id="procedure-list">
+                  <button>上傳 ECG</button>
+                  <button>抽血</button>
+                  <button>通知心導管</button>
+                  <button>插入 EKG</button>
+                  <button>急救人員</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="mobile-frame">
+            <div class="mobile-screen">
+              <div class="mobile-title">
+                <strong id="mobile-case-title">新增 ACS / STEMI</strong>
+                <span class="chip red">緊急</span>
+              </div>
+              <button class="primary" id="mobile-launch-button" style="width:100%; min-height:58px; font-size:18px;">啟動 ACS / STEMI</button>
+              <div class="chips">
+                <span class="chip red">胸痛</span>
+                <span class="chip">冒冷汗</span>
+                <span class="chip">呼吸喘</span>
+                <span class="chip">昏厥</span>
+              </div>
+              <label>症狀開始時間<input type="time" value="08:35"></label>
+              <label>預計到院 ETA<select><option>7 分鐘</option><option>10 分鐘</option><option>15 分鐘</option></select></label>
+              <div class="grid cols-2">
+                <label>BP<input value="146/92"></label>
+                <label>HR<input value="108"></label>
+                <label>SpO2<input value="95%"></label>
+                <label>GCS<input value="E4V5M6"></label>
+              </div>
+              <button class="secondary">上傳 ECG</button>
+              <button class="primary">切換 CPCR 模式</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>院前資料表</h3>
+              <span class="chip blue">院前暫時案件，暫不需病歷號</span>
+            </div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <label>案件類型<input id="case-type-input" value="ACS / STEMI"></label>
+                <label>院前暫時編號<input value="EMS-20260717-001"></label>
+                <label>病人性別<select><option>男</option><option>女</option><option>未知</option></select></label>
+                <label>年齡<input value="58"></label>
+                <label>接收醫院<select><option>本院急診</option><option>區域 PCI 醫院</option></select></label>
+                <label>救護車號<input value="A-217"></label>
+                <label class="full">主要症狀<textarea>胸痛約 40 分鐘，冒冷汗，疼痛延伸至左肩。</textarea></label>
+                <label>Aspirin<select><option>已給予</option><option>未給予</option><option>禁忌</option></select></label>
+                <label>NTG<select><option>未給予</option><option>已給予</option><option>血壓不適合</option></select></label>
+                <label>N/S 500cc<select><option>未給予</option><option>已開始</option><option>已完成</option><option>不適用</option></select></label>
+                <label>留置針<select><option>已建立</option><option>嘗試中</option><option>未建立</option></select></label>
+                <label>CPR 狀態<select><option>未 CPR</option><option>CPR 進行中</option><option>ROSC</option></select></label>
+                <label>意識狀態<select><option>清醒</option><option>嗜睡</option><option>昏迷</option></select></label>
+              </div>
+              <div class="actions">
+                <button class="primary">送出並通知</button>
+                <button class="secondary">更新 ETA</button>
+                <button class="quiet">儲存草稿</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cardio">
+        <div class="toolbar">
+          <div>
+            <h2>心內醫師判讀</h2>
+            <div class="meta">ECG、症狀與啟動決策集中在同一頁</div>
+          </div>
+          <span class="chip red">待確認 1 件</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>ECG 檢視</h3>
+              <span class="chip red">V2-V5 ST elevation</span>
+            </div>
+            <div class="panel-body">
+              <div class="ecg" aria-label="模擬 ECG">
+                <div class="ecg-label">12 lead ECG / ACS-003 / 09:15</div>
+                <svg viewBox="0 0 900 280" preserveAspectRatio="none" aria-hidden="true">
+                  <polyline points="0,140 45,140 55,118 66,170 78,70 92,162 108,140 150,140 160,122 172,170 184,64 198,158 214,140 260,140 272,116 284,172 296,58 312,158 330,140 376,140 388,114 400,174 412,56 430,158 448,140 498,140 510,120 522,170 534,68 550,160 568,140 620,140 632,118 644,172 656,64 672,160 690,140 740,140 752,122 764,172 776,72 792,162 810,140 860,140 872,124 884,170 896,82" fill="none" stroke="#c8352e" stroke-width="4"/>
+                </svg>
+              </div>
+              <div class="actions">
+                <button class="primary">確認 AMI 啟動</button>
+                <button class="warn">要求重傳 ECG</button>
+                <button class="quiet">急診先評估</button>
+                <button class="quiet">暫不啟動</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>判讀摘要</h3>
+              <span class="chip blue">醫師：心內值班</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>項目</th><th>內容</th></tr>
+                <tr><td>病人</td><td>男，58 歲，暫無病歷號</td></tr>
+                <tr><td>主訴</td><td>胸痛 40 分鐘、冒冷汗、左肩放射痛</td></tr>
+                <tr><td>生命徵象</td><td>BP 146/92、HR 108、SpO2 95%、GCS E4V5M6</td></tr>
+                <tr><td>ECG</td><td>疑似 anterior STEMI，建議啟動 cath lab</td></tr>
+                <tr><td>ETA</td><td>7 分鐘</td></tr>
+              </table>
+              <div class="actions">
+                <button class="ok">簽核並通知心導管</button>
+                <button class="secondary">補充判讀文字</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cvUnit">
+        <div class="toolbar">
+          <div>
+            <h2>CV 單位使用頁面</h2>
+            <div class="meta">整合 CV 醫師判讀、AMI 啟動、心導管室準備與 cath lab 狀態。</div>
+          </div>
+          <span class="chip red">CV / Cath Lab</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>CV 醫師判讀</h3>
+              <span class="chip red">ACS-003 / 疑似 STEMI</span>
+            </div>
+            <div class="panel-body">
+              <div class="ecg" aria-label="模擬 ECG">
+                <div class="ecg-label">12 lead ECG / 09:15 / 院前上傳</div>
+                <svg viewBox="0 0 900 280" preserveAspectRatio="none" aria-hidden="true">
+                  <polyline points="0,140 45,140 55,118 66,170 78,70 92,162 108,140 150,140 160,122 172,170 184,64 198,158 214,140 260,140 272,116 284,172 296,58 312,158 330,140 376,140 388,114 400,174 412,56 430,158 448,140 498,140 510,120 522,170 534,68 550,160 568,140 620,140 632,118 644,172 656,64 672,160 690,140 740,140 752,122 764,172 776,72 792,162 810,140 860,140 872,124 884,170 896,82" fill="none" stroke="#c8352e" stroke-width="4"/>
+                </svg>
+              </div>
+              <div class="actions">
+                <button class="primary">確認 AMI 啟動</button>
+                <button class="secondary">通知心導管室</button>
+                <button class="warn">要求重傳 ECG</button>
+                <button class="quiet">急診先評估</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>心導管室狀態</h3>
+              <span class="chip blue">Cath lab workflow</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>節點</th><th>時間</th><th>狀態</th></tr>
+                <tr><td>CV 確認 AMI</td><td>09:18</td><td><span class="chip green">完成</span></td></tr>
+                <tr><td>Cath lab 通知</td><td>09:18</td><td><span class="chip green">完成</span></td></tr>
+                <tr><td>技術員 / 護理師回覆</td><td>09:20</td><td><span class="chip green">完成</span></td></tr>
+                <tr><td>Cath lab ready</td><td>09:22</td><td><span class="chip blue">追蹤</span></td></tr>
+                <tr><td>病人進入 cath lab</td><td>--</td><td><span class="chip">等待</span></td></tr>
+                <tr><td>Wire crossing / balloon</td><td>--</td><td><span class="chip">未完成</span></td></tr>
+              </table>
+              <div class="actions">
+                <button class="ok">Cath lab ready</button>
+                <button class="secondary">病人進入 cath lab</button>
+                <button class="primary">記錄 balloon 時間</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="acsPanel">
+        <div class="toolbar">
+          <div>
+            <h2>ACS 執行面板</h2>
+            <div class="meta">紀錄與教練用：啟動計時、流程提醒、色塊按壓後自動留下 action 紀錄</div>
+          </div>
+          <span class="chip red">ACS / STEMI</span>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>操作角色</h3>
+            <span class="chip blue" id="acs-role-chip">目前角色：急診護理師</span>
+          </div>
+          <div class="panel-body">
+            <div class="role-strip">
+              <button class="quiet acs-role-btn" data-role="EMT">EMT</button>
+              <button class="quiet acs-role-btn active" data-role="急診護理師">急診護理師</button>
+              <button class="quiet acs-role-btn" data-role="急診醫師 / 專師">急診醫師 / 專師</button>
+              <button class="quiet acs-role-btn" data-role="CV 心內醫師">CV 心內醫師</button>
+              <button class="quiet acs-role-btn" data-role="心導管室">心導管室</button>
+            </div>
+            <div class="chips">
+              <span class="chip red">胸痛 ACS</span>
+              <span class="chip blue">院前暫時案件 EMS-ACS-001</span>
+              <span class="chip green">到院後可合併病歷號</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>ACS 急救紀錄</h3>
+            <span class="chip red">啟動時間 / Door-to-balloon 追蹤</span>
+          </div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-ACS-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-acs-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="big-action-grid" aria-label="ACS 大型快捷按鈕">
+              <button class="big-action red" data-acs-record="確認胸痛 ACS">確認 ACS<small>啟動胸痛流程</small></button>
+              <button class="big-action blue" data-acs-record="12 lead ECG 完成">12 Lead ECG<small>完成 / 上傳</small></button>
+              <button class="big-action green" data-acs-record="On EKG monitor">EKG Monitor<small>接上監測</small></button>
+              <button class="big-action orange" data-acs-record="On IV N/S 500cc">N/S 500cc<small>IV / 留置針</small></button>
+              <button class="big-action purple" data-acs-record="抽血 / Troponin">抽血<small>Troponin / Lab</small></button>
+              <button class="big-action red" data-acs-record="會診 CV">會診 CV<small>通知心內</small></button>
+              <button class="big-action red" data-acs-record="啟動心導管室">啟動 Cath Lab<small>心導管室</small></button>
+              <button class="big-action gray" data-acs-record="病人離開急診">離開急診<small>轉 Cath / ICU</small></button>
+            </div>
+
+            <div class="rescue-console acs-console">
+              <div class="console-column">
+                <div class="console-title">建議處置</div>
+                <div class="console-list" id="acs-sequence-list">
+                  <button class="urgent" data-acs-record="確認胸痛 ACS">確認胸痛 ACS</button>
+                  <button class="urgent" data-acs-record="12 lead ECG 完成">12 lead ECG 完成</button>
+                  <button data-acs-record="On EKG monitor">On EKG monitor</button>
+                  <button data-acs-record="On IV N/S 500cc">On IV N/S 500cc</button>
+                  <button data-acs-record="抽血 / Troponin">抽血 / Troponin</button>
+                  <button data-acs-record="會診 CV">會診 CV</button>
+                  <button data-acs-record="啟動心導管室">啟動心導管室</button>
+                  <button data-acs-record="準備轉送 Cath lab">準備轉送 Cath lab</button>
+                </div>
+              </div>
+
+              <div class="console-column console-main">
+                <div class="console-clock">
+                  <label>啟動時間<input id="acs-activation-time" value="2026/07/17 20:00:00"></label>
+                  <label>紀錄時間<input id="acs-record-time" value="2026/07/17 20:00:00"></label>
+                  <div class="console-timer" id="acs-timer">00:00</div>
+                  <button class="primary" id="acs-start">Start</button>
+                </div>
+                <div class="record-head"><span>記錄時間</span><span>記錄內容</span></div>
+                <div class="record-list" id="acs-record-list">
+                  <div class="record-row"><span>--:--</span><span>ACS 面板待啟動</span></div>
+                </div>
+              </div>
+
+              <div class="console-column">
+                <div class="console-title orange">藥物</div>
+                <div class="console-list">
+                  <div class="med-row"><button data-acs-record="N/S 500cc">N/S 500cc</button><output id="acs-med-ns">0</output></div>
+                  <div class="med-row"><button data-acs-record="Aspirin / Bokey">Aspirin / Bokey</button><output>0</output></div>
+                  <div class="med-row"><button data-acs-record="Brinta">Brinta</button><output>0</output></div>
+                  <div class="med-row"><button data-acs-record="TAPA">TAPA</button><output>0</output></div>
+                  <div class="med-row"><button data-acs-record="Heparin">Heparin</button><output>0</output></div>
+                  <div class="med-row"><button data-acs-record="NTG">NTG</button><output>0</output></div>
+                  <div class="med-row"><button data-acs-record="Morphine">Morphine</button><output>0</output></div>
+                </div>
+              </div>
+
+              <div class="console-column">
+                <div class="console-title">處置</div>
+                <div class="console-list">
+                  <button data-acs-record="上傳 ECG">上傳 ECG</button>
+                  <button data-acs-record="插入 EKG">插入 EKG</button>
+                  <button data-acs-record="抽血完成">抽血完成</button>
+                  <button data-acs-record="通知急診醫師">通知急診醫師</button>
+                  <button data-acs-record="通知 CV 群組">通知 CV 群組</button>
+                  <button data-acs-record="Cath lab ready">Cath lab ready</button>
+                  <button data-acs-record="病人離開急診">病人離開急診</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="strokeConsole">
+        <div class="toolbar">
+          <div>
+            <h2>Stroke 執行面板</h2>
+            <div class="meta">左側 guideline 待做事項，中間紀錄，右側常用藥物，最右側醫療處置。</div>
+          </div>
+          <span class="chip green">Stroke</span>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Stroke 治療面板</h3><span class="chip green">Door-to-CT / Door-to-Needle / Door-to-Puncture</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-STK-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="rescue-console">
+              <div class="console-column">
+                <div class="console-title">Guideline</div>
+                <div class="console-list">
+                  <button class="urgent" data-panel-record="Stroke code 啟動">Stroke code 啟動</button>
+                  <button class="urgent" data-panel-record="記錄 Last known well">Last known well</button>
+                  <button data-panel-record="血糖完成">血糖</button>
+                  <button data-panel-record="NIHSS 完成">NIHSS</button>
+                  <button data-panel-record="會診神內">會診神內</button>
+                  <button data-panel-record="送 CT">送 CT</button>
+                  <button data-panel-record="CTA 完成">CTA</button>
+                  <button data-panel-record="rt-PA 評估">rt-PA 評估</button>
+                  <button data-panel-record="EVT 評估">EVT 評估</button>
+                  <button data-panel-record="辦理轉 ICU / 病房">轉 ICU / 病房</button>
+                </div>
+              </div>
+              <div class="console-column console-main">
+                <div class="console-clock">
+                  <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+                  <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+                  <div class="console-timer panel-timer">00:00</div>
+                  <button class="primary panel-start" data-panel="strokeClean">Start</button>
+                </div>
+                <div class="record-head"><span>記錄時間</span><span>記錄內容</span></div>
+                <div class="record-list panel-record-list"><div class="record-row"><span>--:--</span><span>Stroke 面板待啟動</span></div></div>
+              </div>
+              <div class="console-column">
+                <div class="console-title orange">常用藥物</div>
+                <div class="console-list">
+                  <div class="med-row"><button data-panel-record="N/S 500cc">N/S 500cc</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="rt-PA 準備">rt-PA</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="降壓藥物準備">降壓藥物</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Bokey 紀錄">Bokey</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Brinta 紀錄">Brinta</button><output>0</output></div>
+                </div>
+              </div>
+              <div class="console-column">
+                <div class="console-title">醫療處置</div>
+                <div class="console-list">
+                  <button data-panel-record="抽血完成">抽血</button>
+                  <button data-panel-record="IV route 建立">IV route</button>
+                  <button data-panel-record="CT 完成">CT 完成</button>
+                  <button data-panel-record="CTA 完成">CTA 完成</button>
+                  <button data-panel-record="病情說明完成">病情說明</button>
+                  <button data-panel-record="EVT 術前準備">EVT 術前</button>
+                  <button data-panel-record="轉 ICU / 病房">轉 ICU / 病房</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="traumaConsole">
+        <div class="toolbar">
+          <div>
+            <h2>Major Trauma 執行面板</h2>
+            <div class="meta">左側 Trauma blue guideline，中間紀錄，右側輸血/藥物，最右側檢查與處置。</div>
+          </div>
+          <span class="chip red">Major Trauma</span>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Major Trauma 治療面板</h3><span class="chip red">Trauma blue / CT / OR / ICU</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-TRM-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="rescue-console">
+              <div class="console-column">
+                <div class="console-title">Guideline</div>
+                <div class="console-list">
+                  <button class="urgent" data-panel-record="Trauma blue 啟動">Trauma blue</button>
+                  <button class="urgent" data-panel-record="創傷科會診">創傷科會診</button>
+                  <button data-panel-record="Primary survey 完成">Primary survey</button>
+                  <button data-panel-record="Airway / C-spine 處置">Airway / C-spine</button>
+                  <button data-panel-record="頭部評估完成">頭部</button>
+                  <button data-panel-record="胸部評估完成">胸部</button>
+                  <button data-panel-record="腹部 FAST 完成">腹部 / FAST</button>
+                  <button data-panel-record="骨盆固定">骨盆固定</button>
+                  <button data-panel-record="四肢骨折固定 / 止血">四肢固定</button>
+                  <button data-panel-record="送 CT">送 CT</button>
+                </div>
+              </div>
+              <div class="console-column console-main">
+                <div class="console-clock">
+                  <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+                  <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+                  <div class="console-timer panel-timer">00:00</div>
+                  <button class="primary panel-start" data-panel="traumaClean">Start</button>
+                </div>
+                <div class="record-head"><span>記錄時間</span><span>記錄內容</span></div>
+                <div class="record-list panel-record-list"><div class="record-row"><span>--:--</span><span>Major Trauma 面板待啟動</span></div></div>
+              </div>
+              <div class="console-column">
+                <div class="console-title orange">輸血 / 藥物</div>
+                <div class="console-list">
+                  <div class="med-row"><button data-panel-record="N/S 500cc">N/S 500cc</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="MTP 啟動 / 血庫通知">MTP</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="PRBC 準備">PRBC</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="FFP 準備">FFP</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Platelet 準備">Platelet</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="TXA 給藥">TXA</button><output>0</output></div>
+                </div>
+              </div>
+              <div class="console-column">
+                <div class="console-title">醫療處置</div>
+                <div class="console-list">
+                  <button data-panel-record="CBC / coag / type screen 抽血">抽血</button>
+                  <button data-panel-record="CXR 完成">CXR</button>
+                  <button data-panel-record="Pelvis X-ray 完成">Pelvis X-ray</button>
+                  <button data-panel-record="FAST 完成">FAST</button>
+                  <button data-panel-record="Whole body CT">Whole body CT</button>
+                  <button data-panel-record="送 OR">送 OR</button>
+                  <button data-panel-record="轉 ICU">轉 ICU</button>
+                  <button data-panel-record="轉病房">轉病房</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cprConsole">
+        <div class="toolbar">
+          <div>
+            <h2>CPR / ECPR 執行面板</h2>
+            <div class="meta">左側 CPR guideline，中間紀錄，右側急救藥物，最右側 airway/IO/ECPR 處置。</div>
+          </div>
+          <span class="chip red">CPR / ECPR</span>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>CPR / ECPR 治療面板</h3><span class="chip red">No-flow / Low-flow / ROSC</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-CPR-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="rescue-console">
+              <div class="console-column">
+                <div class="console-title">Guideline</div>
+                <div class="console-list">
+                  <button class="urgent" data-panel-record="確認脈搏(無脈搏)">確認脈搏</button>
+                  <button class="urgent" data-panel-record="CPR 開始 / Cardiac massage">CPR 開始</button>
+                  <button class="urgent" data-panel-record="Cardiac massage">Cardiac massage</button>
+                  <button data-panel-record="Ambu bagging">Ambu bagging</button>
+                  <button data-panel-record="On EKG monitor">On EKG monitor</button>
+                  <button data-panel-record="EKG rhythm 判讀">EKG rhythm</button>
+                  <button data-panel-record="電擊">電擊</button>
+                  <button data-panel-record="ROSC">ROSC</button>
+                  <button data-panel-record="ECPR 評估 / ECMO team 通知">ECPR 評估</button>
+                </div>
+              </div>
+              <div class="console-column console-main">
+                <div class="console-clock">
+                  <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+                  <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+                  <div class="console-timer panel-timer">00:00</div>
+                  <button class="primary panel-start" data-panel="cprClean">Start</button>
+                </div>
+                <div class="record-head"><span>記錄時間</span><span>記錄內容</span></div>
+                <div class="record-list panel-record-list"><div class="record-row"><span>--:--</span><span>CPR / ECPR 面板待啟動</span></div></div>
+              </div>
+              <div class="console-column">
+                <div class="console-title orange">急救藥物</div>
+                <div class="console-list">
+                  <div class="med-row"><button data-panel-record="N/S 500cc / IV 建立">N/S 500cc</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Epinephrine 1mg">Epinephrine</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Amiodarone 150mg">Amiodarone</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Sodium bicarbonate">NaHCO3</button><output>0</output></div>
+                  <div class="med-row"><button data-panel-record="Calcium chloride">Calcium</button><output>0</output></div>
+                </div>
+              </div>
+              <div class="console-column">
+                <div class="console-title">醫療處置</div>
+                <div class="console-list">
+                  <button data-panel-record="On Endo / Airway">On Endo</button>
+                  <button data-panel-record="ETCO2 接上">ETCO2</button>
+                  <button data-panel-record="On IO">On IO</button>
+                  <button data-panel-record="Echo 完成">Echo</button>
+                  <button data-panel-record="5H5T 評估">5H5T</button>
+                  <button data-panel-record="ECMO team 通知">ECMO team</button>
+                  <button data-panel-record="Cath lab / OR / ICU 聯絡">Cath / OR / ICU</button>
+                  <button data-panel-record="ROSC 後照護">ROSC 後照護</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="strokePanel">
+        <div class="toolbar">
+          <div>
+            <h2>Stroke 執行面板</h2>
+            <div class="meta">提醒流程、按壓色塊紀錄 action：從疑似中風到 CT / CTA / tPA / EVT / 轉歸</div>
+          </div>
+          <span class="chip green">Stroke</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>流程教練提醒</h3>
+              <span class="chip blue">急診做到轉 ICU / 病房</span>
+            </div>
+            <div class="panel-body">
+              <div class="chips">
+                <span class="chip green">Last known well</span>
+                <span class="chip">血糖</span>
+                <span class="chip">NIHSS</span>
+                <span class="chip">CT / CTA</span>
+                <span class="chip red">tPA 評估</span>
+                <span class="chip red">EVT 評估</span>
+                <span class="chip blue">轉 ICU / 病房</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head">
+              <h3>執行時間</h3>
+              <span class="chip green">Door-to-CT / Needle / Puncture</span>
+            </div>
+            <div class="panel-body">
+              <div class="console-clock">
+                <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+                <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+                <div class="console-timer panel-timer">00:00</div>
+                <button class="primary panel-start" data-panel="stroke">Start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head"><h3>Stroke 色塊 action</h3><span class="chip green">按下即紀錄時間</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-STK-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="big-action-grid">
+              <button class="big-action green" data-panel-record="Stroke 啟動">Stroke 啟動<small>疑似中風</small></button>
+              <button class="big-action blue" data-panel-record="記錄 Last known well">Last Known Well<small>最後正常時間</small></button>
+              <button class="big-action orange" data-panel-record="血糖完成">血糖<small>排除低血糖</small></button>
+              <button class="big-action purple" data-panel-record="NIHSS 完成">NIHSS<small>神經評估</small></button>
+              <button class="big-action blue" data-panel-record="CT 完成">CT<small>影像完成</small></button>
+              <button class="big-action blue" data-panel-record="CTA 完成">CTA<small>LVO 評估</small></button>
+              <button class="big-action red" data-panel-record="rt-PA 評估 / 準備">rt-PA<small>評估 / 給藥</small></button>
+              <button class="big-action red" data-panel-record="EVT 術前準備">EVT<small>導管治療</small></button>
+              <button class="big-action gray" data-panel-record="轉 ICU / 病房">轉歸<small>ICU / 病房</small></button>
+            </div>
+            <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
+            <div class="record-list panel-record-list">
+              <div class="record-row"><span>--:--</span><span>Stroke 面板待啟動</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="traumaPanel">
+        <div class="toolbar">
+          <div>
+            <h2>Major Trauma 面板</h2>
+            <div class="meta">創傷科 / 急診共用：Trauma team、MTP、FAST、CT、OR、ICU 快速紀錄</div>
+          </div>
+          <span class="chip">Major Trauma</span>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>執行時間與色塊</h3><span class="chip red">大量出血 / 手術風險</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-TRM-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="console-clock">
+              <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+              <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+              <div class="console-timer panel-timer">00:00</div>
+              <button class="primary panel-start" data-panel="trauma">Start</button>
+            </div>
+            <div class="big-action-grid">
+              <button class="big-action red" data-panel-record="Trauma blue 啟動">Trauma Blue<small>重大創傷啟動</small></button>
+              <button class="big-action red" data-panel-record="創傷科會診">創傷科會診<small>Trauma consult</small></button>
+              <button class="big-action orange" data-panel-record="Primary survey 完成">Primary Survey<small>ABCDE</small></button>
+              <button class="big-action blue" data-panel-record="Airway / C-spine 處置">Airway / C-spine<small>頭頸優先</small></button>
+              <button class="big-action purple" data-panel-record="頭部評估 / GCS / 瞳孔">頭部<small>GCS / pupil</small></button>
+              <button class="big-action blue" data-panel-record="胸部評估 / CXR / 胸管準備">胸部<small>CXR / chest tube</small></button>
+              <button class="big-action orange" data-panel-record="腹部評估 / FAST 完成">腹部 FAST<small>內出血評估</small></button>
+              <button class="big-action green" data-panel-record="骨盆固定">骨盆固定<small>pelvic binder</small></button>
+              <button class="big-action green" data-panel-record="四肢骨折固定 / 止血">四肢固定<small>骨折 / 止血</small></button>
+              <button class="big-action red" data-panel-record="MTP 啟動 / 輸血通知">MTP / 輸血<small>血庫通知</small></button>
+              <button class="big-action purple" data-panel-record="送 CT">送 CT<small>常規創傷影像</small></button>
+              <button class="big-action red" data-panel-record="送 OR">送 OR<small>手術</small></button>
+              <button class="big-action gray" data-panel-record="轉 ICU">轉 ICU<small>重症照護</small></button>
+              <button class="big-action gray" data-panel-record="轉病房">轉病房<small>穩定後</small></button>
+            </div>
+            <div class="panel-subhead">相關檢查 / 治療提醒</div>
+            <div class="chips">
+              <span class="chip red">Trauma blue</span>
+              <span class="chip">創傷科會診</span>
+              <span class="chip">CBC / PT / aPTT / Type & screen</span>
+              <span class="chip">CXR / Pelvis X-ray</span>
+              <span class="chip">FAST</span>
+              <span class="chip blue">Whole body CT</span>
+              <span class="chip red">MTP / PRBC / FFP / Platelet</span>
+              <span class="chip green">骨折固定 / 止血</span>
+            </div>
+            <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
+            <div class="record-list panel-record-list">
+              <div class="record-row"><span>--:--</span><span>Major Trauma 面板待啟動</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cprPanel">
+        <div class="toolbar">
+          <div>
+            <h2>CPR / ECPR 面板</h2>
+            <div class="meta">CPR 紀錄 + ECPR 功能：按壓、節律、電擊、給藥、ROSC、ECMO team 評估</div>
+          </div>
+          <span class="chip red">CPR / ECPR</span>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>CPR / ECPR 執行</h3><span class="chip red">No-flow / Low-flow 追蹤</span></div>
+          <div class="panel-body">
+            <div class="patient-link">
+              <label>暫時案件號<input value="EMS-CPR-001"></label>
+              <label>病歷號<input placeholder="到院後輸入"></label>
+              <label>Barcode<input placeholder="掃描條碼"></label>
+              <label>再刷 Barcode<input placeholder="再次掃描確認"></label>
+              <label>姓名 / 生日<input placeholder="可選"></label>
+              <button class="secondary" data-panel-record="病歷號媒合完成">媒合病歷</button>
+            </div>
+            <div class="console-clock">
+              <label>啟動時間<input class="panel-start-time" value="2026/07/17 20:00:00"></label>
+              <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
+              <div class="console-timer panel-timer">00:00</div>
+              <button class="primary panel-start" data-panel="cpr">Start</button>
+            </div>
+            <div class="big-action-grid">
+              <button class="big-action red" data-panel-record="確認脈搏(無脈搏)">確認脈搏<small>無脈搏</small></button>
+              <button class="big-action red" data-panel-record="CPR 開始 / Cardiac massage">CPR 開始<small>按壓開始</small></button>
+              <button class="big-action green" data-panel-record="Ambu bagging">Ambu<small>bagging</small></button>
+              <button class="big-action blue" data-panel-record="On EKG monitor">EKG Monitor<small>接監測</small></button>
+              <button class="big-action blue" data-panel-record="EKG rhythm 判讀">節律判讀<small>VF/VT/PEA/Asystole</small></button>
+              <button class="big-action orange" data-panel-record="電擊">電擊<small>Shock</small></button>
+              <button class="big-action purple" data-panel-record="Epinephrine 1mg">Epinephrine<small>1mg</small></button>
+              <button class="big-action purple" data-panel-record="Amiodarone 150mg">Amiodarone<small>150mg</small></button>
+              <button class="big-action orange" data-panel-record="N/S 500cc / IV 建立">N/S 500cc<small>IV route</small></button>
+              <button class="big-action green" data-panel-record="On Endo / Airway">On Endo<small>Airway</small></button>
+              <button class="big-action green" data-panel-record="ETCO2 接上">ETCO2<small>確認通氣</small></button>
+              <button class="big-action blue" data-panel-record="On IO">On IO<small>骨針</small></button>
+              <button class="big-action blue" data-panel-record="Echo 完成">Echo<small>可逆原因</small></button>
+              <button class="big-action blue" data-panel-record="5H5T 評估">5H5T<small>可逆原因</small></button>
+              <button class="big-action blue" data-panel-record="ROSC">ROSC<small>恢復循環</small></button>
+              <button class="big-action red" data-panel-record="ECPR 評估 / ECMO team 通知">ECPR<small>ECMO team</small></button>
+            </div>
+            <div class="panel-subhead">ECPR 虛擬功能</div>
+            <div class="chips">
+              <span class="chip red">ECPR eligibility</span>
+              <span class="chip"> witnessed arrest </span>
+              <span class="chip">No-flow / Low-flow</span>
+              <span class="chip">可逆病因</span>
+              <span class="chip blue">ECMO team 通知</span>
+              <span class="chip">Cath lab / OR / ICU</span>
+              <span class="chip green">ROSC 後照護</span>
+            </div>
+            <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
+            <div class="record-list panel-record-list">
+              <div class="record-row"><span>--:--</span><span>CPR / ECPR 面板待啟動</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="er">
+        <div class="toolbar">
+          <div>
+            <h2>急診醫師 / 專師紀錄</h2>
+            <div class="meta">醫師與專師使用：到院評估、醫囑、會診、治療決策與轉歸紀錄；護理操作由護理面板處理。</div>
+          </div>
+          <span class="chip red">ETA 07:18</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>醫師 / 專師待辦清單</h3>
+              <span class="chip green">4 / 6 完成</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>項目</th><th>狀態</th><th>負責</th></tr>
+                <tr><td>到院主訴 / 病史確認</td><td><span class="chip blue">待補登</span></td><td>急診醫師 / 專師</td></tr>
+                <tr><td>醫囑建立</td><td><span class="chip blue">待建立</span></td><td>急診醫師 / 專師</td></tr>
+                <tr><td>會診決策</td><td><span class="chip">依病況</span></td><td>急診醫師</td></tr>
+                <tr><td>治療決策紀錄</td><td><span class="chip">未完成</span></td><td>急診醫師</td></tr>
+                <tr><td>轉歸安排</td><td><span class="chip blue">待確認</span></td><td>急診醫師 / 專師</td></tr>
+                <tr><td>病歷號合併</td><td><span class="chip">未完成</span></td><td>書記 / 專師確認</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>到院後合併</h3>
+              <span class="chip blue">HIS/EMR</span>
+            </div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <label>病歷號<input placeholder="到院後輸入"></label>
+                <label>身分證 / 居留證<input placeholder="可選"></label>
+                <label>姓名<input placeholder="可選"></label>
+                <label>生日<input type="date"></label>
+                <label>到院時間<input type="time" value="09:25"></label>
+                <label>檢傷級數<select><option>1 級</option><option>2 級</option><option>3 級</option></select></label>
+                <label class="full">急診備註<textarea>心內已啟動 AMI，準備直送心導管室。</textarea></label>
+              </div>
+              <div class="actions">
+                <button class="secondary">合併病歷號</button>
+                <button class="primary">交由護理師切換 CPCR</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="nurse">
+        <div class="toolbar">
+          <div>
+            <h2>護理交班紀錄</h2>
+            <div class="meta">護理使用：院前接手、處置完成狀態、CPCR 狀態、轉出前交班摘要。</div>
+          </div>
+          <span class="chip red">交班 / 轉出摘要</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>接手與處置交班</h3>
+              <span class="chip blue">ACS-003 / ETA 7 分鐘</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>交班項目</th><th>目前資訊</th><th>護理紀錄</th></tr>
+                <tr><td>靜脈路徑</td><td>留置針已建立，左手 18G</td><td><span class="chip green">確認</span></td></tr>
+                <tr><td>輸液</td><td>N/S 500cc 已開始</td><td><span class="chip blue">續接中</span></td></tr>
+                <tr><td>用藥</td><td>Aspirin 已給，NTG 未給</td><td><span class="chip">待醫囑</span></td></tr>
+                <tr><td>ECG</td><td>院前 ECG 已上傳</td><td><span class="chip blue">到院重做</span></td></tr>
+                <tr><td>抽血</td><td>未完成</td><td><span class="chip blue">備管</span></td></tr>
+              </table>
+              <div class="actions">
+                <button class="ok">確認接手</button>
+                <button class="secondary">完成院內 ECG</button>
+                <button class="quiet">記錄抽血時間</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>CPCR / 轉出交班摘要</h3>
+              <span class="chip red">護理交班</span>
+            </div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <label>CPCR 狀態<select><option>未啟動</option><option>CPR 進行中</option><option>ROSC</option><option>終止急救</option></select></label>
+                <label>壓胸開始時間<input type="time"></label>
+                <label>節律<select><option>VF / pVT</option><option>PEA</option><option>Asystole</option><option>ROSC rhythm</option></select></label>
+                <label>電擊次數<input value="0"></label>
+                <label>Epinephrine<input placeholder="例：1 mg IV 09:28"></label>
+                <label>Airway<select><option>BVM</option><option>i-gel / LMA</option><option>ETT</option></select></label>
+                <label>轉出地點<select><option>急診留觀</option><option>ICU</option><option>病房</option><option>心導管室</option><option>OR</option></select></label>
+                <label>交班對象<input placeholder="接手單位 / 姓名"></label>
+                <label class="full">護理交班摘要<textarea>院前資料、到院處置、IV/輸液、用藥、檢查、CPCR 狀態與轉出注意事項。</textarea></label>
+              </div>
+              <div class="actions">
+                <button class="primary">完成護理交班</button>
+                <button class="warn">補記 CPCR</button>
+                <button class="secondary">補記給藥</button>
+                <button class="ok">標記轉出</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="traumaDoctor">
+        <div class="toolbar">
+          <div>
+            <h2>創傷科醫師專區</h2>
+            <div class="meta">創傷科醫師使用：Trauma blue 會診、影像判讀、MTP、手術 / ICU / 病房決策。</div>
+          </div>
+          <span class="chip red">Trauma Team</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>創傷摘要</h3>
+              <span class="chip red">Major Trauma</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>項目</th><th>內容</th></tr>
+                <tr><td>創傷機轉</td><td>機車車禍，高能量撞擊，疑似頭胸腹合併傷</td></tr>
+                <tr><td>到院生命徵象</td><td>BP 86/54、HR 132、GCS E3V4M5、SpO2 94%</td></tr>
+                <tr><td>Primary survey</td><td>Airway patent，胸痛，腹部壓痛，骨盆疼痛</td></tr>
+                <tr><td>FAST</td><td>RUQ suspicious fluid，需追蹤 CT / OR 決策</td></tr>
+                <tr><td>MTP</td><td>已啟動，血庫通知中</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>創傷科決策</h3>
+              <span class="chip blue">CT / OR / ICU</span>
+            </div>
+            <div class="panel-body">
+              <div class="big-action-grid">
+                <button class="big-action red" data-panel-record="創傷科確認 Trauma blue">確認 Trauma blue</button>
+                <button class="big-action blue" data-panel-record="建議 Whole body CT">Whole body CT</button>
+                <button class="big-action red" data-panel-record="建議送 OR">送 OR</button>
+                <button class="big-action orange" data-panel-record="MTP 持續">MTP 持續</button>
+                <button class="big-action green" data-panel-record="骨盆固定確認">骨盆固定</button>
+                <button class="big-action purple" data-panel-record="神外 / 骨科 / 胸外會診">次專科會診</button>
+                <button class="big-action gray" data-panel-record="轉 ICU">轉 ICU</button>
+                <button class="big-action gray" data-panel-record="轉病房">轉病房</button>
+              </div>
+              <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
+              <div class="record-list panel-record-list">
+                <div class="record-row"><span>--:--</span><span>創傷科醫師決策待紀錄</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="modules">
+        <div class="toolbar">
+          <div>
+            <h2>模組模型</h2>
+            <div class="meta">同一套案件核心，依病況切換 ACS、CPR/ECPR、Stroke、Major Trauma</div>
+          </div>
+          <span class="chip blue">可串既有 CPR 模型</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>共用核心資料</h3>
+              <span class="chip green">所有品項共用</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>核心物件</th><th>內容</th></tr>
+                <tr><td>Case</td><td>案件編號、暫時 ID、病歷號、接收醫院、啟動品項、目前狀態</td></tr>
+                <tr><td>Patient Link</td><td>院前未知身分，到院後合併病歷號與 HIS/EMR</td></tr>
+                <tr><td>Timeline</td><td>啟動、通知、檢查、處置、給藥、到院、轉送、結案時間點</td></tr>
+                <tr><td>Notification</td><td>EMT、護理師、急診、專科、檢查單位、手術/心導管/ECMO team 通知</td></tr>
+                <tr><td>Audit Trail</td><td>誰在何時看過、確認、啟動、修改或取消流程</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>既有 CPR 按壓紀錄模型接入</h3>
+              <span class="chip red">不重做，做整合</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>來源欄位</th><th>接入平台後用途</th></tr>
+                <tr><td>按壓開始 / 暫停 / 結束</td><td>自動寫入急救時間軸與 CPR 品質報表</td></tr>
+                <tr><td>按壓品質</td><td>顯示深度、頻率、中斷時間、胸回彈等指標</td></tr>
+                <tr><td>電擊 / 節律</td><td>與 ACLS 給藥、ROSC、ECPR 評估同步呈現</td></tr>
+                <tr><td>ROSC</td><td>帶入案件狀態，連動 ICU、心導管或 ECPR 流程</td></tr>
+                <tr><td>紀錄人員</td><td>保留原模型責任歸屬，平台只做跨流程整合</td></tr>
+              </table>
+              <div class="actions">
+                <button class="primary">嵌入 CPR 按壓紀錄</button>
+                <button class="secondary">啟動 ECPR 評估</button>
+                <button class="quiet">查看原 CPR 模型資料</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>模組欄位設計</h3>
+            <span class="chip blue">雷同但不同品項</span>
+          </div>
+          <div class="panel-body">
+            <table>
+              <tr><th>模組</th><th>啟動條件</th><th>關鍵資料</th><th>通知對象</th><th>品質指標</th></tr>
+              <tr><td>ACS / STEMI</td><td>胸痛、疑似 ACS、ECG 異常</td><td>症狀時間、12 lead ECG、心內判讀、AMI 啟動</td><td>心內、急診、心導管室</td><td>FMC-to-ECG、ECG-to-activation、Door-to-balloon</td></tr>
+              <tr><td>CPR / ECPR</td><td>OHCA、IHCA、CPR 進行中</td><td>壓胸品質、節律、電擊、給藥、ROSC、ECPR 條件</td><td>急診、護理師、ECMO team、ICU</td><td>No-flow、Low-flow、壓胸中斷、ROSC 率</td></tr>
+              <tr><td>Stroke</td><td>FAST 陽性、疑似大血管阻塞</td><td>Last known well、血糖、NIHSS、CT/CTA、禁忌症</td><td>神內、放射、急診、導管團隊</td><td>Door-to-CT、Door-to-needle、Door-to-puncture</td></tr>
+              <tr><td>Major Trauma</td><td>重大外傷機轉、低血壓、GCS 下降</td><td>機轉、GCS、Shock index、FAST、輸血、手術需求</td><td>創傷團隊、急診、外科、OR、血庫、ICU</td><td>Door-to-CT、Door-to-OR、MTP 啟動時間</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="strokeFlow">
+        <div class="toolbar">
+          <div>
+            <h2>Stroke 院前 / 急診流程</h2>
+            <div class="meta">急診責任範圍：接獲疑似中風到轉 ICU / 病房、治療後照護與紀錄保存</div>
+          </div>
+          <span class="chip green">依本院流程圖重整</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>院前 EMT 功能</h3>
+              <span class="chip blue">不需病歷號即可啟動</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>流程節點</th><th>系統功能</th></tr>
+                <tr><td>接獲疑似中風病人</td><td>EMT 選擇 Stroke 案件，建立院前暫時案件編號</td></tr>
+                <tr><td>收集資料</td><td>最後正常時間、發現時間、症狀、用藥、抗凝血藥、病史、家屬電話</td></tr>
+                <tr><td>身體評估</td><td>FAST / LAMS、GCS、瞳孔、血糖、BP、HR、SpO2、體溫</td></tr>
+                <tr><td>院前通報</td><td>通知急診 Stroke team、檢傷、神內、CT 室，附 ETA</td></tr>
+                <tr><td>到院交接</td><td>將院前暫時案件交給急診，病歷號到院後再合併</td></tr>
+              </table>
+              <div class="actions">
+                <button class="secondary" data-view-jump="emt" data-case-type="Stroke">開啟 EMT Stroke 建案</button>
+                <button class="quiet">更新 ETA</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>急診接手功能</h3>
+              <span class="chip red">做到轉 ICU / 病房</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>急診職責</th><th>系統功能</th></tr>
+                <tr><td>收集資料及身體評估</td><td>急診補登 NIHSS、生命徵象、血糖、用藥、過敏、禁忌症</td></tr>
+                <tr><td>建立醫囑及處置</td><td>Stroke order set、抽血、IV、NPO、監測、CT / CTA / CTP 預約</td></tr>
+                <tr><td>會診</td><td>神內、放射、神外、麻醉、ICU、病房或手術團隊通知與回覆</td></tr>
+                <tr><td>病情說明</td><td>tPA / EVT / 手術說明、同意書狀態、家屬聯繫紀錄</td></tr>
+                <tr><td>辦理轉歸</td><td>轉 ICU、病房、手術室、血管攝影室或其他院區轉送</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>本院急診 Stroke 流程看板</h3>
+            <span class="chip blue">tPA / EVT / 手術分流</span>
+          </div>
+          <div class="panel-body">
+            <table>
+              <tr><th>順序</th><th>流程</th><th>需要的功能</th><th>狀態</th></tr>
+              <tr><td>1</td><td>接獲疑似中風病人</td><td>院前通報、ETA、Stroke team 預警</td><td><span class="chip green">可由 EMT 啟動</span></td></tr>
+              <tr><td>2</td><td>收集資料及身體評估</td><td>Last known well、NIHSS、血糖、生命徵象、抗凝血藥</td><td><span class="chip blue">急診補登</span></td></tr>
+              <tr><td>3</td><td>建立醫囑及處置</td><td>Stroke order set、抽血、IV、CT/CTA、監測與 NPO</td><td><span class="chip blue">待建醫囑</span></td></tr>
+              <tr><td>4</td><td>會診</td><td>神內、神外、放射、ICU / 病房通知與回覆時間</td><td><span class="chip">待回覆</span></td></tr>
+              <tr><td>5</td><td>判斷是否需手術</td><td>神外 / 手術團隊評估、手術室準備、術前檢核</td><td><span class="chip">依醫師判斷</span></td></tr>
+              <tr><td>6</td><td>病情說明</td><td>紀錄 tPA、EVT、手術、不符合適應症或家屬決策</td><td><span class="chip blue">需留痕</span></td></tr>
+              <tr><td>7</td><td>tPA 治療評估</td><td>適應症 / 禁忌症檢核、體重、劑量、開始與結束時間</td><td><span class="chip green">可流程化</span></td></tr>
+              <tr><td>8</td><td>施打 tPA</td><td>bolus / infusion、監測、出血警示、護理紀錄</td><td><span class="chip red">高風險節點</span></td></tr>
+              <tr><td>9</td><td>血管攝影檢查</td><td>CTA/DSA、導管室通知、影像完成時間</td><td><span class="chip blue">接 EVT 評估</span></td></tr>
+              <tr><td>10</td><td>EVT 術前準備</td><td>同意書、麻醉評估、導管室 ready、轉送路線</td><td><span class="chip">待確認</span></td></tr>
+              <tr><td>11</td><td>執行 EVT / 術後</td><td>穿刺時間、再灌流時間、術後監測與醫囑</td><td><span class="chip">可追蹤</span></td></tr>
+              <tr><td>12</td><td>辦理轉歸</td><td>轉 ICU / 病房 / 手術室，交班摘要與床位狀態</td><td><span class="chip red">急診責任終點</span></td></tr>
+              <tr><td>13</td><td>治療後照護與紀錄保存</td><td>治療後神經學評估、血壓監測、併發症、完整時間軸</td><td><span class="chip green">品質報表</span></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid cols-3" style="margin-top:14px;">
+          <div class="panel metric"><span>Door-to-CT</span><strong>待計算</strong><span>到院至影像完成</span></div>
+          <div class="panel metric"><span>Door-to-Needle</span><strong>待計算</strong><span>tPA 開始時間</span></div>
+          <div class="panel metric"><span>Door-to-Puncture</span><strong>待計算</strong><span>EVT 穿刺時間</span></div>
+        </div>
+      </section>
+
+      <section class="view" id="neuroDoctor">
+        <div class="toolbar">
+          <div>
+            <h2>神內醫師頁面</h2>
+            <div class="meta">擷取院前 FAST、檢傷紀錄與急診評估，決策是否 CTA、是否 EVT。</div>
+          </div>
+          <span class="chip green">Stroke Team</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>快速摘要</h3>
+              <span class="chip blue">院前 + 急診</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>項目</th><th>內容</th></tr>
+                <tr><td>Last known well</td><td>08:40，家屬確認</td></tr>
+                <tr><td>FAST</td><td>Face droop +，Arm drift +，Speech slurred +</td></tr>
+                <tr><td>檢傷紀錄</td><td>到院 09:22，檢傷 2 級，BP 182/96，BS 126</td></tr>
+                <tr><td>NIHSS</td><td>待神內補登 / 初估 12</td></tr>
+                <tr><td>用藥 / 禁忌</td><td>抗凝血藥未知，家屬聯繫中</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>神內決策</h3>
+              <span class="chip green">CTA / EVT</span>
+            </div>
+            <div class="panel-body">
+              <div class="big-action-grid">
+                <button class="big-action green" data-panel-record="神內確認 Stroke code">確認 Stroke</button>
+                <button class="big-action blue" data-panel-record="執行 CT">執行 CT</button>
+                <button class="big-action blue" data-panel-record="執行 CTA">執行 CTA</button>
+                <button class="big-action red" data-panel-record="啟動 EVT 評估">啟動 EVT</button>
+                <button class="big-action purple" data-panel-record="rt-PA 適應症評估">rt-PA 評估</button>
+                <button class="big-action orange" data-panel-record="神外會診">神外會診</button>
+                <button class="big-action gray" data-panel-record="轉 ICU / 病房">轉 ICU / 病房</button>
+              </div>
+              <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
+              <div class="record-list panel-record-list">
+                <div class="record-row"><span>--:--</span><span>神內醫師決策待紀錄</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="specialty">
+        <div class="toolbar">
+          <div>
+            <h2>專科版面</h2>
+            <div class="meta">依病人種類叫出 CV / CVS / 神內 / 創傷科工作台</div>
+          </div>
+          <span class="chip blue" id="specialty-active-chip">目前建議：CV 心臟內科</span>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>病人類型對應</h3>
+            <span class="chip green">可由 EMT 或急診選擇</span>
+          </div>
+          <div class="panel-body">
+            <div class="module-grid">
+              <button class="module-card acs specialty-btn" data-specialty="CV 心臟內科" data-case-type="ACS / STEMI">
+                <div>
+                  <h4>ACS / STEMI → CV</h4>
+                  <p>ECG 判讀、AMI 啟動、心導管室通知、抗血小板與再灌流策略。</p>
+                </div>
+                <span class="chip red">CV</span>
+              </button>
+              <button class="module-card cpr specialty-btn" data-specialty="CVS 心臟血管外科" data-case-type="CPR / ECPR">
+                <div>
+                  <h4>ECPR / Aortic / Surgical → CVS</h4>
+                  <p>ECPR、ECMO、主動脈急症、需手術心血管個案與 OR/ICU 銜接。</p>
+                </div>
+                <span class="chip blue">CVS</span>
+              </button>
+              <button class="module-card stroke specialty-btn" data-specialty="神內 Stroke Team" data-case-type="Stroke">
+                <div>
+                  <h4>Stroke → 神內</h4>
+                  <p>NIHSS、tPA 評估、EVT 分流、CT/CTA、轉 ICU / 病房。</p>
+                </div>
+                <span class="chip green">神內</span>
+              </button>
+              <button class="module-card trauma specialty-btn" data-specialty="創傷科 Trauma Team" data-case-type="Major Trauma">
+                <div>
+                  <h4>Major Trauma → 創傷科</h4>
+                  <p>重大外傷分級、MTP、FAST、CT/OR/ICU、創傷團隊動員。</p>
+                </div>
+                <span class="chip">創傷科</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head">
+              <h3 id="specialty-board-title">CV 心臟內科工作台</h3>
+              <span class="chip red" id="specialty-board-status">ACS / STEMI</span>
+            </div>
+            <div class="panel-body">
+              <table id="specialty-table">
+                <tr><th>區塊</th><th>需要看到 / 操作</th></tr>
+                <tr><td>判讀資料</td><td>12 lead ECG、症狀時間、生命徵象、Troponin、過去病史</td></tr>
+                <tr><td>決策按鈕</td><td>確認 AMI 啟動、要求重傳 ECG、急診先評估、取消啟動</td></tr>
+                <tr><td>通知對象</td><td>心導管室、急診醫師/專師、護理站、必要時 ICU</td></tr>
+                <tr><td>品質指標</td><td>FMC-to-ECG、ECG-to-activation、Door-to-balloon</td></tr>
+              </table>
+              <div class="actions">
+                <button class="primary" id="specialty-primary-action">通知 CV 群組</button>
+                <button class="secondary">開啟案件時間軸</button>
+                <button class="quiet">匯出專科摘要</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>跨團隊通知狀態</h3>
+              <span class="chip blue">自動留痕</span>
+            </div>
+            <div class="panel-body">
+              <table>
+                <tr><th>角色</th><th>狀態</th><th>回覆</th></tr>
+                <tr><td id="specialty-lead">CV 值班醫師</td><td><span class="chip blue">已通知</span></td><td>待確認</td></tr>
+                <tr><td>急診團隊</td><td><span class="chip green">已通知</span></td><td>準備接手</td></tr>
+                <tr><td id="specialty-support-1">心導管室</td><td><span class="chip">待回覆</span></td><td>--</td></tr>
+                <tr><td id="specialty-support-2">ICU / 病房</td><td><span class="chip">視病況</span></td><td>--</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="cath">
+        <div class="toolbar">
+          <div>
+            <h2>心導管室</h2>
+            <div class="meta">啟動確認、人員到位、關鍵時間紀錄</div>
+          </div>
+          <span class="chip red">AMI 已啟動</span>
+        </div>
+
+        <div class="grid cols-3">
+          <div class="panel metric"><span>啟動至 ready</span><strong>04 分</strong><span class="chip green">目標內</span></div>
+          <div class="panel metric"><span>預估到院至 cath</span><strong>18 分</strong><span class="chip blue">追蹤中</span></div>
+          <div class="panel metric"><span>Door-to-balloon 目標</span><strong>&lt; 90 分</strong><span class="chip green">品質指標</span></div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>心導管室狀態</h3>
+            <span class="chip green">值班團隊已確認</span>
+          </div>
+          <div class="panel-body">
+            <table>
+              <tr><th>節點</th><th>時間</th><th>狀態</th></tr>
+              <tr><td>心內醫師啟動 AMI</td><td>09:18</td><td><span class="chip green">完成</span></td></tr>
+              <tr><td>Cath lab 通知送出</td><td>09:18</td><td><span class="chip green">完成</span></td></tr>
+              <tr><td>技術員回覆</td><td>09:20</td><td><span class="chip green">完成</span></td></tr>
+              <tr><td>護理師回覆</td><td>09:21</td><td><span class="chip green">完成</span></td></tr>
+              <tr><td>Cath lab ready</td><td>09:22</td><td><span class="chip green">完成</span></td></tr>
+              <tr><td>病人進入心導管室</td><td>--</td><td><span class="chip blue">等待到院</span></td></tr>
+              <tr><td>Wire crossing / balloon</td><td>--</td><td><span class="chip">未完成</span></td></tr>
+            </table>
+            <div class="actions">
+              <button class="ok">標記 cath lab ready</button>
+              <button class="secondary">病人進入心導管室</button>
+              <button class="primary">記錄 balloon 時間</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="quality">
+        <div class="toolbar">
+          <div>
+            <h2>品管報表</h2>
+            <div class="meta">把急救過程轉成可改善的指標</div>
+          </div>
+          <button class="quiet">匯出 PDF / Excel</button>
+        </div>
+
+        <div class="grid cols-3">
+          <div class="panel metric"><span>FMC-to-ECG 中位數</span><strong>06 分</strong><span>本月 24 件</span></div>
+          <div class="panel metric"><span>ECG-to-AMI 啟動</span><strong>03 分</strong><span>心內判讀效率</span></div>
+          <div class="panel metric"><span>Door-to-balloon 達標</span><strong>91%</strong><span>&lt; 90 分鐘</span></div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>案件品質追蹤</h3>
+            <span class="chip blue">ACS / CPCR 共用時間軸</span>
+          </div>
+          <div class="panel-body">
+            <table>
+              <tr><th>案件</th><th>FMC-ECG</th><th>ECG-啟動</th><th>Door-cath</th><th>Door-balloon</th><th>備註</th></tr>
+              <tr><td>ACS-003</td><td>6 分</td><td>3 分</td><td>待完成</td><td>待完成</td><td>院前已啟動</td></tr>
+              <tr><td>ACS-002</td><td>8 分</td><td>待判讀</td><td>--</td><td>--</td><td>ECG 品質需重傳</td></tr>
+              <tr><td>ACS-001</td><td>5 分</td><td>4 分</td><td>21 分</td><td>64 分</td><td>達標</td></tr>
+              <tr><td>CPCR-001</td><td>--</td><td>--</td><td>--</td><td>--</td><td>ROSC 追蹤</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll("[data-view]");
+    const views = document.querySelectorAll(".view");
+    const selectedCaseChip = document.querySelector("#selected-case-chip");
+    const mobileCaseTitle = document.querySelector("#mobile-case-title");
+    const mobileLaunchButton = document.querySelector("#mobile-launch-button");
+    const caseTypeInput = document.querySelector("#case-type-input");
+    const suggestedSpecialty = document.querySelector("#suggested-specialty");
+    const suggestedSpecialtyDesc = document.querySelector("#suggested-specialty-desc");
+    const suggestedUnitLink = document.querySelector("#suggested-unit-link");
+    const specialtyActiveChip = document.querySelector("#specialty-active-chip");
+    const specialtyBoardTitle = document.querySelector("#specialty-board-title");
+    const specialtyBoardStatus = document.querySelector("#specialty-board-status");
+    const specialtyTable = document.querySelector("#specialty-table");
+    const specialtyPrimaryAction = document.querySelector("#specialty-primary-action");
+    const specialtyLead = document.querySelector("#specialty-lead");
+    const specialtySupport1 = document.querySelector("#specialty-support-1");
+    const specialtySupport2 = document.querySelector("#specialty-support-2");
+    const notifyTable = document.querySelector("#notify-table");
+    const notifyPriority = document.querySelector("#notify-priority");
+    const oneClickNotify = document.querySelector("#one-click-notify");
+    const actionPanel = document.querySelector("#action-panel");
+    const recordTable = document.querySelector("#record-table");
+    const sequenceList = document.querySelector("#sequence-list");
+    const medicationList = document.querySelector("#medication-list");
+    const procedureList = document.querySelector("#procedure-list");
+    const consoleRecordList = document.querySelector("#console-record-list");
+    const activationStart = document.querySelector("#activation-start");
+    const activationTimer = document.querySelector("#activation-timer");
+    const activationTime = document.querySelector("#activation-time");
+    const recordTime = document.querySelector("#record-time");
+    let activationStartedAt = null;
+    let activationTimerId = null;
+    const acsRoleChip = document.querySelector("#acs-role-chip");
+    const acsRecordList = document.querySelector("#acs-record-list");
+    const acsStart = document.querySelector("#acs-start");
+    const acsTimer = document.querySelector("#acs-timer");
+    const acsActivationTime = document.querySelector("#acs-activation-time");
+    const acsRecordTime = document.querySelector("#acs-record-time");
+    let acsCurrentRole = "急診護理師";
+    let acsStartedAt = null;
+    let acsTimerId = null;
+
+    const specialtyMap = {
+      "ACS / STEMI": {
+        specialty: "CV 心臟內科",
+        desc: "胸痛 / STEMI 案件優先通知 CV，必要時同步心導管室與急診 ACS 團隊。",
+        title: "CV 心臟內科工作台",
+        targetView: "cvUnit",
+        action: "通知 CV 群組",
+        lead: "CV 值班醫師",
+        support1: "心導管室",
+        support2: "ICU / 病房",
+        rows: [
+          ["判讀資料", "12 lead ECG、症狀時間、生命徵象、Troponin、過去病史"],
+          ["決策按鈕", "確認 AMI 啟動、要求重傳 ECG、急診先評估、取消啟動"],
+          ["通知對象", "心導管室、急診醫師/專師、護理站、必要時 ICU"],
+          ["品質指標", "FMC-to-ECG、ECG-to-activation、Door-to-balloon"]
+        ],
+        notify: [
+          ["CV 心臟內科", "胸痛、ECG、ETA、生命徵象"],
+          ["急診 ACS 團隊", "準備檢傷、抽血、院內 ECG"],
+          ["心導管室", "待 CV 確認後啟動"]
+        ],
+        actions: ["上傳 12 lead ECG", "Aspirin", "N/S 500cc", "留置針", "更新 ETA", "切換 CPCR"],
+        records: [
+          ["症狀", "胸痛開始時間、冒冷汗、放射痛"],
+          ["ECG", "完成時間、上傳時間、重傳原因"],
+          ["處置", "Aspirin、NTG、IV、N/S 500cc"]
+        ],
+        sequence: ["確認 12 lead ECG", "On EKG monitor", "On IV N/S 500cc", "抽血 / Troponin", "會診 CV", "啟動心導管室"],
+        meds: ["N/S 500cc", "Aspirin / Bokey", "Brinta", "TAPA", "Heparin"],
+        procedures: ["上傳 ECG", "抽血", "通知心導管", "插入 EKG", "急救人員"],
+        priority: "高優先"
+      },
+      "CPR / ECPR": {
+        specialty: "CVS 心臟血管外科",
+        desc: "CPR/ECPR 或需 ECMO 個案可叫出 CVS，連動 ECMO team、急診與 ICU。",
+        title: "CVS / ECPR 工作台",
+        targetView: "cprConsole",
+        action: "通知 CVS / ECMO team",
+        lead: "CVS 值班醫師",
+        support1: "ECMO team",
+        support2: "ICU / 急診急救區",
+        rows: [
+          ["判讀資料", "CPR 按壓紀錄、節律、電擊、給藥、ROSC、低血流時間"],
+          ["決策按鈕", "啟動 ECPR 評估、通知 ECMO team、標記不適合 ECPR"],
+          ["通知對象", "CVS、ECMO team、急診醫師、護理師、ICU"],
+          ["品質指標", "No-flow、Low-flow、壓胸中斷、ROSC、ECPR 啟動時間"]
+        ],
+        notify: [
+          ["急診急救團隊", "OHCA/IHCA、CPR 狀態、ETA"],
+          ["CVS / ECMO team", "ECPR 條件、低血流時間、年齡與病史"],
+          ["ICU / 護理師", "ROSC 或持續 CPR 接手準備"]
+        ],
+        actions: ["啟動 CPR 紀錄", "記錄電擊", "Epinephrine", "Airway", "標記 ROSC", "啟動 ECPR 評估"],
+        records: [
+          ["CPR", "按壓開始/暫停/結束、品質、中斷時間"],
+          ["ACLS", "節律、電擊、給藥、Airway"],
+          ["ECPR", "No-flow、Low-flow、ECMO team 回覆"]
+        ],
+        sequence: ["確認脈搏(無脈搏)", "On EKG monitor", "Cardiac massage", "EKG rhythm", "Ambu bagging", "On IV N/S 500cc", "Epinephrine 1mg/1cc"],
+        meds: ["N/S 500cc", "Epinephrine 1mg/1cc", "Atropine 1mg/1cc", "Amiodarone 150mg/3cc", "Sodium bicarbonate 1400mg", "Cal chloride 20mL inj"],
+        procedures: ["On Endo", "ETCO2", "On Tr.", "外帶 Tr.", "On IO", "Echo", "ON CVP"],
+        priority: "最高優先"
+      },
+      "Stroke": {
+        specialty: "神內 Stroke Team",
+        desc: "疑似中風叫出神內版面，連動 CT/CTA、tPA 評估、EVT 分流與轉 ICU/病房。",
+        title: "神內 Stroke Team 工作台",
+        targetView: "neuroDoctor",
+        action: "通知神內 Stroke team",
+        lead: "神內值班醫師",
+        support1: "CT / 放射團隊",
+        support2: "ICU / 病房",
+        rows: [
+          ["判讀資料", "Last known well、FAST/LAMS、NIHSS、血糖、抗凝血藥、CT/CTA"],
+          ["決策按鈕", "tPA 評估、EVT 評估、神外會診、轉 ICU/病房"],
+          ["通知對象", "神內、急診、CT 室、放射、神外、ICU/病房"],
+          ["品質指標", "Door-to-CT、Door-to-needle、Door-to-puncture、轉歸時間"]
+        ],
+        notify: [
+          ["神內 Stroke Team", "Last known well、FAST/LAMS、血糖、ETA"],
+          ["急診 / 檢傷", "Stroke 快速通道、NIHSS、抽血準備"],
+          ["CT / 放射", "CT/CTA/CTP 預先準備"]
+        ],
+        actions: ["記錄 Last known well", "血糖", "FAST/LAMS", "通知 CT", "tPA 評估", "EVT 評估"],
+        records: [
+          ["神經評估", "FAST/LAMS、NIHSS、GCS、瞳孔"],
+          ["時間", "最後正常、到院、CT、tPA、EVT"],
+          ["轉歸", "ICU、病房、血管攝影室、手術室"]
+        ],
+        sequence: ["會診神內", "N/S 500cc", "抽血", "CT", "CTA", "tPA 評估", "EVT 術前準備", "轉 ICU / 病房"],
+        meds: ["N/S 500cc", "rt-PA", "Bokey", "TAPA", "Brinta", "降壓藥物"],
+        procedures: ["血糖", "NIHSS", "CT", "CTA", "EVT", "病情說明", "轉 ICU / 病房"],
+        priority: "高優先"
+      },
+      "Major Trauma": {
+        specialty: "創傷科 Trauma Team",
+        desc: "重大外傷叫出創傷科版面，連動 MTP、FAST、CT/OR/ICU 與創傷團隊。",
+        title: "創傷科 Trauma Team 工作台",
+        targetView: "traumaDoctor",
+        action: "通知創傷團隊",
+        lead: "創傷科值班醫師",
+        support1: "OR / 血庫 / CT",
+        support2: "ICU / 外科病房",
+        rows: [
+          ["判讀資料", "創傷機轉、GCS、Shock index、FAST、出血位置、抗凝血藥"],
+          ["決策按鈕", "啟動 Trauma team、啟動 MTP、送 CT、送 OR、轉 ICU"],
+          ["通知對象", "創傷科、急診、外科、麻醉、OR、血庫、ICU"],
+          ["品質指標", "Door-to-CT、Door-to-OR、MTP 啟動時間、輸血到位時間"]
+        ],
+        notify: [
+          ["創傷科 Trauma Team", "創傷機轉、GCS、血壓、ETA"],
+          ["急診 / 外科 / 麻醉", "Primary survey、插管、手術評估"],
+          ["血庫 / CT / OR", "MTP、影像、手術室準備"]
+        ],
+        actions: ["啟動 Trauma team", "啟動 MTP", "FAST", "止血/固定", "送 CT", "送 OR"],
+        records: [
+          ["創傷評估", "機轉、GCS、Shock index、出血位置"],
+          ["處置", "止血、固定、輸液、輸血、Airway"],
+          ["轉歸", "CT、OR、ICU、病房"]
+        ],
+        sequence: ["啟動 Trauma team", "Primary survey", "N/S / 輸血路徑", "FAST", "啟動 MTP", "CT", "OR / ICU"],
+        meds: ["N/S 500cc", "Tranexamic acid", "PRBC", "FFP", "Platelet", "Calcium"],
+        procedures: ["Airway", "止血", "骨盆固定", "FAST", "送 CT", "送 OR", "轉 ICU"],
+        priority: "最高優先"
+      }
+    };
+
+    function nowStamp() {
+      const date = new Date();
+      const pad = (value) => String(value).padStart(2, "0");
+      return `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
+    function nowTime() {
+      const date = new Date();
+      const pad = (value) => String(value).padStart(2, "0");
+      return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    function addConsoleRecord(text) {
+      if (!consoleRecordList) return;
+      const row = document.createElement("div");
+      row.className = "record-row";
+      row.innerHTML = `<span>${nowTime()}</span><span>${text}</span>`;
+      consoleRecordList.prepend(row);
+    }
+
+    function addAcsRecord(text) {
+      if (!acsRecordList) return;
+      const row = document.createElement("div");
+      row.className = "record-row";
+      row.innerHTML = `<span>${nowTime()}</span><span>${acsCurrentRole}：${text}</span>`;
+      acsRecordList.prepend(row);
+      if (acsRecordTime) acsRecordTime.value = nowStamp();
+    }
+
+    function renderButtonList(container, items, urgentCount = 2) {
+      if (!container) return;
+      container.innerHTML = items.map((item, index) => {
+        const cls = index < urgentCount ? "urgent" : "";
+        return `<button class="${cls}" data-record-item="${item}">${item}</button>`;
+      }).join("");
+    }
+
+    function renderMedicationList(items) {
+      if (!medicationList) return;
+      medicationList.innerHTML = items.map((item) => (
+        `<div class="med-row"><button data-record-item="${item}">${item}</button><output>0</output></div>`
+      )).join("");
+    }
+
+    function renderRescueConsole(config, caseType) {
+      renderButtonList(sequenceList, config.sequence || [], caseType === "CPR / ECPR" ? 7 : 2);
+      renderMedicationList(config.meds || []);
+      renderButtonList(procedureList, config.procedures || [], 0);
+      if (consoleRecordList) {
+        consoleRecordList.innerHTML = `<div class="record-row"><span>${nowTime()}</span><span>${caseType} 面板已載入，等待啟動</span></div>`;
+      }
+    }
+
+    function showView(id) {
+      buttons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.view === id);
+      });
+      views.forEach((view) => {
+        view.classList.toggle("active", view.id === id);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setCaseType(caseType) {
+      if (!caseType) return;
+      const config = specialtyMap[caseType] || specialtyMap["ACS / STEMI"];
+      if (selectedCaseChip) selectedCaseChip.textContent = `目前選擇：${caseType}`;
+      if (mobileCaseTitle) mobileCaseTitle.textContent = `新增 ${caseType}`;
+      if (mobileLaunchButton) mobileLaunchButton.textContent = `啟動 ${caseType}`;
+      if (caseTypeInput) caseTypeInput.value = caseType;
+      if (suggestedSpecialty) suggestedSpecialty.textContent = config.specialty;
+      if (suggestedSpecialtyDesc) suggestedSpecialtyDesc.textContent = config.desc;
+      if (suggestedUnitLink) suggestedUnitLink.dataset.viewJump = config.targetView;
+      if (specialtyActiveChip) specialtyActiveChip.textContent = `目前建議：${config.specialty}`;
+      if (specialtyBoardTitle) specialtyBoardTitle.textContent = config.title;
+      if (specialtyBoardStatus) specialtyBoardStatus.textContent = caseType;
+      if (specialtyPrimaryAction) specialtyPrimaryAction.textContent = config.action;
+      if (specialtyLead) specialtyLead.textContent = config.lead;
+      if (specialtySupport1) specialtySupport1.textContent = config.support1;
+      if (specialtySupport2) specialtySupport2.textContent = config.support2;
+      if (specialtyTable) {
+        specialtyTable.innerHTML = "<tr><th>區塊</th><th>需要看到 / 操作</th></tr>" +
+          config.rows.map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join("");
+      }
+      if (notifyTable) {
+        notifyTable.innerHTML = config.notify.map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join("");
+      }
+      if (notifyPriority) notifyPriority.textContent = config.priority;
+      if (oneClickNotify) oneClickNotify.textContent = `一鍵通報 ${caseType}`;
+      if (actionPanel) {
+        actionPanel.innerHTML = config.actions.map((item, index) => {
+          const cls = index === 0 ? "chip red" : index === config.actions.length - 1 ? "chip blue" : "chip";
+          return `<button class="${cls}">${item}</button>`;
+        }).join("");
+      }
+      if (recordTable) {
+        recordTable.innerHTML = config.records.map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join("");
+      }
+      renderRescueConsole(config, caseType);
+    }
+
+    if (activationStart) {
+      activationStart.addEventListener("click", () => {
+        const running = activationStart.textContent === "Stop";
+        if (running) {
+          activationStart.textContent = "Start";
+          activationStart.className = "primary";
+          if (activationTimerId) clearInterval(activationTimerId);
+          addConsoleRecord("急救面板暫停");
+          return;
+        }
+        activationStartedAt = new Date();
+        if (activationTime) activationTime.value = nowStamp();
+        if (recordTime) recordTime.value = nowStamp();
+        activationStart.textContent = "Stop";
+        activationStart.className = "primary";
+        addConsoleRecord("急救啟動");
+        if (activationTimerId) clearInterval(activationTimerId);
+        activationTimerId = setInterval(() => {
+          if (!activationStartedAt || !activationTimer) return;
+          const elapsed = Math.floor((Date.now() - activationStartedAt.getTime()) / 1000);
+          const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+          const ss = String(elapsed % 60).padStart(2, "0");
+          activationTimer.textContent = `${mm}:${ss}`;
+        }, 1000);
+      });
+    }
+
+    if (acsStart) {
+      acsStart.addEventListener("click", () => {
+        const running = acsStart.textContent === "Stop";
+        if (running) {
+          acsStart.textContent = "Start";
+          if (acsTimerId) clearInterval(acsTimerId);
+          addAcsRecord("ACS 面板暫停");
+          return;
+        }
+        acsStartedAt = new Date();
+        if (acsActivationTime) acsActivationTime.value = nowStamp();
+        if (acsRecordTime) acsRecordTime.value = nowStamp();
+        acsStart.textContent = "Stop";
+        addAcsRecord("ACS 啟動");
+        if (acsTimerId) clearInterval(acsTimerId);
+        acsTimerId = setInterval(() => {
+          if (!acsStartedAt || !acsTimer) return;
+          const elapsed = Math.floor((Date.now() - acsStartedAt.getTime()) / 1000);
+          const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+          const ss = String(elapsed % 60).padStart(2, "0");
+          acsTimer.textContent = `${mm}:${ss}`;
+        }, 1000);
+      });
+    }
+
+    document.querySelectorAll(".acs-role-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        acsCurrentRole = button.dataset.role;
+        document.querySelectorAll(".acs-role-btn").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        if (acsRoleChip) acsRoleChip.textContent = `目前角色：${acsCurrentRole}`;
+        addAcsRecord("切換操作角色");
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-record-item]");
+      if (!target) return;
+      addConsoleRecord(target.dataset.recordItem);
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-acs-record]");
+      if (!target) return;
+      addAcsRecord(target.dataset.acsRecord);
+      const output = target.parentElement?.querySelector("output");
+      if (output) output.textContent = String(Number(output.textContent || "0") + 1);
+    });
+
+    const panelTimers = new Map();
+
+    function addPanelRecord(button, text) {
+      const section = button.closest(".view");
+      const list = section?.querySelector(".panel-record-list");
+      const recordTimeInput = section?.querySelector(".panel-record-time");
+      if (!list) return;
+      const row = document.createElement("div");
+      row.className = "record-row";
+      row.innerHTML = `<span>${nowTime()}</span><span>${text}</span>`;
+      list.prepend(row);
+      if (recordTimeInput) recordTimeInput.value = nowStamp();
+    }
+
+    document.querySelectorAll(".panel-start").forEach((button) => {
+      button.addEventListener("click", () => {
+        const section = button.closest(".view");
+        const timer = section?.querySelector(".panel-timer");
+        const startTimeInput = section?.querySelector(".panel-start-time");
+        const panelId = button.dataset.panel;
+        const running = button.textContent === "Stop";
+        if (running) {
+          button.textContent = "Start";
+          const timerState = panelTimers.get(panelId);
+          if (timerState?.id) clearInterval(timerState.id);
+          addPanelRecord(button, "面板暫停");
+          return;
+        }
+        const startedAt = new Date();
+        if (startTimeInput) startTimeInput.value = nowStamp();
+        button.textContent = "Stop";
+        addPanelRecord(button, "面板啟動");
+        const oldTimer = panelTimers.get(panelId);
+        if (oldTimer?.id) clearInterval(oldTimer.id);
+        const id = setInterval(() => {
+          if (!timer) return;
+          const elapsed = Math.floor((Date.now() - startedAt.getTime()) / 1000);
+          const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
+          const ss = String(elapsed % 60).padStart(2, "0");
+          timer.textContent = `${mm}:${ss}`;
+        }, 1000);
+        panelTimers.set(panelId, { id, startedAt });
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-panel-record]");
+      if (!target) return;
+      addPanelRecord(target, target.dataset.panelRecord);
+    });
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => showView(button.dataset.view));
+    });
+
+    document.querySelectorAll("[data-view-jump]").forEach((button) => {
+      button.addEventListener("click", () => {
+        setCaseType(button.dataset.caseType);
+        showView(button.dataset.viewJump);
+      });
+    });
+
+    document.querySelectorAll(".case-type-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        setCaseType(button.dataset.caseType);
+      });
+    });
+
+    document.querySelectorAll(".specialty-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        setCaseType(button.dataset.caseType);
+      });
+    });
+  </script>
+</body>
+</html>
