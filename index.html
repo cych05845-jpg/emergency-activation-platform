@@ -891,6 +891,45 @@
         flex-direction: column;
       }
     }
+
+    .prototype-banner {
+      max-width: 1440px;
+      margin: 12px auto 0;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #fff4df;
+      border: 1px solid #efcf98;
+      border-radius: 8px;
+      color: #6e440d;
+      font-size: 13px;
+    }
+
+    .prototype-banner strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 14px;
+    }
+
+    .storage-state {
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .storage-state.error {
+      color: var(--danger);
+    }
+
+    @media (max-width: 720px) {
+      .prototype-banner {
+        margin: 10px 16px 0;
+        padding: 10px 12px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
@@ -908,6 +947,17 @@
       </div>
     </div>
   </header>
+
+  <aside class="prototype-banner" role="status" aria-live="polite">
+    <div>
+      <strong>Prototype v0.2｜僅供測試與流程討論</strong>
+      請使用匿名事件代碼；不得輸入真實姓名、身分證號、完整病歷號或其他可識別病人資料。本平台不取代正式醫囑、病歷或臨床判斷。
+    </div>
+    <div class="actions" style="margin-top:0;">
+      <span class="storage-state" id="storage-state">尚未建立測試事件</span>
+      <button class="quiet" id="clear-test-event" type="button">清除本機測試事件</button>
+    </div>
+  </aside>
 
   <div class="layout">
     <nav aria-label="角色切換">
@@ -2480,6 +2530,114 @@
   </div>
 
   <script>
+    const APP_SCHEMA_VERSION = 1;
+    const APP_STORAGE_KEY = "emergencyActivationPlatform.activeEvent.v1";
+    const APP_VERSION = "prototype-0.2";
+
+    const StorageService = {
+      save(event) {
+        const payload = {
+          schemaVersion: APP_SCHEMA_VERSION,
+          appVersion: APP_VERSION,
+          savedAt: new Date().toISOString(),
+          event
+        };
+        localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(payload));
+        return payload.savedAt;
+      },
+
+      load() {
+        const raw = localStorage.getItem(APP_STORAGE_KEY);
+        if (!raw) return { status: "empty", payload: null };
+        try {
+          const payload = JSON.parse(raw);
+          if (!payload || payload.schemaVersion !== APP_SCHEMA_VERSION || !payload.event) {
+            return { status: "incompatible", payload: null };
+          }
+          return { status: "ok", payload };
+        } catch (error) {
+          return { status: "corrupt", payload: null };
+        }
+      },
+
+      clear() {
+        localStorage.removeItem(APP_STORAGE_KEY);
+      }
+    };
+
+    function isSensitiveControl(control) {
+      const labelText = control.closest("label")?.textContent || "";
+      return /姓名|身分證|居留證|病歷號|生日/.test(labelText);
+    }
+
+    function collectEventState() {
+      const controls = [...document.querySelectorAll("input, select, textarea")];
+      const fields = {};
+      controls.forEach((control, index) => {
+        if (isSensitiveControl(control)) return;
+        fields[control.id || `field-${index}`] = control.type === "checkbox" || control.type === "radio"
+          ? control.checked
+          : control.value;
+      });
+      return {
+        eventId: document.querySelector("#case-type-input")?.value
+          ? `TEST-${document.querySelector("#case-type-input").value.replace(/[^A-Za-z0-9]+/g, "-").toUpperCase()}`
+          : "TEST-EVENT",
+        eventType: document.querySelector("#case-type-input")?.value || "Unspecified",
+        schemaVersion: APP_SCHEMA_VERSION,
+        status: "active",
+        startTime: activeEventStartedAt || new Date().toISOString(),
+        endTime: null,
+        lastUpdatedAt: new Date().toISOString(),
+        activeView: document.querySelector(".view.active")?.id || "overview",
+        fields,
+        audit: [{ action: "auto-save", at: new Date().toISOString(), actor: "local-test-user" }]
+      };
+    }
+
+    function restoreEventState(event) {
+      if (!event?.fields) return;
+      const controls = [...document.querySelectorAll("input, select, textarea")];
+      controls.forEach((control, index) => {
+        if (isSensitiveControl(control)) return;
+        const key = control.id || `field-${index}`;
+        if (!(key in event.fields)) return;
+        if (control.type === "checkbox" || control.type === "radio") {
+          control.checked = Boolean(event.fields[key]);
+        } else {
+          control.value = event.fields[key];
+        }
+      });
+      if (event.activeView && document.getElementById(event.activeView)) showView(event.activeView);
+    }
+
+    const storageState = document.querySelector("#storage-state");
+    let activeEventStartedAt = null;
+    let autoSaveTimerId = null;
+
+    function setStorageMessage(message, error = false) {
+      if (!storageState) return;
+      storageState.textContent = message;
+      storageState.classList.toggle("error", error);
+    }
+
+    function saveActiveEvent() {
+      try {
+        if (!activeEventStartedAt) activeEventStartedAt = new Date().toISOString();
+        const savedAt = StorageService.save(collectEventState());
+        const time = new Date(savedAt).toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        setStorageMessage(`已自動儲存 ${time}`);
+      } catch (error) {
+        setStorageMessage("本機儲存失敗，請勿關閉頁面", true);
+      }
+    }
+
+    function scheduleAutoSave() {
+      if (autoSaveTimerId) clearTimeout(autoSaveTimerId);
+      setStorageMessage("儲存中…");
+      autoSaveTimerId = setTimeout(saveActiveEvent, 350);
+    }
+
     const buttons = document.querySelectorAll("[data-view]");
     const views = document.querySelectorAll(".view");
     const selectedCaseChip = document.querySelector("#selected-case-chip");
@@ -3031,6 +3189,42 @@
         setCaseType(button.dataset.caseType);
       });
     });
+
+    document.addEventListener("input", (event) => {
+      if (event.target.matches("input, select, textarea") && !isSensitiveControl(event.target)) scheduleAutoSave();
+    });
+
+    document.addEventListener("change", (event) => {
+      if (event.target.matches("input, select, textarea") && !isSensitiveControl(event.target)) scheduleAutoSave();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (event.target.closest("[data-record-item], [data-acs-record], [data-panel-record], [data-case-type], #save-clinical-draft, #send-icu-transfer, #mark-icu-confirmed")) {
+        scheduleAutoSave();
+      }
+    });
+
+    document.querySelector("#clear-test-event")?.addEventListener("click", () => {
+      const firstConfirmation = window.confirm("確定要清除這台裝置上的測試事件嗎？此動作不會刪除 GitHub 網站。");
+      if (!firstConfirmation) return;
+      const secondConfirmation = window.confirm("再次確認：清除後無法從本機恢復目前測試事件。是否繼續？");
+      if (!secondConfirmation) return;
+      StorageService.clear();
+      activeEventStartedAt = null;
+      setStorageMessage("本機測試事件已清除");
+    });
+
+    const storedEventResult = StorageService.load();
+    if (storedEventResult.status === "ok") {
+      activeEventStartedAt = storedEventResult.payload.event.startTime || storedEventResult.payload.savedAt;
+      restoreEventState(storedEventResult.payload.event);
+      const restoredTime = new Date(storedEventResult.payload.savedAt).toLocaleString("zh-TW");
+      setStorageMessage(`已恢復測試事件｜${restoredTime}`);
+    } else if (storedEventResult.status === "corrupt") {
+      setStorageMessage("本機測試資料損毀，未自動載入；可清除後重新開始", true);
+    } else if (storedEventResult.status === "incompatible") {
+      setStorageMessage("偵測到不相容的舊版測試資料，未自動載入", true);
+    }
   </script>
 </body>
 </html>
