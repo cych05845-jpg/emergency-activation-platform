@@ -652,6 +652,10 @@
       color: var(--green);
     }
 
+    .guideline-task[hidden] {
+      display: none !important;
+    }
+
     .cause-card {
       min-height: 68px;
       border-color: var(--line);
@@ -674,6 +678,299 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fbfcfd;
+    }
+
+    .emt-door-entry {
+      min-width: 170px;
+      min-height: 54px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(36, 89, 166, .18);
+    }
+
+    .clinical-cpr-layout {
+      display: grid;
+      grid-template-columns: .88fr .9fr 1.28fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .clinical-column {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .clinical-cpr-layout > .clinical-column:nth-child(2) {
+      order: 3;
+    }
+
+    .clinical-cpr-layout > .clinical-column:nth-child(3) {
+      order: 2;
+    }
+
+    .clinical-cpr-layout > .clinical-column:nth-child(4) {
+      order: 4;
+    }
+
+    .clinical-column .guideline-task-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .clinical-action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .clinical-action-grid button {
+      min-height: 68px;
+      padding: 10px;
+      line-height: 1.25;
+    }
+
+    .clinical-action-grid button strong,
+    .clinical-action-grid button small {
+      display: block;
+    }
+
+    .clinical-action-grid button small {
+      margin-top: 5px;
+      opacity: .78;
+      font-size: 12px;
+    }
+
+    .ecpr-activation-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.45fr;
+      gap: 12px;
+    }
+
+    .ecpr-screen-grid,
+    .ecpr-team-grid,
+    .ecpr-milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .ecpr-team-card,
+    .ecpr-milestone {
+      min-height: 70px;
+      padding: 10px;
+      text-align: left;
+      justify-content: flex-start;
+      background: #fff;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .ecpr-team-card.confirmed,
+    .ecpr-milestone.completed {
+      background: var(--green-soft);
+      border-color: #78b990;
+      color: var(--green);
+    }
+
+    .ecpr-team-card strong,
+    .ecpr-team-card small,
+    .ecpr-milestone strong,
+    .ecpr-milestone small {
+      display: block;
+    }
+
+    .ecpr-team-card small,
+    .ecpr-milestone small {
+      margin-top: 4px;
+      opacity: .78;
+    }
+
+    .emt-ecpr-card[hidden] { display: none; }
+
+    .med-card {
+      min-height: 76px !important;
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    .cpr-med-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .cpr-med-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 104px;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .cpr-med-row .med-card {
+      width: 100%;
+      min-height: 60px !important;
+    }
+
+    .med-qty-control {
+      display: grid;
+      grid-template-columns: 32px 1fr 32px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .med-qty-control button {
+      min-height: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: #eef2f6;
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .med-qty-control output {
+      text-align: center;
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .treatment-control {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .treatment-control select {
+      min-width: 72px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px;
+      background: #fff;
+    }
+
+    .clinical-record-panel {
+      min-height: 610px;
+      background: #c7eef4;
+      border-color: #7dbfca;
+    }
+
+    .clinical-record-panel .panel-head {
+      background: #70a0ff;
+      color: #101820;
+      border-bottom-color: #3e78e2;
+    }
+
+    .clinical-record-panel .panel-body {
+      min-height: 540px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      align-content: start;
+      gap: 10px;
+    }
+
+    .clinical-record-panel .record-list {
+      min-height: 455px;
+      align-content: start;
+      background: rgba(255, 255, 255, .25);
+      border: 1px solid rgba(62, 120, 226, .28);
+    }
+
+    .clinical-record-panel .record-row {
+      background: rgba(255, 255, 255, .48);
+    }
+
+    .narrative-record {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid rgba(62, 120, 226, .32);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .58);
+    }
+
+    .narrative-record textarea {
+      width: 100%;
+      min-height: 82px;
+      margin-top: 8px;
+      resize: vertical;
+    }
+
+    .shock-form {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .shock-form label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .shock-form select,
+    .shock-form input {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 8px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .shock-guide {
+      margin: 12px 0;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      border: 1px solid #bad1f7;
+    }
+
+    .compact-cause-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .compact-cause-grid .cause-card {
+      min-height: 42px;
+      padding: 7px 8px;
+      font-size: 12px;
+    }
+
+    .cause-dialog {
+      width: min(980px, calc(100vw - 32px));
+      max-height: calc(100vh - 32px);
+      border: 0;
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+    }
+
+    .cause-dialog::backdrop {
+      background: rgba(20, 28, 36, .62);
+    }
+
+    .cause-dialog-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cause-dialog-body {
+      padding: 16px;
+      overflow: auto;
     }
 
     .rescue-console {
@@ -978,6 +1275,14 @@
         grid-template-columns: repeat(2, minmax(140px, 1fr));
       }
 
+      .clinical-cpr-layout {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ecpr-activation-grid {
+        grid-template-columns: 1fr;
+      }
+
       .guideline-task-grid,
       .cause-grid {
         grid-template-columns: repeat(2, minmax(140px, 1fr));
@@ -1008,6 +1313,20 @@
       }
 
       .entry-role-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .clinical-cpr-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .ecpr-team-grid,
+      .ecpr-milestone-grid,
+      .ecpr-screen-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shock-form {
         grid-template-columns: 1fr;
       }
 
@@ -1077,6 +1396,7 @@
         <h1>急重症整合啟動平台</h1>
         <p>串聯院前救護、急診與專科團隊的即時協作原型</p>
       </div>
+      <button class="emt-door-entry" data-view-jump="emt" type="button">EMT 平板快速入口</button>
       <div class="status-strip" aria-label="即時狀態">
         <div class="status-item"><span>活躍案件</span><strong>3</strong></div>
         <div class="status-item"><span>AMI 啟動</span><strong>1</strong></div>
@@ -1290,6 +1610,39 @@
                 </div>
                 <span class="chip">外傷</span>
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel emt-ecpr-card" id="emt-ecpr-screen" hidden style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>EMT｜ECPR 快速篩選</h3>
+            <span class="chip red">只做院前預警，不取代院內正式啟動</span>
+          </div>
+          <div class="panel-body">
+            <div class="ecpr-activation-grid">
+              <div>
+                <div class="panel-subhead">4 項快速評估</div>
+                <div class="ecpr-screen-grid">
+                  <button class="quiet" data-emt-ecpr-check="目擊倒地">目擊倒地</button>
+                  <button class="quiet" data-emt-ecpr-check="立即／旁觀者 CPR">立即／旁觀者 CPR</button>
+                  <button class="quiet" data-emt-ecpr-check="初始心律 VF／pVT">初始心律 VF／pVT</button>
+                  <button class="quiet" data-emt-ecpr-check="預估可於時限內送達">可於院定時限內送達</button>
+                </div>
+              </div>
+              <div>
+                <div class="panel-subhead">三大禁忌</div>
+                <div class="ecpr-screen-grid">
+                  <button class="quiet ecpr-contra" data-emt-ecpr-contra="明確 DNR／拒絕急救">明確 DNR／拒絕急救</button>
+                  <button class="quiet ecpr-contra" data-emt-ecpr-contra="末期疾病／長期失能">末期疾病／長期失能</button>
+                  <button class="quiet ecpr-contra" data-emt-ecpr-contra="不可控制出血／重大創傷">不可控制出血／重大創傷</button>
+                </div>
+                <p class="meta">禁忌分類與運送時限仍須依本院正式 SOP 核定。</p>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="primary" id="emt-ecpr-notify" type="button">送出 ECPR 院前預警</button>
+              <span class="chip" id="emt-ecpr-result">等待評估</span>
             </div>
           </div>
         </div>
@@ -1909,83 +2262,245 @@
               <button class="quiet cpr-rhythm" data-cpr-rhythm="shockable">VF / pVT</button>
               <button class="quiet cpr-rhythm" data-cpr-rhythm="nonshockable">PEA / Asystole</button>
               <button class="ok" id="cpr-rosc">ROSC</button>
-              <button class="quiet" data-panel-record="ECPR eligibility 評估開始">ECPR 評估</button>
             </div>
           </div>
         </div>
 
-        <div class="guideline-board">
-          <div class="panel">
-            <div class="panel-head"><h3>現在要做／等待下次</h3><span class="chip red">Guideline 任務</span></div>
-            <div class="panel-body">
-              <div class="guideline-task-grid" id="cpr-guideline-tasks">
-                <button class="guideline-task due" data-guideline-task="cpr-cycle" data-kind="recurring" data-interval="120"><strong>CPR 2 分鐘循環</strong><small>現在執行</small></button>
-                <button class="guideline-task due" data-guideline-task="rhythm" data-kind="recurring" data-interval="120"><strong>節律／脈搏評估</strong><small>現在執行</small></button>
-                <button class="guideline-task due" data-guideline-task="epinephrine" data-kind="recurring" data-interval="240"><strong>Epinephrine</strong><small>測試設定 4 分鐘｜待院方核准</small></button>
-                <button class="guideline-task due" data-guideline-task="monitor" data-kind="once"><strong>監視器／去顫器</strong><small>一次性任務</small></button>
-                <button class="guideline-task due" data-guideline-task="ivio" data-kind="once"><strong>建立 IV／IO</strong><small>一次性任務</small></button>
-                <button class="guideline-task due" data-guideline-task="airway" data-kind="once"><strong>Airway／通氣</strong><small>一次性任務</small></button>
-                <button class="guideline-task due" data-guideline-task="capnography" data-kind="once"><strong>Waveform ETCO₂</strong><small>確認管路與 CPR 品質</small></button>
-                <button class="guideline-task due" id="shock-task" data-guideline-task="shock" data-kind="conditional" hidden><strong>去顫</strong><small>VF／pVT 條件任務</small></button>
-                <button class="guideline-task due" id="antiarrhythmic-task" data-guideline-task="antiarrhythmic" data-kind="conditional" hidden><strong>Amiodarone／Lidocaine</strong><small>頑固 VF／pVT｜待醫囑確認</small></button>
-              </div>
-              <details style="margin-top:12px;"><summary>已完成的一次性任務</summary><div class="chips" id="completed-guideline-tasks" style="margin-top:10px;"><span class="chip">尚無</span></div></details>
-            </div>
-          </div>
-
-          <div class="grid cols-2">
+        <div class="clinical-cpr-layout">
+          <div class="clinical-column">
             <div class="panel">
-              <div class="panel-head"><h3>常用急救藥物</h3><span class="chip blue">依節律顯示</span></div>
+              <div class="panel-head"><h3>Guideline 任務</h3><span class="chip red">紅色現在做｜白色倒數</span></div>
               <div class="panel-body">
-                <div class="actions">
-                  <button class="secondary" data-panel-record="Epinephrine 已記錄｜劑量待正式醫囑核對">Epinephrine</button>
-                  <button class="quiet shock-only" data-panel-record="Amiodarone 已記錄｜劑量待正式醫囑核對" hidden>Amiodarone</button>
-                  <button class="quiet shock-only" data-panel-record="Lidocaine 已記錄｜劑量待正式醫囑核對" hidden>Lidocaine</button>
+                <div class="guideline-task-grid" id="cpr-guideline-tasks">
+                  <button class="guideline-task due" data-guideline-task="cpr-cycle" data-kind="recurring" data-interval="120"><strong>CPR 2 分鐘循環</strong><small>現在執行</small></button>
+                  <button class="guideline-task due" data-guideline-task="rhythm" data-kind="recurring" data-interval="120"><strong>節律／脈搏評估</strong><small>現在執行</small></button>
+                  <button class="guideline-task due" data-guideline-task="epinephrine" data-kind="recurring" data-interval="240"><strong>Epinephrine</strong><small>測試 4 分鐘｜待院方核准</small></button>
+                  <button class="guideline-task due" data-guideline-task="monitor" data-kind="once"><strong>監視器／去顫器</strong><small>一次性任務</small></button>
+                  <button class="guideline-task due" data-guideline-task="ivio" data-kind="once"><strong>建立 IV／IO</strong><small>一次性任務</small></button>
+                  <button class="guideline-task due" data-guideline-task="ecpr-assessment" data-kind="once"><strong>ECPR 優先評估</strong><small>完成後至處置區選擇狀態</small></button>
+                  <button class="guideline-task due" id="shock-task" data-guideline-task="shock" data-kind="conditional" hidden><strong>去顫／電擊紀錄</strong><small>VF／pVT｜選擇波形與焦耳數</small></button>
+                  <button class="guideline-task due" id="antiarrhythmic-task" data-guideline-task="antiarrhythmic" data-kind="conditional" hidden><strong>Amiodarone／Lidocaine</strong><small>頑固 VF／pVT</small></button>
                 </div>
-                <p class="meta">藥物按鍵只建立流程紀錄，不代表正式醫囑或已完成給藥核對。</p>
+                <details style="margin-top:10px;"><summary>已完成一次性任務</summary><div class="chips" id="completed-guideline-tasks" style="margin-top:8px;"><span class="chip">尚無</span></div></details>
               </div>
             </div>
+          </div>
+
+          <div class="clinical-column">
             <div class="panel">
-              <div class="panel-head"><h3>特殊原因／特殊藥物</h3><span class="chip">非例行 ACLS</span></div>
+              <div class="panel-head"><h3>藥物</h3><span class="chip blue">常用＋特殊情境</span></div>
               <div class="panel-body">
-                <details><summary>展開特殊情境</summary>
-                  <div class="actions">
-                    <button class="quiet" data-panel-record="疑似 Torsades：Magnesium 評估">Torsades／Magnesium</button>
-                    <button class="quiet" data-panel-record="疑似 Hyperkalemia：特殊電解質處置評估">Hyperkalemia</button>
-                    <button class="quiet" data-panel-record="疑似 Opioid：Naloxone 與通氣評估">Opioid／Naloxone</button>
-                    <button class="quiet" data-panel-record="疑似 Sodium-channel blocker poisoning：NaHCO3 評估">Toxin／NaHCO₃</button>
+                <div class="cpr-med-list">
+                  <div class="cpr-med-row"><button class="secondary med-card" data-medication="Epinephrine" data-dose="1 mg IV/IO" data-qty="1"><strong>Epinephrine</strong><small>1 mg IV/IO</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row shock-only" hidden><button class="quiet med-card" data-medication="Amiodarone" data-dose="300 mg IV/IO" data-qty="1"><strong>Amiodarone</strong><small>300 mg IV/IO</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row shock-only" hidden><button class="quiet med-card" data-medication="Lidocaine" data-dose="1–1.5 mg/kg IV/IO" data-qty="1"><strong>Lidocaine</strong><small>1–1.5 mg/kg IV/IO</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Magnesium" data-dose="1–2 g IV/IO" data-qty="1"><strong>Magnesium</strong><small>1–2 g IV/IO</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Calcium" data-dose="依院方醫囑" data-qty="1"><strong>Calcium</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="NaHCO₃" data-dose="依院方醫囑" data-qty="1"><strong>NaHCO₃</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Naloxone" data-dose="依院方醫囑" data-qty="1"><strong>Naloxone</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Glucagon" data-dose="依院方醫囑" data-qty="1"><strong>Glucagon</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Insulin＋Glucose" data-dose="依院方醫囑" data-qty="1"><strong>Insulin＋Glucose</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                  <div class="cpr-med-row"><button class="quiet med-card" data-medication="Lipid Emulsion" data-dose="依體重／院方醫囑" data-qty="1"><strong>Lipid Emulsion</strong><small>院方劑量</small></button><div class="med-qty-control"><button data-med-qty="-1" type="button">−</button><output>1</output><button data-med-qty="1" type="button">＋</button></div></div>
+                </div>
+                <p class="meta">特殊藥物需先確認原因；按鍵只建立紀錄，不代表正式醫囑或已完成給藥。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="clinical-column">
+            <div class="panel clinical-record-panel">
+              <div class="panel-head"><h3>急救紀錄</h3><span class="chip green">即時自動留痕</span></div>
+              <div class="panel-body">
+                <div class="record-head"><span>時間</span><span>處置／事件紀錄</span></div>
+                <div class="record-list panel-record-list" id="cpr-guideline-records">
+                  <div class="record-row"><span>--:--</span><span>CPR / ECPR 工作區待啟動</span></div>
+                </div>
+                <div class="narrative-record">
+                  <div class="panel-subhead">敘述／特殊紀錄</div>
+                  <div class="chips" style="margin-top:8px;">
+                    <button class="chip" data-narrative-tag="醫師解釋病情">醫師解釋病情</button>
+                    <button class="chip" data-narrative-tag="聯絡家屬">聯絡家屬</button>
+                    <button class="chip" data-narrative-tag="社工協助聯絡家屬">社工協助</button>
+                    <button class="chip" data-narrative-tag="家屬已到院">家屬到院</button>
+                    <button class="chip" data-narrative-tag="家屬反應／意見">家屬反應</button>
+                    <button class="chip" data-narrative-tag="倫理／DNR 討論">倫理／DNR</button>
                   </div>
-                </details>
+                  <textarea id="narrative-note" placeholder="輸入病情說明、聯絡過程、家屬反應或其他特殊事件……"></textarea>
+                  <div class="actions">
+                    <button class="primary" id="save-narrative-note" type="button">加入急救紀錄</button>
+                    <button class="quiet" id="clear-narrative-note" type="button">清除</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="panel">
-            <div class="panel-head"><h3>5H5T 可逆原因</h3><span class="chip blue">點擊後顯示評估與處置</span></div>
-            <div class="panel-body">
-              <div class="cause-grid" id="cpr-causes">
-                <button class="cause-card" data-cause="hypovolemia">H｜Hypovolemia</button>
-                <button class="cause-card" data-cause="hypoxia">H｜Hypoxia</button>
-                <button class="cause-card" data-cause="acidosis">H｜Hydrogen ion</button>
-                <button class="cause-card" data-cause="potassium">H｜Hypo/Hyperkalemia</button>
-                <button class="cause-card" data-cause="hypothermia">H｜Hypothermia</button>
-                <button class="cause-card" data-cause="pneumothorax">T｜Tension pneumothorax</button>
-                <button class="cause-card" data-cause="tamponade">T｜Tamponade</button>
-                <button class="cause-card" data-cause="toxins">T｜Toxins</button>
-                <button class="cause-card" data-cause="pulmonary">T｜Pulmonary thrombosis</button>
-                <button class="cause-card" data-cause="coronary">T｜Coronary thrombosis</button>
+          <div class="clinical-column">
+            <div class="panel">
+              <div class="panel-head"><h3>醫師／專師治療</h3><span class="chip">床邊處置</span></div>
+              <div class="panel-body">
+                <div class="clinical-action-grid">
+                  <div class="treatment-control"><button class="quiet" id="endo-action"><strong>On Endo</strong></button><select id="endo-size" aria-label="Endo size"><option>6.5</option><option>7.0</option><option selected>7.5</option><option>8.0</option><option>8.5</option></select></div>
+                  <button class="quiet" id="open-etco2" type="button"><strong>ETCO₂</strong></button>
+                  <button class="quiet" id="open-echo" type="button"><strong>Echo／POCUS</strong></button>
+                  <button class="secondary" id="open-ecpr" type="button"><strong>ECPR／ECMO</strong></button>
+                  <button class="quiet" data-treatment="IV／IO"><strong>IV／IO</strong></button>
+                  <button class="quiet" data-treatment="A-line"><strong>A-line</strong></button>
+                  <button class="quiet" data-treatment="CVP／CVC"><strong>CVP／CVC</strong></button>
+                  <button class="quiet" data-treatment="Cath／PCI"><strong>Cath／PCI</strong></button>
+                  <button class="quiet" data-treatment="ECMO 參數"><strong>ECMO 參數</strong></button>
+                  <button class="quiet" data-treatment="溫度管理"><strong>溫度管理</strong></button>
+                  <button class="quiet" data-treatment="神經／灌流"><strong>神經／灌流</strong></button>
+                </div>
               </div>
-              <div class="cause-detail" id="cause-detail">請選擇一個可逆原因。系統只協助評估與留痕，不會自動判定診斷或完成處置。</div>
             </div>
-          </div>
 
-          <div class="panel">
-            <div class="panel-head"><h3>共用 Timeline</h3><span class="chip green">自動記錄操作時間</span></div>
-            <div class="panel-body">
-              <div class="record-list panel-record-list" id="cpr-guideline-records"><div class="record-row"><span>--:--</span><span>CPR / ECPR 工作區待啟動</span></div></div>
+            <div class="panel">
+              <div class="panel-head"><h3>5H5T</h3><button class="quiet" id="open-5h5t" type="button">展開全表</button></div>
+              <div class="panel-body">
+                <div class="compact-cause-grid" id="cpr-causes">
+                  <button class="cause-card" data-cause="hypovolemia">H 低血容量</button>
+                  <button class="cause-card" data-cause="hypoxia">H 缺氧</button>
+                  <button class="cause-card" data-cause="acidosis">H 酸中毒</button>
+                  <button class="cause-card" data-cause="potassium">H 鉀異常</button>
+                  <button class="cause-card" data-cause="hypothermia">H 低體溫</button>
+                  <button class="cause-card" data-cause="pneumothorax">T 張力性氣胸</button>
+                  <button class="cause-card" data-cause="tamponade">T 心包填塞</button>
+                  <button class="cause-card" data-cause="toxins">T 毒物</button>
+                  <button class="cause-card" data-cause="pulmonary">T 肺栓塞</button>
+                  <button class="cause-card" data-cause="coronary">T 冠脈栓塞</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <dialog class="cause-dialog" id="cause-dialog">
+          <div class="cause-dialog-head"><strong>5H5T｜急診緊急處置</strong><button class="quiet" id="close-5h5t" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <p class="meta">點選原因後，只顯示急診現場可立即評估或執行的項目；每個細項按下即寫入急救紀錄。</p>
+            <div class="cause-detail" id="cause-detail">請先點選一張 5H5T 原因卡。</div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="echo-dialog">
+          <div class="cause-dialog-head"><strong>Echo／POCUS 分區</strong><button class="quiet" id="close-echo" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="panel-subhead">1. 選擇位置</div>
+            <div class="chips" id="echo-location-list" style="margin-top:8px;">
+              <button class="chip" data-echo-location="PLAX" data-echo-group="cardiac">PLAX</button>
+              <button class="chip" data-echo-location="PSAX" data-echo-group="cardiac">PSAX</button>
+              <button class="chip" data-echo-location="A4C" data-echo-group="cardiac">A4C</button>
+              <button class="chip" data-echo-location="Subxiphoid" data-echo-group="cardiac">Subxiphoid</button>
+              <button class="chip" data-echo-location="右前胸" data-echo-group="lung">右前胸</button>
+              <button class="chip" data-echo-location="左前胸" data-echo-group="lung">左前胸</button>
+              <button class="chip" data-echo-location="右側胸" data-echo-group="lung">右側胸</button>
+              <button class="chip" data-echo-location="左側胸" data-echo-group="lung">左側胸</button>
+              <button class="chip" data-echo-location="RUQ" data-echo-group="abdomen">RUQ</button>
+              <button class="chip" data-echo-location="LUQ" data-echo-group="abdomen">LUQ</button>
+              <button class="chip" data-echo-location="Pelvis" data-echo-group="abdomen">Pelvis</button>
+              <button class="chip" data-echo-location="Aorta" data-echo-group="aorta">Aorta</button>
+              <button class="chip" data-echo-location="IVC" data-echo-group="ivc">IVC</button>
+            </div>
+            <div class="panel-subhead" style="margin-top:14px;">2. 快速選擇結果</div>
+            <div class="clinical-action-grid" id="echo-result-list" style="margin-top:8px;"><button class="quiet" disabled>請先選位置</button></div>
+            <div class="actions"><span class="chip blue" id="echo-current-selection">尚未選擇位置</span></div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="etco2-dialog">
+          <div class="cause-dialog-head"><strong>ETCO₂ 紀錄</strong><button class="quiet" id="close-etco2" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="shock-form">
+              <label>ETCO₂ 數值（mmHg）<input id="etco2-value" type="number" min="0" max="150" inputmode="numeric" placeholder="例如 18"></label>
+              <label>波形<select id="etco2-waveform"><option>可辨識／持續</option><option>不規則</option><option>無波形</option><option>未確認</option></select></label>
+              <label>趨勢<select id="etco2-trend"><option>穩定</option><option>上升</option><option>下降</option><option>突然上升</option><option>未判定</option></select></label>
+              <label>測量時點<select id="etco2-context"><option>CPR 進行中</option><option>插管後確認</option><option>節律檢查</option><option>ROSC 後</option></select></label>
+            </div>
+            <div class="actions"><button class="primary" id="save-etco2" type="button">加入急救紀錄</button></div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="treatment-dialog">
+          <div class="cause-dialog-head"><strong id="treatment-dialog-title">治療紀錄</strong><button class="quiet" id="close-treatment" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="shock-form">
+              <label>狀態<select id="treatment-status"><option>開始</option><option>完成</option><option>確認位置</option><option>未成功</option><option>取消</option></select></label>
+              <label>位置／數值／結果<input id="treatment-detail" placeholder="例如 R femoral、36.2°C、Lactate 8.0"></label>
+              <label>備註<input id="treatment-note" placeholder="選填"></label>
+            </div>
+            <div class="actions"><button class="primary" id="save-treatment" type="button">加入急救紀錄</button></div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="ecpr-dialog">
+          <div class="cause-dialog-head"><strong>ECPR／ECMO 處置狀態</strong><button class="quiet" id="close-ecpr" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="panel-subhead">選擇目前狀態</div>
+            <div class="role-strip">
+              <button class="quiet" data-ecpr-status="評估中">評估中</button>
+              <button class="quiet" data-ecpr-status="暫不啟動">暫不啟動</button>
+              <button class="primary" id="ecpr-inhospital-activate" type="button">院內正式啟動</button>
+              <button class="quiet" data-ecpr-status="Cannulation 進行中">Cannulation</button>
+              <button class="quiet" data-ecpr-status="ECMO Pumping">Pumping</button>
+              <button class="quiet" data-ecpr-status="轉入 ICU">轉入 ICU</button>
+            </div>
+            <div class="grid cols-2" style="margin-top:14px;">
+              <div class="panel">
+                <div class="panel-head"><h3>團隊通知／到場</h3><span class="chip blue">點擊記錄到場</span></div>
+                <div class="panel-body ecpr-team-grid" id="ecpr-team-grid">
+                  <button class="ecpr-team-card" data-ecpr-team="CVS"><strong>CVS</strong><small>等待院內啟動</small></button>
+                  <button class="ecpr-team-card" data-ecpr-team="OR／麻醉"><strong>OR／麻醉</strong><small>等待院內啟動</small></button>
+                  <button class="ecpr-team-card" data-ecpr-team="體循師"><strong>體循師</strong><small>等待院內啟動</small></button>
+                  <button class="ecpr-team-card" data-ecpr-team="急診護理"><strong>急診護理</strong><small>等待院內啟動</small></button>
+                  <button class="ecpr-team-card" data-ecpr-team="放射／X 光"><strong>放射／X 光</strong><small>等待院內啟動</small></button>
+                  <button class="ecpr-team-card" data-ecpr-team="ICU"><strong>ICU</strong><small>等待院內啟動</small></button>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-head"><h3>里程碑</h3><span class="chip green">點擊記錄時間</span></div>
+                <div class="panel-body ecpr-milestone-grid">
+                  <button class="ecpr-milestone" data-ecpr-milestone="團隊全員到場"><strong>全員到場</strong><small>待完成</small></button>
+                  <button class="ecpr-milestone" data-ecpr-milestone="ECPR Kit 到位"><strong>Kit 到位</strong><small>待完成</small></button>
+                  <button class="ecpr-milestone" data-ecpr-milestone="導管置放開始"><strong>置管開始</strong><small>待完成</small></button>
+                  <button class="ecpr-milestone" data-ecpr-milestone="導管置放完成"><strong>置管完成</strong><small>待完成</small></button>
+                  <button class="ecpr-milestone" data-ecpr-milestone="Pumping 開始"><strong>Pumping</strong><small>Low-flow 終點</small></button>
+                  <button class="ecpr-milestone" data-ecpr-milestone="X 光完成／導管位置確認"><strong>X 光完成</strong><small>待完成</small></button>
+                </div>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="secondary" data-panel-record="ECMO 耗材／處置醫囑開立" type="button">耗材／處置開立</button>
+              <button class="quiet" data-panel-record="ECMO 轉入 ICU 準備" type="button">ICU 轉入準備</button>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="shock-dialog">
+          <div class="cause-dialog-head"><strong>電擊紀錄｜EKG 節律與去顫波形</strong><button class="quiet" id="close-shock" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="shock-form">
+              <label>EKG 節律<select id="shock-rhythm"><option value="VF">VF</option><option value="pVT">pVT</option><option value="PEA">PEA</option><option value="Asystole">Asystole</option></select></label>
+              <label>去顫器波形<select id="shock-waveform"><option value="Biphasic">Biphasic 雙相波</option><option value="Monophasic">Monophasic 單相波</option><option value="Unknown">未知／設備未標示</option></select></label>
+              <label>第幾次電擊<input id="shock-number" type="number" min="1" max="20" value="1"></label>
+              <label>實際能量（J）<input id="shock-energy" type="number" min="0" max="500" value="200"></label>
+              <label>貼片位置<select id="shock-vector"><option>Anterior-lateral</option><option>Anterior-posterior</option><option>Vector change</option><option>其他</option></select></label>
+              <label>結果<select id="shock-result"><option>持續 VF／pVT</option><option>轉為有組織節律</option><option>ROSC</option><option>轉為 PEA／Asystole</option><option>待判讀</option></select></label>
+              <label>資料來源<select id="shock-source"><option>手動紀錄</option><option>去顫器匯入（待介接）</option><option>中央監視系統匯入（待介接）</option></select></label>
+            </div>
+            <div class="shock-guide" id="shock-guide"><strong>雙相波 VF／pVT</strong><br>依製造商建議；初次常見範圍 120–200 J。若不清楚設備建議，可使用最大可用能量。後續可使用相同或較高能量。</div>
+            <div class="chips">
+              <button class="chip" data-shock-joules="120">120 J</button>
+              <button class="chip" data-shock-joules="150">150 J</button>
+              <button class="chip" data-shock-joules="200">200 J</button>
+              <button class="chip" data-shock-joules="360">360 J</button>
+            </div>
+            <div class="actions">
+              <button class="primary" id="save-shock-record" type="button">記錄本次電擊</button>
+              <span class="chip blue">設備介接欄位已預留</span>
+            </div>
+          </div>
+        </dialog>
       </section>
 
       <section class="view" id="strokePanel">
@@ -3104,7 +3619,7 @@
       if (!container) return;
       container.innerHTML = items.map((item, index) => {
         const cls = index < urgentCount ? "urgent" : "";
-        return `<button class="${cls}" data-record-item="${item}">${item}</button>`;
+        return `<button class="${cls}" data-record-item="${item}" data-once-task="true">${item}</button>`;
       }).join("");
     }
 
@@ -3138,6 +3653,8 @@
       if (!caseType) return;
       const config = specialtyMap[caseType] || specialtyMap["ACS / STEMI"];
       if (selectedCaseChip) selectedCaseChip.textContent = `目前選擇：${caseType}`;
+      const emtEcprScreen = document.querySelector("#emt-ecpr-screen");
+      if (emtEcprScreen) emtEcprScreen.hidden = caseType !== "CPR / ECPR";
       if (mobileCaseTitle) mobileCaseTitle.textContent = `新增 ${caseType}`;
       if (mobileLaunchButton) mobileLaunchButton.textContent = `啟動 ${caseType}`;
       if (caseTypeInput) caseTypeInput.value = caseType;
@@ -3238,6 +3755,11 @@
       const target = event.target.closest("[data-record-item]");
       if (!target) return;
       addConsoleRecord(target.dataset.recordItem);
+      if (target.dataset.onceTask === "true") {
+        target.disabled = true;
+        target.setAttribute("aria-hidden", "true");
+        window.setTimeout(() => target.remove(), 140);
+      }
     });
 
     document.addEventListener("click", (event) => {
@@ -3297,6 +3819,148 @@
       const target = event.target.closest("[data-panel-record]");
       if (!target) return;
       addPanelRecord(target, target.dataset.panelRecord);
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("[data-medication]");
+      if (!target) return;
+      const quantity = Number(target.dataset.qty || "1");
+      const medication = target.dataset.medication;
+      const dose = target.dataset.dose;
+      addPanelRecord(target, `${medication} ×${quantity}｜${dose}｜待正式醫囑核對`);
+    });
+
+    document.addEventListener("click", (event) => {
+      const adjuster = event.target.closest("[data-med-qty]");
+      if (!adjuster) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const row = adjuster.closest(".cpr-med-row");
+      const medicationButton = row?.querySelector("[data-medication]");
+      const output = row?.querySelector(".med-qty-control output");
+      if (!medicationButton || !output) return;
+      const current = Number(medicationButton.dataset.qty || "1");
+      const next = Math.min(20, Math.max(1, current + Number(adjuster.dataset.medQty || "0")));
+      medicationButton.dataset.qty = String(next);
+      output.textContent = String(next);
+    });
+
+    document.querySelector("#endo-action")?.addEventListener("click", (event) => {
+      const size = document.querySelector("#endo-size")?.value || "7.5";
+      addPanelRecord(event.currentTarget, `On Endo｜Size ${size}｜位置與 ETCO₂ 待確認`);
+    });
+
+    const narrativeTags = new Set();
+    document.querySelectorAll("[data-narrative-tag]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const tag = button.dataset.narrativeTag;
+        if (narrativeTags.has(tag)) {
+          narrativeTags.delete(tag);
+          button.classList.remove("green");
+        } else {
+          narrativeTags.add(tag);
+          button.classList.add("green");
+        }
+      });
+    });
+
+    document.querySelector("#save-narrative-note")?.addEventListener("click", (event) => {
+      const textarea = document.querySelector("#narrative-note");
+      const note = textarea?.value.trim() || "";
+      const tags = [...narrativeTags].join("、");
+      if (!note && !tags) {
+        textarea?.focus();
+        return;
+      }
+      addPanelRecord(event.currentTarget, `敘述紀錄${tags ? `｜${tags}` : ""}${note ? `｜${note}` : ""}`);
+      if (textarea) textarea.value = "";
+      narrativeTags.clear();
+      document.querySelectorAll("[data-narrative-tag]").forEach((button) => button.classList.remove("green"));
+    });
+
+    document.querySelector("#clear-narrative-note")?.addEventListener("click", () => {
+      const textarea = document.querySelector("#narrative-note");
+      if (textarea) textarea.value = "";
+      narrativeTags.clear();
+      document.querySelectorAll("[data-narrative-tag]").forEach((button) => button.classList.remove("green"));
+    });
+
+    let ecprInhospitalActivated = false;
+    document.querySelector("#ecpr-inhospital-activate")?.addEventListener("click", (event) => {
+      ecprInhospitalActivated = true;
+      addPanelRecord(event.currentTarget, "院內 ECPR 正式啟動｜同步通知 CVS、OR／麻醉、體循師、急診護理、放射與 ICU");
+      event.currentTarget.textContent = `已啟動 ${nowTime()}`;
+      event.currentTarget.className = "ok";
+      document.querySelectorAll("[data-ecpr-team]").forEach((button) => {
+        const status = button.querySelector("small");
+        if (status) status.textContent = "已通知｜點擊記錄到場";
+      });
+    });
+
+    document.querySelectorAll("[data-ecpr-team]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!ecprInhospitalActivated) {
+          addPanelRecord(button, `${button.dataset.ecprTeam} 到場紀錄未建立｜請先院內啟動 ECPR`);
+          return;
+        }
+        if (button.classList.contains("confirmed")) return;
+        button.classList.add("confirmed");
+        const status = button.querySelector("small");
+        if (status) status.textContent = `已到場 ${nowTime()}`;
+        addPanelRecord(button, `${button.dataset.ecprTeam} 已到場`);
+      });
+    });
+
+    document.querySelectorAll("[data-ecpr-milestone]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.classList.contains("completed")) return;
+        button.classList.add("completed");
+        const status = button.querySelector("small");
+        if (status) status.textContent = `完成 ${nowTime()}`;
+        addPanelRecord(button, button.dataset.ecprMilestone);
+      });
+    });
+
+    const emtEcprChecks = new Set();
+    const emtEcprContra = new Set();
+    document.querySelectorAll("[data-emt-ecpr-check]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.dataset.emtEcprCheck;
+        if (emtEcprChecks.has(item)) {
+          emtEcprChecks.delete(item);
+          button.classList.remove("ok");
+        } else {
+          emtEcprChecks.add(item);
+          button.classList.add("ok");
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-emt-ecpr-contra]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.dataset.emtEcprContra;
+        if (emtEcprContra.has(item)) {
+          emtEcprContra.delete(item);
+          button.classList.remove("red");
+        } else {
+          emtEcprContra.add(item);
+          button.classList.add("red");
+        }
+      });
+    });
+
+    document.querySelector("#emt-ecpr-notify")?.addEventListener("click", (event) => {
+      const result = document.querySelector("#emt-ecpr-result");
+      const blocked = emtEcprContra.size > 0;
+      const ready = emtEcprChecks.size === 4 && !blocked;
+      if (result) {
+        result.className = ready ? "chip green" : blocked ? "chip red" : "chip blue";
+        result.textContent = ready ? "符合院前預警條件" : blocked ? "有禁忌｜仍需醫師判定" : `已完成 ${emtEcprChecks.size}/4`;
+      }
+      const note = `EMT ECPR 院前預警｜快速評估 ${emtEcprChecks.size}/4｜禁忌 ${emtEcprContra.size} 項｜院內須重新確認`;
+      const table = document.querySelector("#record-table");
+      if (table) table.insertAdjacentHTML("afterbegin", `<tr><td>${nowTime()}</td><td>${note}</td></tr>`);
+      event.currentTarget.textContent = `已送出 ${nowTime()}`;
     });
 
     const selectedAssessments = new Set();
@@ -3514,6 +4178,11 @@
     document.querySelectorAll("[data-guideline-task]").forEach((button) => {
       button.addEventListener("click", () => {
         if (!cprGuidelineRunning) startGuidelineManager();
+        if (button.dataset.guidelineTask === "shock") {
+          const dialog = document.querySelector("#shock-dialog");
+          if (dialog && !dialog.open) dialog.showModal();
+          return;
+        }
         const taskName = button.querySelector("strong")?.textContent || button.dataset.guidelineTask;
         const kind = button.dataset.kind;
         addPanelRecord(button, `${taskName}｜完成紀錄`);
@@ -3525,7 +4194,7 @@
             if (completed.textContent.includes("尚無")) completed.innerHTML = "";
             completed.insertAdjacentHTML("beforeend", `<span class="chip green">✓ ${taskName} ${nowTime()}</span>`);
           }
-          button.hidden = true;
+          button.remove();
           return;
         }
         const intervalSeconds = Number(button.dataset.interval || 120);
@@ -3539,8 +4208,10 @@
         document.querySelectorAll(".cpr-rhythm").forEach((item) => item.classList.remove("active"));
         button.classList.add("active");
         const shockable = button.dataset.cprRhythm === "shockable";
-        document.querySelector("#shock-task").hidden = !shockable;
-        document.querySelector("#antiarrhythmic-task").hidden = !shockable;
+        const shockTask = document.querySelector("#shock-task");
+        const antiarrhythmicTask = document.querySelector("#antiarrhythmic-task");
+        if (shockTask) shockTask.hidden = !shockable;
+        if (antiarrhythmicTask) antiarrhythmicTask.hidden = !shockable;
         document.querySelectorAll(".shock-only").forEach((item) => item.hidden = !shockable);
         addPanelRecord(button, `節律判讀：${button.textContent.trim()}`);
       });
@@ -3552,16 +4223,16 @@
     });
 
     const reversibleCauseMap = {
-      hypovolemia: { title: "Hypovolemia｜低血容量", assessment: "評估出血、體液流失與循環狀態。", actions: ["控制出血", "輸液／血品路徑評估", "記錄反應"] },
-      hypoxia: { title: "Hypoxia｜缺氧", assessment: "確認氧合、BVM、胸廓起伏、Airway 位置與 ETCO₂。", actions: ["改善 BVM 密合", "確認進階呼吸道", "記錄 ETCO₂"] },
-      acidosis: { title: "Hydrogen ion｜酸中毒", assessment: "檢查 CPR／通氣品質、ABG 與可能病因；NaHCO₃ 非例行 ACLS。", actions: ["優化 CPR／通氣", "取得 ABG", "評估特殊適應症"] },
-      potassium: { title: "Hypo／Hyperkalemia｜鉀異常", assessment: "評估 ECG、檢驗、腎功能與透析史。", actions: ["啟動電解質處置評估", "記錄檢驗", "特殊藥物待醫囑確認"] },
-      hypothermia: { title: "Hypothermia｜低體溫", assessment: "量測核心溫度並啟動院方核准的復溫流程。", actions: ["開始保溫／復溫", "記錄核心溫度", "評估 ECLS 中心"] },
-      pneumothorax: { title: "Tension pneumothorax｜張力性氣胸", assessment: "評估通氣困難、單側呼吸音與 POCUS，避免中斷 CPR。", actions: ["緊急減壓評估", "胸管處置紀錄", "記錄反應"] },
-      tamponade: { title: "Tamponade｜心包填塞", assessment: "由具經驗人員進行 POCUS，評估心包積液與壓塞。", actions: ["心包引流評估", "外科團隊通知", "記錄處置"] },
-      toxins: { title: "Toxins｜毒物", assessment: "確認暴露物質、病史與可用解毒方案。", actions: ["聯絡毒物專家", "展開特殊藥物", "評估 ECLS"] },
-      pulmonary: { title: "Pulmonary thrombosis｜肺動脈栓塞", assessment: "依線索與 POCUS 評估 PE；治療選項依確診程度及院內資源。", actions: ["PE 路徑啟動", "溶栓／取栓評估", "ECLS 評估"] },
-      coronary: { title: "Coronary thrombosis｜冠狀動脈栓塞", assessment: "評估缺血／STEMI 線索與復甦後冠脈介入需求。", actions: ["通知心臟科", "啟動導管室評估", "記錄決策"] }
+      hypovolemia: { title: "Hypovolemia｜低血容量", assessment: "快速找出血與循環不足。", actions: ["外出血控制", "啟動 MTP／血品", "FAST／出血源評估"] },
+      hypoxia: { title: "Hypoxia｜缺氧", assessment: "確認通氣、氧合與人工氣道。", actions: ["BVM／100% O₂", "Endo 位置確認", "Waveform ETCO₂"] },
+      acidosis: { title: "Hydrogen ion｜酸中毒", assessment: "先優化 CPR 與通氣並取得血氣。", actions: ["優化 CPR／通氣", "ABG", "針對原因處置"] },
+      potassium: { title: "Hypo／Hyperkalemia｜鉀異常", assessment: "ECG、檢驗與透析史快速確認。", actions: ["Calcium", "Insulin＋Glucose", "緊急透析聯絡"] },
+      hypothermia: { title: "Hypothermia｜低體溫", assessment: "量測核心溫度。", actions: ["主動復溫", "溫熱輸液", "ECLS 評估"] },
+      pneumothorax: { title: "Tension pneumothorax｜張力性氣胸", assessment: "臨床判斷或 POCUS，不延誤救命處置。", actions: ["立即胸腔減壓", "Finger thoracostomy", "Chest tube"] },
+      tamponade: { title: "Tamponade｜心包填塞", assessment: "POCUS 確認心包積液與壓塞表現。", actions: ["心包穿刺", "外科開胸評估", "CVS 通知"] },
+      toxins: { title: "Toxins｜毒物", assessment: "確認可疑毒物與可用解毒劑。", actions: ["解毒劑開立", "毒物中心／藥師", "ECLS 評估"] },
+      pulmonary: { title: "Pulmonary thrombosis｜肺動脈栓塞", assessment: "依病史、POCUS 與現場證據快速判定。", actions: ["溶栓評估", "取栓團隊通知", "ECPR／ECLS 評估"] },
+      coronary: { title: "Coronary thrombosis｜冠狀動脈栓塞", assessment: "評估 STEMI／冠脈原因。", actions: ["CV 通知", "Cath lab 啟動", "PCI 準備"] }
     };
 
     document.querySelectorAll("[data-cause]").forEach((button) => {
@@ -3572,10 +4243,205 @@
         button.classList.add("active");
         const detail = document.querySelector("#cause-detail");
         if (detail) {
-          detail.innerHTML = `<strong>${config.title}</strong><p>${config.assessment}</p><div class="actions">${config.actions.map((action) => `<button class="quiet" data-panel-record="${config.title}：${action}">${action}</button>`).join("")}</div><div class="actions"><button class="secondary" data-panel-record="${config.title}：正在處理">記錄為正在處理</button><button class="ok" data-panel-record="${config.title}：已排除">記錄已排除</button></div>`;
+          detail.innerHTML = `<strong>${config.title}</strong><p>${config.assessment}</p><div class="panel-subhead">急診立即項目</div><div class="actions">${config.actions.map((action) => `<button class="quiet" data-panel-record="5H5T｜${config.title}｜${action}">${action}</button>`).join("")}</div>`;
         }
         addPanelRecord(button, `5H5T 評估：${config.title}`);
+        const dialog = document.querySelector("#cause-dialog");
+        if (dialog && !dialog.open) dialog.showModal();
       });
+    });
+
+    document.querySelector("#open-5h5t")?.addEventListener("click", () => {
+      const dialog = document.querySelector("#cause-dialog");
+      if (dialog && !dialog.open) dialog.showModal();
+    });
+
+    document.querySelector("#close-5h5t")?.addEventListener("click", () => {
+      document.querySelector("#cause-dialog")?.close();
+    });
+
+    document.querySelector("#open-echo")?.addEventListener("click", () => {
+      const dialog = document.querySelector("#echo-dialog");
+      if (dialog && !dialog.open) dialog.showModal();
+    });
+
+    document.querySelector("#close-echo")?.addEventListener("click", () => {
+      document.querySelector("#echo-dialog")?.close();
+    });
+
+    const echoResultOptions = {
+      cardiac: ["有心臟活動", "無心臟活動", "RV 擴大", "心包積液", "心室充盈不足"],
+      lung: ["Lung sliding (+)", "Lung sliding (−)", "B-lines", "胸水", "無明顯異常"],
+      abdomen: ["Free fluid (−)", "Free fluid (+)", "無明顯異常"],
+      aorta: ["無明顯擴大", "主動脈擴大", "疑似 flap", "未完整判讀"],
+      ivc: ["IVC 扁平", "IVC 擴大", "呼吸變異明顯", "呼吸變異不明顯"]
+    };
+    let echoLocation = "";
+
+    document.querySelectorAll("[data-echo-location]").forEach((button) => {
+      button.addEventListener("click", () => {
+        echoLocation = button.dataset.echoLocation;
+        const group = button.dataset.echoGroup;
+        document.querySelectorAll("[data-echo-location]").forEach((item) => item.classList.remove("green"));
+        button.classList.add("green");
+        const selection = document.querySelector("#echo-current-selection");
+        if (selection) selection.textContent = `目前位置：${echoLocation}`;
+        const list = document.querySelector("#echo-result-list");
+        if (list) {
+          list.innerHTML = (echoResultOptions[group] || []).map((result) => `<button class="quiet" data-echo-result="${result}">${result}</button>`).join("");
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const resultButton = event.target.closest("[data-echo-result]");
+      if (!resultButton || !echoLocation) return;
+      addPanelRecord(resultButton, `Echo／POCUS｜${echoLocation}｜${resultButton.dataset.echoResult}`);
+      resultButton.classList.add("ok");
+    });
+
+    document.querySelector("#open-etco2")?.addEventListener("click", () => {
+      const dialog = document.querySelector("#etco2-dialog");
+      if (dialog && !dialog.open) dialog.showModal();
+    });
+
+    document.querySelector("#close-etco2")?.addEventListener("click", () => {
+      document.querySelector("#etco2-dialog")?.close();
+    });
+
+    document.querySelector("#save-etco2")?.addEventListener("click", (event) => {
+      const valueInput = document.querySelector("#etco2-value");
+      const value = valueInput?.value;
+      if (!value) {
+        valueInput?.focus();
+        return;
+      }
+      const waveform = document.querySelector("#etco2-waveform")?.value || "未確認";
+      const trend = document.querySelector("#etco2-trend")?.value || "未判定";
+      const context = document.querySelector("#etco2-context")?.value || "未記錄";
+      addPanelRecord(event.currentTarget, `ETCO₂｜${value} mmHg｜${waveform}｜${trend}｜${context}`);
+      document.querySelector("#etco2-dialog")?.close();
+    });
+
+    let activeTreatment = "";
+    document.querySelectorAll("[data-treatment]").forEach((button) => {
+      button.addEventListener("click", () => {
+        activeTreatment = button.dataset.treatment;
+        const title = document.querySelector("#treatment-dialog-title");
+        if (title) title.textContent = `${activeTreatment}｜治療紀錄`;
+        const detail = document.querySelector("#treatment-detail");
+        const placeholders = {
+          "IV／IO": "例如 R forearm、L tibia",
+          "A-line": "例如 R radial",
+          "CVP／CVC": "例如 R IJV、R femoral",
+          "Cath／PCI": "例如 Cath lab ready、PCI 完成",
+          "ECMO 參數": "例如 Flow 3.5 L/min、RPM 3200",
+          "溫度管理": "例如 36.2°C",
+          "神經／灌流": "例如 pupil 3+/3+、Lactate 8.0"
+        };
+        if (detail) detail.placeholder = placeholders[activeTreatment] || "輸入位置、數值或結果";
+        const dialog = document.querySelector("#treatment-dialog");
+        if (dialog && !dialog.open) dialog.showModal();
+      });
+    });
+
+    document.querySelector("#close-treatment")?.addEventListener("click", () => {
+      document.querySelector("#treatment-dialog")?.close();
+    });
+
+    document.querySelector("#save-treatment")?.addEventListener("click", (event) => {
+      if (!activeTreatment) return;
+      const status = document.querySelector("#treatment-status")?.value || "已記錄";
+      const detailInput = document.querySelector("#treatment-detail");
+      const noteInput = document.querySelector("#treatment-note");
+      const detail = detailInput?.value.trim() || "";
+      const note = noteInput?.value.trim() || "";
+      addPanelRecord(event.currentTarget, `${activeTreatment}｜${status}${detail ? `｜${detail}` : ""}${note ? `｜${note}` : ""}`);
+      if (detailInput) detailInput.value = "";
+      if (noteInput) noteInput.value = "";
+      document.querySelector("#treatment-dialog")?.close();
+    });
+
+    document.querySelector("#open-ecpr")?.addEventListener("click", () => {
+      const dialog = document.querySelector("#ecpr-dialog");
+      if (dialog && !dialog.open) dialog.showModal();
+    });
+
+    document.querySelector("#close-ecpr")?.addEventListener("click", () => {
+      document.querySelector("#ecpr-dialog")?.close();
+    });
+
+    document.querySelectorAll("[data-ecpr-status]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-ecpr-status]").forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        addPanelRecord(button, `ECPR 狀態｜${button.dataset.ecprStatus}`);
+      });
+    });
+
+    const shockRhythm = document.querySelector("#shock-rhythm");
+    const shockWaveform = document.querySelector("#shock-waveform");
+    const shockEnergy = document.querySelector("#shock-energy");
+    const shockGuide = document.querySelector("#shock-guide");
+    const saveShockRecord = document.querySelector("#save-shock-record");
+
+    function updateShockGuide() {
+      if (!shockRhythm || !shockWaveform || !shockEnergy || !shockGuide || !saveShockRecord) return;
+      const nonshockable = shockRhythm.value === "PEA" || shockRhythm.value === "Asystole";
+      if (nonshockable) {
+        shockEnergy.value = "0";
+        shockGuide.innerHTML = `<strong>${shockRhythm.value} 為非電擊節律</strong><br>持續高品質 CPR、Epinephrine 與可逆原因處置；此處可記錄「未電擊」。`;
+        saveShockRecord.textContent = "記錄未電擊／節律確認";
+        return;
+      }
+      saveShockRecord.textContent = "記錄本次電擊";
+      if (shockWaveform.value === "Monophasic") {
+        shockEnergy.value = "360";
+        shockGuide.innerHTML = "<strong>單相波 VF／pVT</strong><br>AHA ACLS 範本：360 J。";
+      } else if (shockWaveform.value === "Biphasic") {
+        if (Number(shockEnergy.value) === 0 || Number(shockEnergy.value) === 360) shockEnergy.value = "200";
+        shockGuide.innerHTML = "<strong>雙相波 VF／pVT</strong><br>依製造商建議；初次常見範圍 120–200 J。若不清楚設備建議，可使用最大可用能量。後續可使用相同或較高能量。";
+      } else {
+        shockGuide.innerHTML = "<strong>設備波形未知</strong><br>依設備標示或製造商建議確認；若雙相波建議未知，AHA 演算法允許使用最大可用能量。";
+      }
+    }
+
+    shockRhythm?.addEventListener("change", updateShockGuide);
+    shockWaveform?.addEventListener("change", updateShockGuide);
+
+    document.querySelectorAll("[data-shock-joules]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (shockEnergy) shockEnergy.value = button.dataset.shockJoules;
+      });
+    });
+
+    document.querySelector("#close-shock")?.addEventListener("click", () => {
+      document.querySelector("#shock-dialog")?.close();
+    });
+
+    saveShockRecord?.addEventListener("click", (event) => {
+      const rhythm = shockRhythm?.value || "待判讀";
+      const waveform = shockWaveform?.value || "Unknown";
+      const energy = Number(shockEnergy?.value || "0");
+      const numberInput = document.querySelector("#shock-number");
+      const shockNumber = Number(numberInput?.value || "1");
+      const vector = document.querySelector("#shock-vector")?.value || "未記錄";
+      const result = document.querySelector("#shock-result")?.value || "待判讀";
+      const source = document.querySelector("#shock-source")?.value || "手動紀錄";
+      const nonshockable = rhythm === "PEA" || rhythm === "Asystole";
+      const text = nonshockable
+        ? `節律確認｜${rhythm}｜非電擊節律｜${source}`
+        : `第 ${shockNumber} 次電擊｜${rhythm}｜${waveform}｜${energy} J｜${vector}｜${result}｜${source}`;
+      addPanelRecord(event.currentTarget, text);
+      if (!nonshockable) {
+        guidelineTaskState.set("shock", { nextDue: Date.now() + 120000 });
+        const shockTask = document.querySelector("#shock-task");
+        shockTask?.classList.remove("due");
+        shockTask?.classList.add("waiting");
+        updateGuidelineTasks();
+        if (numberInput) numberInput.value = String(shockNumber + 1);
+      }
+      document.querySelector("#shock-dialog")?.close();
     });
 
     let selectedEntryPathway = "Undifferentiated";
