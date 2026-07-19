@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>院前 ACS 急救啟動平台原型</title>
+  <title>急重症整合啟動平台原型</title>
   <style>
     :root {
       --bg: #f6f7f9;
@@ -897,8 +897,8 @@
   <header>
     <div class="topbar">
       <div class="brand">
-        <h1>院前 ACS 急救啟動平台</h1>
-        <p>EMT 到心導管室的一條線協作原型</p>
+        <h1>急重症整合啟動平台</h1>
+        <p>串聯院前救護、急診與專科團隊的即時協作原型</p>
       </div>
       <div class="status-strip" aria-label="即時狀態">
         <div class="status-item"><span>活躍案件</span><strong>3</strong></div>
@@ -1270,6 +1270,7 @@
             </div>
           </div>
         </div>
+
       </section>
 
       <section class="view" id="cardio">
@@ -1959,6 +1960,48 @@
             </div>
           </div>
         </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>床邊快速評估與醫囑草稿</h3>
+            <span class="chip blue">現場快速完成｜正式醫囑仍須 HIS/EMR 簽署</span>
+          </div>
+          <div class="panel-body">
+            <div class="grid cols-2">
+              <div>
+                <div class="panel-subhead">快速評估</div>
+                <div class="chips" id="quick-assessment-actions">
+                  <button class="chip" data-quick-assessment="意識清楚，GCS E4V5M6">GCS</button>
+                  <button class="chip" data-quick-assessment="呼吸道暢通">Airway</button>
+                  <button class="chip" data-quick-assessment="呼吸狀態已評估">Breathing</button>
+                  <button class="chip" data-quick-assessment="循環狀態已評估">Circulation</button>
+                  <button class="chip" data-quick-assessment="床邊超音波已評估">POCUS</button>
+                  <button class="chip" data-quick-assessment="疼痛評估已完成">疼痛</button>
+                </div>
+                <label style="margin-top:12px;">補充評估<textarea id="quick-assessment-note" placeholder="只補充異常發現或重要決策"></textarea></label>
+              </div>
+              <div>
+                <div class="panel-subhead">常用醫囑草稿</div>
+                <div class="chips" id="quick-order-actions">
+                  <button class="chip blue" data-quick-order="心電圖監測">心電監測</button>
+                  <button class="chip blue" data-quick-order="12 lead ECG">12 lead ECG</button>
+                  <button class="chip blue" data-quick-order="建立靜脈路徑並抽血">IV＋抽血</button>
+                  <button class="chip blue" data-quick-order="N/S 500 mL">N/S 500 mL</button>
+                  <button class="chip blue" data-quick-order="床邊超音波">POCUS</button>
+                  <button class="chip blue" data-quick-order="專科會診">專科會診</button>
+                </div>
+                <div class="actions">
+                  <button class="secondary" id="save-clinical-draft">儲存現場紀錄</button>
+                  <button class="quiet" id="copy-order-draft">複製醫囑草稿</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel-subhead">本次現場紀錄</div>
+            <div class="record-list" id="clinical-draft-records">
+              <div class="record-row"><span>--:--</span><span>尚未建立評估或醫囑草稿</span></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="view" id="nurse">
@@ -1995,26 +2038,28 @@
 
           <div class="panel">
             <div class="panel-head">
-              <h3>CPCR / 轉出交班摘要</h3>
-              <span class="chip red">護理交班</span>
+              <h3>通知 ICU 並準備轉入摘要</h3>
+              <span class="chip red" id="icu-transfer-status">尚未送出</span>
             </div>
             <div class="panel-body">
               <div class="form-grid">
-                <label>CPCR 狀態<select><option>未啟動</option><option>CPR 進行中</option><option>ROSC</option><option>終止急救</option></select></label>
-                <label>壓胸開始時間<input type="time"></label>
-                <label>節律<select><option>VF / pVT</option><option>PEA</option><option>Asystole</option><option>ROSC rhythm</option></select></label>
-                <label>電擊次數<input value="0"></label>
-                <label>Epinephrine<input placeholder="例：1 mg IV 09:28"></label>
-                <label>Airway<select><option>BVM</option><option>i-gel / LMA</option><option>ETT</option></select></label>
-                <label>轉出地點<select><option>急診留觀</option><option>ICU</option><option>病房</option><option>心導管室</option><option>OR</option></select></label>
-                <label>交班對象<input placeholder="接手單位 / 姓名"></label>
-                <label class="full">護理交班摘要<textarea>院前資料、到院處置、IV/輸液、用藥、檢查、CPCR 狀態與轉出注意事項。</textarea></label>
+                <label>接收單位<select id="transfer-unit"><option>ICU</option><option>病房</option><option>心導管室</option><option>OR</option></select></label>
+                <label>預計轉入時間<input id="transfer-eta" type="time"></label>
+                <label>最新 V/S 時間<input id="transfer-vs-time" type="time"></label>
+                <label>最新 V/S<input id="transfer-vs" value="BP 108/64、HR 92、SpO₂ 97%"></label>
+                <label>管路／氧療<input id="transfer-lines" value="左手 18G；O₂ nasal cannula 3 L/min"></label>
+                <label>未完成事項<input id="transfer-pending" value="Troponin 複驗；心內追蹤"></label>
+                <label class="full">轉入注意事項<textarea id="transfer-note">院前資料、急診處置、用藥、檢查與轉入注意事項將自動整理為 NIS 摘要。</textarea></label>
               </div>
+              <div class="chip" id="vs-freshness" style="margin-top:12px;">請確認轉出前 V/S</div>
               <div class="actions">
-                <button class="primary">完成護理交班</button>
-                <button class="warn">補記 CPCR</button>
-                <button class="secondary">補記給藥</button>
-                <button class="ok">標記轉出</button>
+                <button class="primary" id="send-icu-transfer">完成摘要並通知 ICU</button>
+                <button class="quiet" id="preview-nis-summary">預覽 NIS 摘要</button>
+                <button class="secondary" id="copy-nis-summary">複製 NIS 摘要</button>
+              </div>
+              <label style="margin-top:12px;">NIS 轉入摘要<textarea id="nis-summary" readonly>尚未產生摘要</textarea></label>
+              <div class="actions">
+                <button class="ok" id="mark-icu-confirmed" disabled>記錄 ICU 已回覆接收</button>
               </div>
             </div>
           </div>
@@ -2830,6 +2875,138 @@
       const target = event.target.closest("[data-panel-record]");
       if (!target) return;
       addPanelRecord(target, target.dataset.panelRecord);
+    });
+
+    const selectedAssessments = new Set();
+    const selectedOrders = new Set();
+    const clinicalDraftRecords = document.querySelector("#clinical-draft-records");
+
+    document.querySelectorAll("[data-quick-assessment]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.quickAssessment;
+        if (selectedAssessments.has(value)) {
+          selectedAssessments.delete(value);
+          button.classList.remove("green");
+        } else {
+          selectedAssessments.add(value);
+          button.classList.add("green");
+        }
+      });
+    });
+
+    document.querySelectorAll("[data-quick-order]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.quickOrder;
+        if (selectedOrders.has(value)) {
+          selectedOrders.delete(value);
+          button.classList.remove("green");
+        } else {
+          selectedOrders.add(value);
+          button.classList.add("green");
+        }
+      });
+    });
+
+    function clinicalDraftText() {
+      const note = document.querySelector("#quick-assessment-note")?.value.trim();
+      const assessment = [...selectedAssessments].join("、") || "未選擇快速評估";
+      const orders = [...selectedOrders].join("、") || "未選擇醫囑草稿";
+      return `評估：${assessment}${note ? `；補充：${note}` : ""}\n醫囑草稿：${orders}\n※ 本內容僅為現場紀錄／草稿，正式醫囑須於 HIS/EMR 確認簽署。`;
+    }
+
+    document.querySelector("#save-clinical-draft")?.addEventListener("click", () => {
+      if (!clinicalDraftRecords) return;
+      if (clinicalDraftRecords.textContent.includes("尚未建立")) clinicalDraftRecords.innerHTML = "";
+      const row = document.createElement("div");
+      row.className = "record-row";
+      row.innerHTML = `<span>${nowTime()}</span><span>${clinicalDraftText().replace(/\n/g, "<br>")}</span>`;
+      clinicalDraftRecords.prepend(row);
+    });
+
+    async function copyText(value) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return true;
+      } catch (error) {
+        const temp = document.createElement("textarea");
+        temp.value = value;
+        document.body.appendChild(temp);
+        temp.select();
+        const copied = document.execCommand("copy");
+        temp.remove();
+        return copied;
+      }
+    }
+
+    document.querySelector("#copy-order-draft")?.addEventListener("click", async (event) => {
+      const copied = await copyText(clinicalDraftText());
+      event.currentTarget.textContent = copied ? "已複製醫囑草稿" : "複製失敗";
+    });
+
+    const transferVsTime = document.querySelector("#transfer-vs-time");
+    const vsFreshness = document.querySelector("#vs-freshness");
+    const nisSummary = document.querySelector("#nis-summary");
+    const icuTransferStatus = document.querySelector("#icu-transfer-status");
+    const markIcuConfirmed = document.querySelector("#mark-icu-confirmed");
+
+    function updateVsFreshness() {
+      if (!transferVsTime?.value || !vsFreshness) return false;
+      const [hours, minutes] = transferVsTime.value.split(":").map(Number);
+      const measured = new Date();
+      measured.setHours(hours, minutes, 0, 0);
+      let age = Math.floor((Date.now() - measured.getTime()) / 60000);
+      if (age < 0) age += 24 * 60;
+      const fresh = age <= 15;
+      vsFreshness.className = fresh ? "chip green" : "chip red";
+      vsFreshness.textContent = fresh ? `V/S 已更新（${age} 分鐘前）` : `V/S 已超過 15 分鐘，請先重新量測`;
+      return fresh;
+    }
+
+    transferVsTime?.addEventListener("change", updateVsFreshness);
+
+    function buildNisSummary() {
+      const unit = document.querySelector("#transfer-unit")?.value || "ICU";
+      const eta = document.querySelector("#transfer-eta")?.value || "待確認";
+      const vs = document.querySelector("#transfer-vs")?.value || "未填寫";
+      const vsTime = transferVsTime?.value || "未填寫";
+      const lines = document.querySelector("#transfer-lines")?.value || "未填寫";
+      const pending = document.querySelector("#transfer-pending")?.value || "無";
+      const note = document.querySelector("#transfer-note")?.value || "無";
+      return `【急診轉入摘要】\n接收單位：${unit}\n預計轉入：${eta}\n最新 V/S（${vsTime}）：${vs}\n管路／氧療：${lines}\n未完成事項：${pending}\n轉入注意事項：${note}\n建立時間：${nowStamp()}\n※ 請 ICU 擷取後核對，抵達時重新量測 V/S。`;
+    }
+
+    document.querySelector("#preview-nis-summary")?.addEventListener("click", () => {
+      if (nisSummary) nisSummary.value = buildNisSummary();
+    });
+
+    document.querySelector("#copy-nis-summary")?.addEventListener("click", async (event) => {
+      const text = buildNisSummary();
+      if (nisSummary) nisSummary.value = text;
+      const copied = await copyText(text);
+      event.currentTarget.textContent = copied ? "已複製 NIS 摘要" : "複製失敗";
+    });
+
+    document.querySelector("#send-icu-transfer")?.addEventListener("click", () => {
+      const fresh = updateVsFreshness();
+      if (!fresh) {
+        transferVsTime?.focus();
+        return;
+      }
+      if (nisSummary) nisSummary.value = buildNisSummary();
+      if (icuTransferStatus) {
+        icuTransferStatus.className = "chip blue";
+        icuTransferStatus.textContent = "已送出｜等待 ICU 回覆";
+      }
+      if (markIcuConfirmed) markIcuConfirmed.disabled = false;
+    });
+
+    markIcuConfirmed?.addEventListener("click", () => {
+      if (icuTransferStatus) {
+        icuTransferStatus.className = "chip green";
+        icuTransferStatus.textContent = `ICU 已回覆接收 ${nowTime()}`;
+      }
+      markIcuConfirmed.textContent = "已記錄 ICU 回覆";
+      markIcuConfirmed.disabled = true;
     });
 
     buttons.forEach((button) => {
