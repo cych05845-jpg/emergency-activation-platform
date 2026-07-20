@@ -990,6 +990,31 @@
       font-weight: 800;
     }
 
+    #emt .ecpr-screen-grid button[data-emt-ecpr-check] {
+      background: #dcfce7;
+      border-color: rgba(22, 163, 74, .35);
+      color: #14532d;
+      font-weight: 850;
+    }
+
+    #emt .ecpr-screen-grid button[data-emt-ecpr-contra] {
+      background: #ffe4e6;
+      border-color: rgba(244, 63, 94, .35);
+      color: #881337;
+      font-weight: 850;
+    }
+
+    #emt .ecpr-screen-grid button.ok,
+    #emt .ecpr-screen-grid button.active {
+      outline: 4px solid #16a34a;
+      outline-offset: -4px;
+    }
+
+    #emt .ecpr-screen-grid button.red {
+      outline: 4px solid #e11d48;
+      outline-offset: -4px;
+    }
+
     .ami-activation-flow {
       display: grid;
       grid-template-columns: minmax(280px, 1.05fr) minmax(320px, 1fr);
@@ -1130,6 +1155,12 @@
       border: 1px solid rgba(226, 232, 240, .9);
       font-size: 13px;
       line-height: 1.45;
+    }
+
+    .emt-case-flow[hidden],
+    .emt-hospital-only[hidden],
+    .emt-optional-detail[hidden] {
+      display: none !important;
     }
 
     .clinical-record-panel .record-row {
@@ -1698,6 +1729,7 @@
       <button class="nav-btn" data-view="cprConsole">急救執行</button>
       <button class="nav-btn" data-view="nurse">交接轉歸</button>
       <button class="nav-btn" data-view="quality">品質回顧</button>
+      <button class="nav-btn" data-view="accountAdmin">帳號 / 班表</button>
     </nav>
 
     <main>
@@ -1889,7 +1921,7 @@
           </div>
         </div>
 
-        <div class="panel emt-ecpr-card" id="emt-ecpr-screen" hidden style="margin-bottom:14px;">
+        <div class="panel emt-ecpr-card emt-case-flow" data-emt-case-flow="CPR / ECPR" id="emt-ecpr-screen" hidden style="margin-bottom:14px;">
           <div class="panel-head">
             <h3>EMT｜ECPR 快速篩選</h3>
             <span class="chip red">只做院前預警，不取代院內正式啟動</span>
@@ -1922,7 +1954,64 @@
           </div>
         </div>
 
-        <div class="grid cols-3" style="margin-bottom:14px;">
+        <div class="panel emt-case-flow" data-emt-case-flow="Stroke" hidden style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>EMT｜Stroke 院前預警</h3>
+            <span class="chip green">只填必要資訊</span>
+          </div>
+          <div class="panel-body">
+            <div class="panel-subhead">FAST 快速評估</div>
+            <div class="ecpr-screen-grid">
+              <button class="quiet" data-record-item="Stroke FAST：Face droop / 臉歪">Face<br><small>臉歪</small></button>
+              <button class="quiet" data-record-item="Stroke FAST：Arm weakness / 手無力">Arm<br><small>手無力</small></button>
+              <button class="quiet" data-record-item="Stroke FAST：Speech abnormal / 說話異常">Speech<br><small>說話異常</small></button>
+              <button class="quiet" data-record-item="Stroke FAST 陽性">FAST 陽性</button>
+            </div>
+            <div class="ecpr-screen-grid" style="margin-top:10px;">
+              <button class="quiet" data-record-item="Stroke 最後正常時間已記錄">最後正常時間</button>
+              <button class="quiet" data-record-item="Stroke 血糖已測">血糖</button>
+              <button class="quiet" data-record-item="Stroke 預計到院時間已更新">預計到院</button>
+              <button class="quiet" data-record-item="Stroke 抗凝血用藥未知 / 待確認">抗凝血藥</button>
+            </div>
+            <div class="actions">
+              <button class="primary" data-record-item="送出 Stroke 院前預警">送出 Stroke 院前預警</button>
+              <span class="chip blue">到院後由急診 / 神內接續 CTA、EVT 決策</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel emt-case-flow" data-emt-case-flow="Major Trauma" hidden style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>EMT｜Trauma Blue 院前預警</h3>
+            <span class="chip red">高危險機轉 + 目前危險狀態</span>
+          </div>
+          <div class="panel-body">
+            <div class="panel-subhead">高危險受傷機轉（TTAS / 本院 SOP 待核定字句）</div>
+            <div class="ecpr-screen-grid">
+              <button class="quiet" data-record-item="Trauma 高危險機轉：高速車禍 / 車體嚴重變形">高速車禍<br><small>車體變形</small></button>
+              <button class="quiet" data-record-item="Trauma 高危險機轉：翻覆 / 拋出車外">翻覆 / 拋出</button>
+              <button class="quiet" data-record-item="Trauma 高危險機轉：同車死亡">同車死亡</button>
+              <button class="quiet" data-record-item="Trauma 高危險機轉：行人 / 機車遭撞擊">行人 / 機車<br><small>遭撞擊</small></button>
+              <button class="quiet" data-record-item="Trauma 高危險機轉：重大墜落">重大墜落</button>
+              <button class="quiet" data-record-item="Trauma 高危險機轉：壓砸 / 穿刺傷">壓砸 / 穿刺</button>
+            </div>
+            <div class="panel-subhead" style="margin-top:12px;">目前危險狀態</div>
+            <div class="ecpr-screen-grid">
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：GCS 下降">GCS 下降</button>
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：低血壓 / Shock">低血壓 / Shock</button>
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：大量出血">大量出血</button>
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：呼吸窘迫">呼吸窘迫</button>
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：疑似骨盆 / 多處長骨骨折">骨盆 / 多處骨折</button>
+              <button class="quiet" data-record-item="Trauma 目前危險狀態：燒燙傷 / 吸入性傷害">燒燙傷 / 吸入傷</button>
+            </div>
+            <div class="actions">
+              <button class="primary" data-record-item="送出 Trauma blue 院前預警">送出 Trauma blue 院前預警</button>
+              <span class="chip blue">到院後接 Primary survey、FAST、CT、OR/ICU 分流</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-3 emt-optional-detail" hidden style="margin-bottom:14px;">
           <div class="panel">
             <div class="panel-head">
               <h3>一鍵通報</h3>
@@ -1982,7 +2071,7 @@
           </div>
         </div>
 
-        <div class="panel" style="margin-bottom:14px;">
+        <div class="panel emt-hospital-only" hidden style="margin-bottom:14px;">
           <div class="panel-head">
             <h3>急救面板模型</h3>
             <span class="chip red">啟動時間 + 處置順序 + 藥物 + 紀錄</span>
@@ -2039,7 +2128,7 @@
           </div>
         </div>
 
-        <div class="grid cols-2">
+        <div class="grid cols-2 emt-optional-detail" hidden>
           <div class="mobile-frame">
             <div class="mobile-screen">
               <div class="mobile-title">
@@ -2096,7 +2185,7 @@
           </div>
         </div>
 
-        <div class="panel" style="margin-top:14px;">
+        <div class="panel emt-case-flow" data-emt-case-flow="ACS / STEMI" style="margin-top:14px;">
           <div class="panel-head">
             <h3>EMT｜AMI 一鍵啟動與入院媒合</h3>
             <span class="chip red">仿 LINE 通報流程</span>
@@ -3690,12 +3779,94 @@
           </div>
         </div>
       </section>
+
+      <section class="view" id="accountAdmin">
+        <div class="toolbar">
+          <div>
+            <h2>帳號 / 班表管理</h2>
+            <div class="meta">原型版：帳號與班表暫存在本機瀏覽器；正式版建議改接 Firebase Auth / Firestore 或院內帳號系統。</div>
+          </div>
+          <span class="chip blue" id="login-status-chip">未登入</span>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="panel-head"><h3>登入測試</h3><span class="chip">原型帳號</span></div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <label>帳號<input id="login-account" placeholder="例如 emt01 / er01 / admin"></label>
+                <label>密碼<input id="login-password" type="password" placeholder="原型密碼"></label>
+                <label>角色<select id="login-role">
+                  <option>EMT / 分隊</option>
+                  <option>醫療人員</option>
+                  <option>行政管理</option>
+                </select></label>
+                <label>單位<input id="login-unit" placeholder="例如 東區91 / ER / CV / 行政"></label>
+              </div>
+              <div class="actions">
+                <button class="primary" id="mock-login" type="button">登入</button>
+                <button class="quiet" id="mock-logout" type="button">登出</button>
+              </div>
+              <table>
+                <tr><th>角色</th><th>範例帳號</th><th>用途</th></tr>
+                <tr><td>EMT / 分隊</td><td>emt01 / 00000</td><td>院前啟動、EKG/FAST/ECPR/Trauma 預警</td></tr>
+                <tr><td>醫療人員</td><td>er01 / 11111</td><td>接收判讀、急救面板、專科回覆</td></tr>
+                <tr><td>行政管理</td><td>admin / 99999</td><td>帳號、角色、班表、通知對象管理</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>目前資料庫位置</h3><span class="chip orange">Prototype</span></div>
+            <div class="panel-body">
+              <table>
+                <tr><th>資料</th><th>目前原型</th><th>正式建議</th></tr>
+                <tr><td>案件紀錄</td><td>localStorage</td><td>Firestore / 院內 DB</td></tr>
+                <tr><td>帳號</td><td>localStorage 測試帳號</td><td>Firebase Auth / AD / LDAP</td></tr>
+                <tr><td>班表</td><td>localStorage 班表草稿</td><td>Firestore roster collection</td></tr>
+                <tr><td>推播 token</td><td>原型 token</td><td>FCM token + role/topic</td></tr>
+              </table>
+              <p class="meta">現在主要資料庫是瀏覽器本機儲存，不會跨裝置同步；上線版要改成雲端或院內資料庫。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head"><h3>行政管理｜匯入班表</h3><span class="chip green">Excel / Word / 手動輸入</span></div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <label>班表月份<input id="roster-month" type="month"></label>
+              <label>班表類型<select id="roster-type">
+                <option>CV 心內醫師</option>
+                <option>心導管室</option>
+                <option>神內 Stroke Team</option>
+                <option>創傷科</option>
+                <option>急診醫師 / 專師</option>
+                <option>護理站</option>
+                <option>EMT / 分隊</option>
+              </select></label>
+              <label class="full">匯入檔案<input id="roster-file" type="file" accept=".xlsx,.xls,.csv,.doc,.docx"></label>
+              <label class="full">直接輸入<textarea id="roster-manual" placeholder="一行一筆，例如：2026-07-20 白班 CV 王醫師 5022"></textarea></label>
+            </div>
+            <div class="actions">
+              <button class="primary" id="import-roster" type="button">匯入 / 儲存班表</button>
+              <button class="secondary" id="add-roster-sample" type="button">加入範例</button>
+              <button class="quiet" id="clear-roster" type="button">清除班表草稿</button>
+            </div>
+            <div class="record-list" id="roster-list">
+              <div class="record-row"><span>--:--</span><span>尚未匯入班表</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
   <script>
     const APP_SCHEMA_VERSION = 1;
     const APP_STORAGE_KEY = "emergencyActivationPlatform.activeEvent.v1";
+    const ACCOUNT_STORAGE_KEY = "emergencyActivationPlatform.accounts.v1";
+    const ROSTER_STORAGE_KEY = "emergencyActivationPlatform.roster.v1";
     const APP_VERSION = "prototype-0.2";
 
     const StorageService = {
@@ -3731,7 +3902,7 @@
 
     function isSensitiveControl(control) {
       const labelText = control.closest("label")?.textContent || "";
-      return /姓名|身分證|居留證|病歷號|生日/.test(labelText);
+      return control.type === "password" || /姓名|身分證|居留證|病歷號|生日|密碼|Token|token|Barcode/.test(labelText);
     }
 
     function collectEventState() {
@@ -4133,6 +4304,12 @@
       if (recordTable) {
         recordTable.innerHTML = config.records.map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td></tr>`).join("");
       }
+      document.querySelectorAll("[data-emt-case-flow]").forEach((section) => {
+        section.hidden = section.dataset.emtCaseFlow !== caseType;
+      });
+      document.querySelectorAll(".emt-optional-detail, .emt-hospital-only").forEach((section) => {
+        section.hidden = true;
+      });
       renderRescueConsole(config, caseType);
     }
 
@@ -4202,6 +4379,7 @@
       const target = event.target.closest("[data-record-item]");
       if (!target) return;
       addConsoleRecord(target.dataset.recordItem);
+      if (target.closest("#emt")) target.classList.toggle("active");
       if (target.dataset.onceTask === "true") {
         target.disabled = true;
         target.setAttribute("aria-hidden", "true");
@@ -5254,6 +5432,109 @@
       activeEventStartedAt = null;
       setStorageMessage("本機測試事件已清除");
     });
+
+    const demoAccounts = {
+      emt01: { password: "00000", role: "EMT / 分隊", unit: "東區91" },
+      er01: { password: "11111", role: "醫療人員", unit: "ER" },
+      admin: { password: "99999", role: "行政管理", unit: "行政" }
+    };
+
+    function setLoginStatus(account) {
+      const chip = document.querySelector("#login-status-chip");
+      if (!chip) return;
+      if (!account) {
+        chip.className = "chip blue";
+        chip.textContent = "未登入";
+        return;
+      }
+      chip.className = account.role === "行政管理" ? "chip green" : "chip blue";
+      chip.textContent = `${account.role}｜${account.unit}`;
+    }
+
+    document.querySelector("#mock-login")?.addEventListener("click", () => {
+      const accountInput = document.querySelector("#login-account");
+      const passwordInput = document.querySelector("#login-password");
+      const roleInput = document.querySelector("#login-role");
+      const unitInput = document.querySelector("#login-unit");
+      const accountId = accountInput?.value.trim() || "";
+      const password = passwordInput?.value || "";
+      const preset = demoAccounts[accountId];
+      if (preset && preset.password !== password) {
+        setLoginStatus(null);
+        alert("密碼錯誤。原型帳號請使用表格中的測試密碼。");
+        return;
+      }
+      const account = {
+        id: accountId || "local-user",
+        role: preset?.role || roleInput?.value || "醫療人員",
+        unit: preset?.unit || unitInput?.value || "未指定單位",
+        loginAt: new Date().toISOString()
+      };
+      if (roleInput) roleInput.value = account.role;
+      if (unitInput) unitInput.value = account.unit;
+      localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(account));
+      setLoginStatus(account);
+      scheduleAutoSave();
+    });
+
+    document.querySelector("#mock-logout")?.addEventListener("click", () => {
+      localStorage.removeItem(ACCOUNT_STORAGE_KEY);
+      setLoginStatus(null);
+    });
+
+    function getRosterRecords() {
+      try {
+        return JSON.parse(localStorage.getItem(ROSTER_STORAGE_KEY) || "[]");
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function renderRosterList(records = []) {
+      const list = document.querySelector("#roster-list");
+      if (!list) return;
+      if (!records.length) {
+        list.innerHTML = `<div class="record-row">${recordRowHtml("--:--", "尚未匯入班表")}</div>`;
+        return;
+      }
+      list.innerHTML = records.map((record) => (
+        `<div class="record-row">${recordRowHtml(record.time || nowTime(), `${record.type}｜${record.month || "未填月份"}｜${record.text}`)}</div>`
+      )).join("");
+    }
+
+    function saveRosterRecords(records) {
+      localStorage.setItem(ROSTER_STORAGE_KEY, JSON.stringify(records));
+      renderRosterList(records);
+    }
+
+    document.querySelector("#import-roster")?.addEventListener("click", () => {
+      const month = document.querySelector("#roster-month")?.value || "未填月份";
+      const type = document.querySelector("#roster-type")?.value || "未指定班表";
+      const file = document.querySelector("#roster-file")?.files?.[0];
+      const manual = document.querySelector("#roster-manual")?.value.trim();
+      const text = file
+        ? `檔案匯入：${file.name}（正式版再解析 Word / Excel 內容）`
+        : manual || "手動班表未填內容";
+      const records = getRosterRecords();
+      records.unshift({ month, type, text, time: nowTime(), createdAt: new Date().toISOString() });
+      saveRosterRecords(records.slice(0, 20));
+      scheduleAutoSave();
+    });
+
+    document.querySelector("#add-roster-sample")?.addEventListener("click", () => {
+      const manual = document.querySelector("#roster-manual");
+      if (manual) {
+        manual.value = "2026-07-20 白班 CV 王醫師 5022\n2026-07-20 夜班 CV 林醫師 5023\n2026-07-20 心導管室 on call 陳護理師 5099";
+      }
+    });
+
+    document.querySelector("#clear-roster")?.addEventListener("click", () => {
+      localStorage.removeItem(ROSTER_STORAGE_KEY);
+      renderRosterList([]);
+    });
+
+    setLoginStatus(JSON.parse(localStorage.getItem(ACCOUNT_STORAGE_KEY) || "null"));
+    renderRosterList(getRosterRecords());
 
     const storedEventResult = StorageService.load();
     if (storedEventResult.status === "ok") {
