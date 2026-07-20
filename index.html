@@ -136,6 +136,28 @@
       font-weight: 700;
     }
 
+    .nav-btn.locked,
+    .entry-role.locked,
+    .module-card.locked {
+      display: none !important;
+    }
+
+    .role-gate {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .role-gate strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 2px;
+    }
+
     main {
       min-width: 0;
     }
@@ -437,23 +459,328 @@
     .case-row {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
+      padding: 10px;
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
+      grid-template-columns: minmax(0, 1fr) 132px;
+      gap: 8px;
+      align-items: stretch;
       background: #fff;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    button.case-row {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    button.case-row:hover {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .case-row.active {
+      border-color: var(--blue);
+      box-shadow: inset 0 0 0 2px rgba(36, 89, 166, .14);
+    }
+
+    .case-row.critical {
+      border-color: #ef9a95;
+      background: #fff1f0;
+    }
+
+    .case-row.stroke {
+      border-color: #9ecdb0;
+      background: #f0fbf4;
+    }
+
+    .case-row.cpr {
+      border-color: #ef9a95;
+      background: #fff4f4;
+    }
+
+    .case-row.trauma {
+      border-color: #f0b67a;
+      background: #fff6eb;
+    }
+
+    .case-row.warning {
+      border-color: #9fb9df;
+      background: #f1f6ff;
     }
 
     .case-row h4 {
-      margin: 0 0 5px;
-      font-size: 15px;
+      margin: 0 0 4px;
+      font-size: 14px;
     }
 
     .case-row p {
       margin: 0;
       color: var(--muted);
+      font-size: 12px;
+    }
+
+    .case-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 8px 6px 0;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid currentColor;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .case-row.critical .case-type-badge,
+    .case-row.cpr .case-type-badge {
+      color: var(--danger);
+    }
+
+    .case-row.stroke .case-type-badge {
+      color: var(--green);
+    }
+
+    .case-row.trauma .case-type-badge {
+      color: #b15c09;
+    }
+
+    .case-waiting {
+      display: grid;
+      gap: 5px;
+      align-content: center;
+      justify-items: end;
+      text-align: right;
+    }
+
+    .case-waiting strong {
+      font-size: 12px;
+    }
+
+    .case-waiting small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .case-nodes {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .case-node {
+      min-width: 36px;
+      min-height: 28px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .case-node.done {
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .case-node.current {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .case-node.waiting {
+      border-color: #f0b67a;
+      background: #fff3e3;
+      color: #9b5107;
+    }
+
+    .case-detail-card {
+      min-height: 100%;
+      background: #fbfcfd;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .case-detail-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .case-detail-title h3 {
+      margin: 0;
+    }
+
+    .node-timeline {
+      display: grid;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .node-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      position: relative;
+    }
+
+    .node-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 28px;
+      bottom: -12px;
+      width: 2px;
+      background: #d8dee8;
+    }
+
+    .node-dot {
+      z-index: 1;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .node-step.done .node-dot {
+      border-color: var(--green);
+      background: var(--green);
+      color: #fff;
+    }
+
+    .node-step.current .node-dot {
+      border-color: var(--danger);
+      background: var(--danger);
+      color: #fff;
+      box-shadow: 0 0 0 5px rgba(220, 38, 38, .12);
+    }
+
+    .node-step.waiting .node-dot {
+      border-color: #f0b67a;
+      background: #fff3e3;
+      color: #9b5107;
+    }
+
+    .node-step strong,
+    .node-step small {
+      display: block;
+    }
+
+    .node-step small {
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .patient-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .patient-card {
+      min-height: 78px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .patient-card strong,
+    .patient-card span,
+    .patient-card small {
+      display: block;
+    }
+
+    .patient-card span {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .patient-card small {
+      margin-top: 6px;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .patient-card.active {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      box-shadow: inset 0 0 0 1px rgba(36, 89, 166, .12);
+    }
+
+    .patient-strip .patient-card[data-open-case^="ACS"] {
+      border-color: #ef9a95;
+      background: #fff1f0;
+    }
+
+    .patient-strip .patient-card[data-open-case^="STR"] {
+      border-color: #9ecdb0;
+      background: #f0fbf4;
+    }
+
+    .patient-strip .patient-card[data-open-case^="TRM"] {
+      border-color: #f0b67a;
+      background: #fff6eb;
+    }
+
+    .patient-strip .patient-card[data-open-case^="CPCR"],
+    .patient-strip .patient-card[data-open-case^="ECPR"] {
+      border-color: #ef9a95;
+      background: #fff4f4;
+    }
+
+    .milestone-progress {
+      display: grid;
+      gap: 8px;
+    }
+
+    .progress-line {
+      display: grid;
+      gap: 5px;
+    }
+
+    .progress-line header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
       font-size: 13px;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #e8edf3;
+      overflow: hidden;
+    }
+
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--green));
     }
 
     table {
@@ -678,6 +1005,31 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fbfcfd;
+    }
+
+    .trauma-recommend-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .trauma-recommend-grid button {
+      min-height: 74px;
+      text-align: left;
+      align-items: flex-start;
+      line-height: 1.28;
+    }
+
+    .trauma-recommend-grid button strong,
+    .trauma-recommend-grid button small {
+      display: block;
+    }
+
+    .trauma-recommend-grid button small {
+      margin-top: 5px;
+      opacity: .78;
+      font-size: 12px;
     }
 
     .emt-door-entry {
@@ -991,6 +1343,8 @@
     }
 
     #emt .ecpr-screen-grid button[data-emt-ecpr-check] {
+      min-height: 118px;
+      font-size: 24px;
       background: #dcfce7;
       border-color: rgba(22, 163, 74, .35);
       color: #14532d;
@@ -998,10 +1352,20 @@
     }
 
     #emt .ecpr-screen-grid button[data-emt-ecpr-contra] {
+      min-height: 96px;
+      font-size: 20px;
       background: #ffe4e6;
       border-color: rgba(244, 63, 94, .35);
       color: #881337;
       font-weight: 850;
+    }
+
+    #emt-ecpr-notify:disabled {
+      background: #cbd5e1;
+      border-color: #cbd5e1;
+      color: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
     }
 
     #emt .ecpr-screen-grid button.ok,
@@ -1078,6 +1442,30 @@
       gap: 6px;
     }
 
+    .ami-quick-section {
+      display: grid;
+      gap: 6px;
+    }
+
+    .ami-quick-section-title {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .ami-quick-grid.hospital-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .ami-quick-grid.demo-grid {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .ami-quick-grid.symptom-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     .ami-quick-tile {
       min-height: 92px;
       border-radius: 8px;
@@ -1100,6 +1488,12 @@
       color: #fff;
     }
 
+    .ami-quick-tile.hospital-1 { background: #0f766e; color: #fff; }
+    .ami-quick-tile.hospital-2 { background: #0d9488; color: #fff; }
+    .ami-quick-tile.hospital-3 { background: #14b8a6; color: #083344; }
+    .ami-quick-tile.hospital-4 { background: #5eead4; color: #134e4a; }
+    .ami-quick-tile.hospital-5 { background: #ccfbf1; color: #134e4a; }
+
     .ami-quick-tile.white {
       background: #f8fafc;
       color: #0f344e;
@@ -1109,10 +1503,33 @@
       background: #facc15;
     }
 
+    .ami-quick-tile.female {
+      background: #ef4444;
+      color: #fff;
+    }
+
     .ami-quick-tile.active {
       outline: 4px solid #2563eb;
       outline-offset: -4px;
       transform: translateY(-1px);
+    }
+
+    .ami-ekg-upload {
+      min-height: 86px;
+      padding: 14px;
+      border: 3px dashed #dc2626;
+      border-radius: 8px;
+      background: #fff1f2;
+      color: #991b1b;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .ami-ekg-upload input {
+      margin-top: 10px;
+      font-size: 16px;
+      background: #fff;
+      border: 1px solid rgba(220, 38, 38, .35);
     }
 
     .ami-bot-preview {
@@ -1161,6 +1578,28 @@
     .emt-hospital-only[hidden],
     .emt-optional-detail[hidden] {
       display: none !important;
+    }
+
+    .cpr-bridge-panel {
+      display: none;
+      margin: 0 0 14px;
+      border: 2px solid rgba(220, 38, 38, .35);
+      background: #fff1f2;
+    }
+
+    .cpr-bridge-panel.active {
+      display: block;
+    }
+
+    .cpr-bridge-actions {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .cpr-bridge-actions button {
+      min-height: 64px;
+      font-weight: 850;
     }
 
     .clinical-record-panel .record-row {
@@ -1590,7 +2029,9 @@
       }
 
       .guideline-task-grid,
-      .cause-grid {
+      .cause-grid,
+      .trauma-recommend-grid,
+      .patient-strip {
         grid-template-columns: repeat(2, minmax(140px, 1fr));
       }
 
@@ -1611,6 +2052,7 @@
       .cols-3,
       .workflow,
       .module-grid,
+      .case-row,
       .rescue-console,
       .big-action-grid,
       .patient-link,
@@ -1637,7 +2079,9 @@
       }
 
       .guideline-task-grid,
-      .cause-grid {
+      .cause-grid,
+      .trauma-recommend-grid,
+      .patient-strip {
         grid-template-columns: 1fr;
       }
 
@@ -1726,9 +2170,17 @@
   <div class="layout">
     <nav aria-label="主要工作區">
       <button class="nav-btn active" data-view="overview">我的工作</button>
+      <button class="nav-btn" data-view="emt">EMT 啟動</button>
+      <button class="nav-btn" data-view="er">急診紀錄</button>
+      <button class="nav-btn" data-view="acsPanel">ACS 執行</button>
+      <button class="nav-btn" data-view="cvUnit">CV 單位</button>
+      <button class="nav-btn" data-view="neuroDoctor">神內醫師</button>
+      <button class="nav-btn" data-view="traumaDoctor">創傷科</button>
+      <button class="nav-btn" data-view="strokeConsole">Stroke 執行</button>
+      <button class="nav-btn" data-view="traumaConsole">Trauma 執行</button>
       <button class="nav-btn" data-view="cprConsole">急救執行</button>
       <button class="nav-btn" data-view="nurse">交接轉歸</button>
-      <button class="nav-btn" data-view="quality">品質回顧</button>
+      <button class="nav-btn" data-view="quality">病人看板 / 品質</button>
       <button class="nav-btn" data-view="accountAdmin">帳號 / 班表</button>
     </nav>
 
@@ -1795,6 +2247,93 @@
           </div>
         </div>
 
+        <div class="grid cols-2" style="margin-top:14px; margin-bottom:14px;">
+          <div class="panel">
+            <div class="panel-head">
+              <h3>全部通報案件</h3>
+              <span class="chip red">急症看板</span>
+            </div>
+            <div class="panel-body case-list">
+              <button class="case-row critical active" data-open-case="ACS-003" type="button">
+                <div>
+                  <span class="case-type-badge">ACS / STEMI</span><span class="chip red">最高優先</span>
+                  <h4>ACS-003｜男 58 歲｜胸痛</h4>
+                  <p>ETA 7 分鐘，ST elevation，送達急診 A 區</p>
+                </div>
+                <div class="case-waiting"><strong>目前等待</strong><span class="chip red">CV 確認 AMI</span><small>FMC 09:12</small></div>
+              </button>
+              <button class="case-row warning" data-open-case="ACS-002" type="button">
+                <div>
+                  <span class="case-type-badge">ACS</span><span class="chip blue">待判讀</span>
+                  <h4>ACS-002｜女 71 歲｜胸悶喘</h4>
+                  <p>ECG 已上傳，影像品質待確認</p>
+                </div>
+                <div class="case-waiting"><strong>目前等待</strong><span class="chip blue">EKG 重傳</span><small>ETA 未定</small></div>
+              </button>
+              <button class="case-row cpr" data-open-case="CPCR-001" type="button">
+                <div>
+                  <span class="case-type-badge">CPR / ECPR</span><span class="chip red">急救</span>
+                  <h4>CPCR-001｜男 63 歲｜OHCA</h4>
+                  <p>CPR 進行中，ROSC 未達成，ETA 11 分鐘</p>
+                </div>
+                <div class="case-waiting"><strong>目前等待</strong><span class="chip red">ECMO team 到場</span><small>Low-flow 追蹤</small></div>
+              </button>
+              <button class="case-row stroke" data-open-case="STR-001" type="button">
+                <div>
+                  <span class="case-type-badge">CVA / Stroke</span><span class="chip green">待 CTA</span>
+                  <h4>STR-001｜女 66 歲｜FAST 陽性</h4>
+                  <p>最後正常 08:10，血糖 142，檢傷已完成</p>
+                </div>
+                <div class="case-waiting"><strong>目前等待</strong><span class="chip green">CTA / EVT 決策</span><small>LKW 08:10</small></div>
+              </button>
+              <button class="case-row trauma" data-open-case="TRM-001" type="button">
+                <div>
+                  <span class="case-type-badge">Major Trauma</span><span class="chip red">Trauma blue</span>
+                  <h4>TRM-001｜男 42 歲｜高能量外傷</h4>
+                  <p>低血壓，FAST 疑陽性，骨盆疼痛</p>
+                </div>
+                <div class="case-waiting"><strong>目前等待</strong><span class="chip orange">CT / OR 決策</span><small>Shock</small></div>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>案件里程碑</h3>
+              <span class="chip green" id="case-detail-type">ACS / STEMI</span>
+            </div>
+            <div class="panel-body">
+              <div class="case-detail-card">
+                <div class="case-detail-title">
+                  <div>
+                    <h3 id="case-detail-title">ACS-003｜男 58 歲｜胸痛</h3>
+                    <p class="meta" id="case-detail-summary">ETA 7 分鐘，ST elevation，送達急診 A 區。</p>
+                  </div>
+                  <span class="chip red" id="case-detail-waiting">等待 CV 確認 AMI</span>
+                </div>
+                <div class="node-timeline" id="case-detail-nodes">
+                  <div class="node-step done"><span class="node-dot">1</span><div><strong>EKG 完成</strong><small>09:15 EMT 上傳</small></div></div>
+                  <div class="node-step current"><span class="node-dot">2</span><div><strong>CV 判讀中</strong><small>目前節點：等待心內確認 AMI</small></div></div>
+                  <div class="node-step waiting"><span class="node-dot">3</span><div><strong>Cath lab 啟動</strong><small>待 CV 確認後通知</small></div></div>
+                  <div class="node-step"><span class="node-dot">4</span><div><strong>D2B 追蹤</strong><small>待病人到院與入室</small></div></div>
+                </div>
+                <div class="actions">
+                  <button class="primary" id="case-enter-team" data-view-jump="acsPanel" type="button">進入團隊面板</button>
+                  <button class="secondary" id="case-return-list" data-view-jump="overview" type="button">返回病人清單</button>
+                </div>
+              </div>
+              <div class="panel-subhead">重要等待項目</div>
+              <div class="chips">
+                <span class="chip red">CV 判讀</span>
+                <span class="chip green">CTA / EVT</span>
+                <span class="chip orange">CT / OR</span>
+                <span class="chip red">ECMO team</span>
+                <span class="chip blue">病歷媒合</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="panel" style="margin-bottom:14px;">
           <div class="panel-head">
             <h3>2｜選擇你的工作角色</h3>
@@ -1818,51 +2357,6 @@
           </div>
         </div>
 
-        <div class="grid cols-2" style="margin-top:14px;">
-          <div class="panel">
-            <div class="panel-head">
-              <h3>即時案件</h3>
-              <span class="chip red">AMI 啟動</span>
-            </div>
-            <div class="panel-body case-list">
-              <div class="case-row">
-                <div>
-                  <h4>ACS-003 男 58 歲 / 胸痛</h4>
-                  <p>ST elevation，ETA 7 分鐘，送達急診 A 區</p>
-                </div>
-                <span class="chip red">最高優先</span>
-              </div>
-              <div class="case-row">
-                <div>
-                  <h4>ACS-002 女 71 歲 / 胸悶喘</h4>
-                  <p>ECG 已上傳，等待心內判讀</p>
-                </div>
-                <span class="chip blue">待判讀</span>
-              </div>
-              <div class="case-row">
-                <div>
-                  <h4>CPCR-001 男 63 歲 / OHCA</h4>
-                  <p>CPR 進行中，ROSC 未達成，ETA 11 分鐘</p>
-                </div>
-                <span class="chip red">CPCR</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head">
-              <h3>時間軸</h3>
-              <span class="chip green">自動留痕</span>
-            </div>
-            <div class="panel-body timeline">
-              <div class="event"><time>09:12</time><div><strong>EMT 啟動 ACS</strong><span>胸痛 40 分鐘，意識清楚，BP 146/92</span></div></div>
-              <div class="event"><time>09:15</time><div><strong>12 導程 ECG 完成</strong><span>V2-V5 ST elevation，疑似 anterior STEMI</span></div></div>
-              <div class="event"><time>09:16</time><div><strong>ECG 上傳成功</strong><span>通知心內群組與急診 ACS 群組</span></div></div>
-              <div class="event"><time>09:18</time><div><strong>心內醫師確認 AMI 啟動</strong><span>已通知心導管室與急診團隊</span></div></div>
-              <div class="event"><time>09:22</time><div><strong>心導管室回覆 ready</strong><span>值班團隊已確認</span></div></div>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section class="view" id="emt">
@@ -2187,7 +2681,7 @@
 
         <div class="panel emt-case-flow" data-emt-case-flow="ACS / STEMI" style="margin-top:14px;">
           <div class="panel-head">
-            <h3>EMT｜AMI 一鍵啟動與入院媒合</h3>
+            <h3>EMT｜AMI 一鍵通報</h3>
             <span class="chip red">仿 LINE 通報流程</span>
           </div>
           <div class="panel-body">
@@ -2198,24 +2692,53 @@
                   <label>救護單位 / 車號<input id="ami-unit" value="東區91"></label>
                   <label>預計到院<input id="ami-eta" value="7 分鐘"></label>
                   <label>病人位置<input id="ami-location" placeholder="救護車 / 急診入口 / 檢傷區"></label>
-                  <label class="full">EMT 摘要<textarea id="ami-emt-summary">胸痛 40 分鐘，12 lead ECG 疑似 anterior STEMI，已上傳 ECG，N/S 500cc + 留置針，生命徵象穩定。</textarea></label>
-                  <label class="full">EKG 照片 / 檔案<input id="ami-ekg-file" type="file" accept="image/*,.pdf"></label>
+                  <label class="full" hidden>EMT 摘要<textarea id="ami-emt-summary"></textarea></label>
+                  <label class="full ami-ekg-upload">上傳 EKG 照片 / 檔案<input id="ami-ekg-file" type="file" accept="image/*,.pdf"></label>
                 </div>
                 <div class="ami-ambulance-board">
-                  <div class="ami-quick-grid" aria-label="救護車內 AMI 快速通報大按鈕">
-                    <button class="ami-quick-tile green" data-ami-quick="醫院：嘉基醫院" type="button">嘉基<br>醫院</button>
-                    <button class="ami-quick-tile blue" data-ami-quick="性別：男性" type="button">男性</button>
-                    <button class="ami-quick-tile white" data-ami-quick="年齡：61-70 歲" type="button">61-70<small> 歲</small></button>
-                    <button class="ami-quick-tile" data-ami-quick="主訴：胸悶" type="button">胸悶</button>
-                    <button class="ami-quick-tile" data-ami-quick="主訴：喘" type="button">喘</button>
-                    <button class="ami-quick-tile" data-ami-quick="主訴：上腹痛" type="button">上腹痛</button>
-                    <button class="ami-quick-tile orange" data-ami-quick="病史：糖尿病" type="button">糖尿病<br>病史</button>
-                    <button class="ami-quick-tile orange" data-ami-quick="病史：心臟病" type="button">心臟病<br>病史</button>
+                  <div class="ami-quick-section">
+                    <div class="ami-quick-section-title">接收醫院</div>
+                    <div class="ami-quick-grid hospital-grid" aria-label="ACS 接收醫院">
+                      <button class="ami-quick-tile hospital-1" data-ami-quick="醫院：嘉基醫院" type="button">嘉基</button>
+                      <button class="ami-quick-tile hospital-2" data-ami-quick="醫院：聖馬爾定醫院" type="button">聖馬爾定</button>
+                      <button class="ami-quick-tile hospital-3" data-ami-quick="醫院：部嘉" type="button">部嘉</button>
+                      <button class="ami-quick-tile hospital-4" data-ami-quick="醫院：中榮嘉義分院" type="button">中榮<br>嘉義</button>
+                      <button class="ami-quick-tile hospital-5" data-ami-quick="醫院：陽明" type="button">陽明</button>
+                    </div>
+                  </div>
+                  <div class="ami-quick-section">
+                    <div class="ami-quick-section-title">性別 / 年齡</div>
+                    <div class="ami-quick-grid demo-grid" aria-label="ACS 性別年齡">
+                      <button class="ami-quick-tile blue" data-ami-quick="性別：男性" type="button">男性</button>
+                      <button class="ami-quick-tile female" data-ami-quick="性別：女性" type="button">女性</button>
+                      <button class="ami-quick-tile white" data-ami-quick="年齡：18-60 歲" type="button">18-60<small> 歲</small></button>
+                      <button class="ami-quick-tile white" data-ami-quick="年齡：61-70 歲" type="button">61-70<small> 歲</small></button>
+                      <button class="ami-quick-tile white" data-ami-quick="年齡：71 歲以上" type="button">71+<small> 歲</small></button>
+                    </div>
+                  </div>
+                  <div class="ami-quick-section">
+                    <div class="ami-quick-section-title">症狀</div>
+                    <div class="ami-quick-grid symptom-grid" aria-label="ACS 症狀">
+                      <button class="ami-quick-tile" data-ami-quick="主訴：胸痛" type="button">胸痛</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：胸悶" type="button">胸悶</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：喘" type="button">喘</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：上腹痛" type="button">上腹痛</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：後背痛" type="button">後背痛</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：冒冷汗" type="button">冒冷汗</button>
+                      <button class="ami-quick-tile" data-ami-quick="主訴：昏厥" type="button">昏厥</button>
+                    </div>
+                  </div>
+                  <div class="ami-quick-section">
+                    <div class="ami-quick-section-title">病史</div>
+                    <div class="ami-quick-grid" aria-label="ACS 病史">
+                      <button class="ami-quick-tile orange" data-ami-quick="病史：糖尿病" type="button">糖尿病<br>病史</button>
+                      <button class="ami-quick-tile orange" data-ami-quick="病史：心臟病" type="button">心臟病<br>病史</button>
+                    </div>
                   </div>
                   <div class="ami-bot-preview" id="ami-bot-preview">機器人通報內容會依按鈕自動整理。</div>
                 </div>
                 <div class="ami-step-list" style="margin-top:10px;">
-                  <button class="secondary" id="ami-send-ekg-review" type="button">1. 送出 EKG 給專師 / 醫師判讀</button>
+                  <button class="primary" id="ami-send-ekg-review" type="button">確定通報｜送出 EKG 給專師 / 醫師判讀</button>
                   <button class="quiet" data-ami-alert-step="更新病人位置與預計到院時間，CV / 心導管室 / 急診同步可見">2. 更新位置 / 預計到院時間</button>
                 </div>
               </div>
@@ -2224,10 +2747,13 @@
                 <div class="ami-alert-thread" id="ami-alert-thread" aria-label="AMI 通報對話紀錄">
                   <div class="ami-alert-message system">系統等待 EMT 啟動 AMI。暫時案件號會先作為共同追蹤點。</div>
                 </div>
-                <div class="ami-bot-preview" style="margin-top:10px;">
+                <div class="ami-bot-preview" id="ami-dispatch-status" style="margin-top:10px;">
+                  通報狀態：尚未送出。請先選擇條件、上傳 EKG，按「確定通報」。
+                </div>
+                <div class="ami-bot-preview emt-hospital-only" hidden style="margin-top:10px;">
                   機器人銜接規劃：本程式送出暫時案件號、EKG 檔案、快速按鈕資料、預計到院與位置到 LINE/SYC agent webhook；機器人回傳值班名單、確認啟動、各人員接收狀態，再同步回本平台。
                 </div>
-                <div class="panel" style="margin-top:10px;">
+                <div class="panel emt-hospital-only" hidden style="margin-top:10px;">
                   <div class="panel-head">
                     <h3>Firebase Web Push 通知</h3>
                     <span class="chip" id="push-permission-chip">尚未啟用</span>
@@ -2265,13 +2791,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="ami-match-grid">
+                <div class="ami-match-grid emt-hospital-only" hidden>
                   <label>病歷號<input id="ami-chart-no" placeholder="到院後輸入"></label>
                   <label>Barcode<input id="ami-barcode-1" placeholder="掃描條碼"></label>
                   <label>再刷 Barcode<input id="ami-barcode-2" placeholder="再次掃描"></label>
                   <button class="secondary" id="ami-match-patient" type="button">媒合病人</button>
                 </div>
-                <p class="meta">建議正式版以「院前暫時案件號」串起 EMT、CV、心導管室與急診；到院後再以病歷號 / Barcode 完成媒合，避免只知道有人啟動卻不知道病人在哪。</p>
+                <p class="meta">EMT 端只建立院前暫時案件、更新位置 / ETA、上傳 EKG；到院後病歷媒合由院內團隊在專業工作區完成。</p>
               </div>
             </div>
           </div>
@@ -2342,6 +2868,24 @@
           <span class="chip red">CV / Cath Lab</span>
         </div>
 
+        <div class="patient-strip" aria-label="CV 通報案件清單">
+          <button class="patient-card active" data-open-case="ACS-003" type="button"><strong>ACS-003 男 58</strong><span>胸痛 / ETA 7 分</span><small>待 CV 確認 AMI</small></button>
+          <button class="patient-card" data-open-case="ACS-002" type="button"><strong>ACS-002 女 71</strong><span>胸悶喘 / ECG 已傳</span><small>待判讀</small></button>
+          <button class="patient-card" data-open-case="ACS-001" type="button"><strong>ACS-001 男 64</strong><span>已入 cath lab</span><small>Door-balloon 追蹤</small></button>
+          <button class="patient-card" data-view-jump="overview" type="button"><strong>返回病人清單</strong><span>回總覽</span><small>切換其他案件</small></button>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head"><h3>到院後病歷媒合</h3><span class="chip blue">院內團隊使用</span></div>
+          <div class="panel-body patient-link">
+            <label>院前暫時案件號<input value="EMS-AMI-20260720-001"></label>
+            <label>病歷號<input id="cv-chart-no" placeholder="到院後輸入"></label>
+            <label>Barcode<input id="cv-barcode-1" placeholder="掃描條碼"></label>
+            <label>再刷 Barcode<input id="cv-barcode-2" placeholder="再次掃描"></label>
+            <button class="secondary" data-panel-record="CV 病歷號媒合完成">媒合病歷</button>
+          </div>
+        </div>
+
         <div class="grid cols-2">
           <div class="panel">
             <div class="panel-head">
@@ -2396,6 +2940,20 @@
             <div class="meta">紀錄與教練用：啟動計時、流程提醒、色塊按壓後自動留下 action 紀錄</div>
           </div>
           <span class="chip red">ACS / STEMI</span>
+        </div>
+
+        <div class="actions" style="margin-bottom:14px;">
+          <button class="urgent" data-open-cpr-bridge="acsPanel" type="button">病況惡化｜轉 CPR</button>
+        </div>
+        <div class="panel cpr-bridge-panel" data-cpr-bridge="acsPanel">
+          <div class="panel-head"><h3>CPR 快速區塊</h3><span class="chip red">同一 ACS 案件轉入 CPR / ECPR</span></div>
+          <div class="panel-body cpr-bridge-actions">
+            <button class="urgent" data-panel-record="ACS 轉 CPR：確認無脈搏">確認無脈搏</button>
+            <button class="urgent" data-panel-record="ACS 轉 CPR：開始胸外按壓">開始按壓</button>
+            <button data-panel-record="ACS 轉 CPR：接上 EKG / Defib">接上 EKG</button>
+            <button data-panel-record="ACS 轉 CPR：給氧 / BVM">給氧 / BVM</button>
+            <button class="primary" data-jump-cpr-full="ACS 轉入完整 CPR 面板">完整 CPR 面板</button>
+          </div>
         </div>
 
         <div class="panel" style="margin-bottom:14px;">
@@ -2454,17 +3012,6 @@
               <label>姓名 / 生日<input placeholder="可選"></label>
               <button class="secondary" data-acs-record="病歷號媒合完成">媒合病歷</button>
             </div>
-            <div class="big-action-grid" aria-label="ACS 大型快捷按鈕">
-              <button class="big-action red" data-acs-record="確認胸痛 ACS">確認 ACS<small>啟動胸痛流程</small></button>
-              <button class="big-action blue" data-acs-record="12 lead ECG 完成">12 Lead ECG<small>完成 / 上傳</small></button>
-              <button class="big-action green" data-acs-record="On EKG monitor">EKG Monitor<small>接上監測</small></button>
-              <button class="big-action orange" data-acs-record="On IV N/S 500cc">N/S 500cc<small>IV / 留置針</small></button>
-              <button class="big-action purple" data-acs-record="抽血 / Troponin">抽血<small>Troponin / Lab</small></button>
-              <button class="big-action red" data-acs-record="會診 CV">會診 CV<small>通知心內</small></button>
-              <button class="big-action red" data-acs-record="啟動心導管室">啟動 Cath Lab<small>心導管室</small></button>
-              <button class="big-action gray" data-acs-record="病人離開急診">離開急診<small>轉 Cath / ICU</small></button>
-            </div>
-
             <div class="rescue-console acs-console">
               <div class="console-column">
                 <div class="console-title">建議處置</div>
@@ -2604,6 +3151,20 @@
           <span class="chip">Sepsis｜測試流程</span>
         </div>
 
+        <div class="actions" style="margin-bottom:14px;">
+          <button class="urgent" data-open-cpr-bridge="sepsisConsole" type="button">病況惡化｜轉 CPR</button>
+        </div>
+        <div class="panel cpr-bridge-panel" data-cpr-bridge="sepsisConsole">
+          <div class="panel-head"><h3>CPR 快速區塊</h3><span class="chip red">同一 Sepsis 案件轉入 CPR / ECPR</span></div>
+          <div class="panel-body cpr-bridge-actions">
+            <button class="urgent" data-panel-record="Sepsis 轉 CPR：確認無脈搏">確認無脈搏</button>
+            <button class="urgent" data-panel-record="Sepsis 轉 CPR：開始胸外按壓">開始按壓</button>
+            <button data-panel-record="Sepsis 轉 CPR：接上 EKG / Defib">接上 EKG</button>
+            <button data-panel-record="Sepsis 轉 CPR：Airway / BVM">Airway / BVM</button>
+            <button class="primary" data-jump-cpr-full="Sepsis 轉入完整 CPR 面板">完整 CPR 面板</button>
+          </div>
+        </div>
+
         <div class="panel">
           <div class="panel-head">
             <h3>目前階段與下一步</h3>
@@ -2649,6 +3210,19 @@
             <div class="meta">左側 Trauma blue guideline，中間紀錄，右側輸血/藥物，最右側檢查與處置。</div>
           </div>
           <span class="chip red">Major Trauma</span>
+        </div>
+        <div class="actions" style="margin-bottom:14px;">
+          <button class="urgent" data-open-cpr-bridge="traumaConsole" type="button">病況惡化｜轉 CPR</button>
+        </div>
+        <div class="panel cpr-bridge-panel" data-cpr-bridge="traumaConsole">
+          <div class="panel-head"><h3>CPR 快速區塊</h3><span class="chip red">同一 Trauma 案件轉入 CPR / ECPR</span></div>
+          <div class="panel-body cpr-bridge-actions">
+            <button class="urgent" data-panel-record="Trauma 轉 CPR：確認無脈搏">確認無脈搏</button>
+            <button class="urgent" data-panel-record="Trauma 轉 CPR：開始胸外按壓">開始按壓</button>
+            <button data-panel-record="Trauma 轉 CPR：止血 / MTP 同步">止血 / MTP</button>
+            <button data-panel-record="Trauma 轉 CPR：Airway / BVM">Airway / BVM</button>
+            <button class="primary" data-jump-cpr-full="Trauma 轉入完整 CPR 面板">完整 CPR 面板</button>
+          </div>
         </div>
         <div class="panel">
           <div class="panel-head"><h3>Major Trauma 治療面板</h3><span class="chip red">Trauma blue / CT / OR / ICU</span></div>
@@ -2725,12 +3299,19 @@
           <span class="chip red" id="cpr-guideline-status">尚未啟動</span>
         </div>
 
+        <div class="patient-strip" aria-label="CPR / ECPR 通報案件清單">
+          <button class="patient-card active" data-open-case="CPCR-001" type="button"><strong>CPCR-001 男 63</strong><span>OHCA / CPR 中 / ETA 11</span><small>待 ECPR 評估</small></button>
+          <button class="patient-card" data-open-case="CPCR-002" type="button"><strong>CPCR-002 女 49</strong><span>ROSC 後照護</span><small>待 ICU 床位</small></button>
+          <button class="patient-card" data-open-case="ECPR-001" type="button"><strong>ECPR-001 男 42</strong><span>符合 4 項 / 禁忌 0</span><small>待 ECMO team 到場</small></button>
+          <button class="patient-card" data-view-jump="overview" type="button"><strong>返回病人清單</strong><span>回總覽</span><small>切換其他案件</small></button>
+        </div>
+
         <div class="panel" style="margin-bottom:14px;">
           <div class="panel-head"><h3>事件與節律</h3><span class="chip blue">Prototype｜不可取代正式醫囑</span></div>
           <div class="panel-body">
             <div class="console-clock">
               <label>事件代碼<input value="TEST-CPR-001"></label>
-              <label>啟動時間<input class="panel-start-time" readonly></label>
+              <label>啟動時間<input class="panel-start-time" placeholder="YYYY/MM/DD HH:MM:SS"></label>
               <div class="console-timer panel-timer">00:00</div>
               <button class="primary panel-start" data-panel="cprClean" id="cpr-guideline-start">開始 CPR</button>
             </div>
@@ -2983,9 +3564,41 @@
                 </div>
               </div>
             </div>
+            <div class="panel" style="margin-top:14px;">
+              <div class="panel-head"><h3>ECPR 進度條</h3><span class="chip blue">病人看板同步</span></div>
+              <div class="panel-body milestone-progress">
+                <div class="progress-line">
+                  <header><strong>CPCR-001</strong><span>初篩 → 院內啟動 → 團隊到場 → 置管 → Pumping → X 光確認</span><span id="ecpr-progress-label">35%</span></header>
+                  <div class="progress-bar"><span id="ecpr-progress-bar" style="width:35%"></span></div>
+                </div>
+                <p class="meta">正式版可由上方里程碑按鈕自動更新進度，並同步到管理層病人看板。</p>
+              </div>
+            </div>
             <div class="actions">
               <button class="secondary" data-panel-record="ECMO 耗材／處置醫囑開立" type="button">耗材／處置開立</button>
               <button class="quiet" data-panel-record="ECMO 轉入 ICU 準備" type="button">ICU 轉入準備</button>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog class="cause-dialog" id="rosc-dialog">
+          <div class="cause-dialog-head"><strong>ROSC 後快速評估</strong><button class="quiet" id="close-rosc" type="button">關閉</button></div>
+          <div class="cause-dialog-body">
+            <div class="panel-subhead">神經與循環評估</div>
+            <div class="form-grid">
+              <label>GCS<input id="rosc-gcs" placeholder="例如 E4V5M6 / GCS 15"></label>
+              <label>瞳孔大小<input id="rosc-pupil-size" placeholder="例如 3+/3+ mm"></label>
+              <label>光反射<select id="rosc-pupil-reflex"><option>雙側有</option><option>右側弱 / 無</option><option>左側弱 / 無</option><option>雙側無</option><option>待評估</option></select></label>
+              <label>生命徵象<input id="rosc-vitals" placeholder="BP / HR / RR / SpO2 / T"></label>
+              <label>四肢活動度<select id="rosc-limb-movement"><option>四肢可活動</option><option>單側偏弱</option><option>對痛刺激反應</option><option>無明顯活動</option><option>待評估</option></select></label>
+              <label>皮膚顏色<select id="rosc-skin-color"><option>紅潤</option><option>蒼白</option><option>發紺</option><option>濕冷</option><option>花斑</option></select></label>
+              <label class="full">管路狀態<textarea id="rosc-lines" placeholder="ETT / IV / IO / A-line / Foley / NG / 固定狀態"></textarea></label>
+              <label>是否約束<select id="rosc-restraint"><option>未約束</option><option>已約束，原因已記錄</option><option>評估中</option></select></label>
+              <label>約束原因<input id="rosc-restraint-reason" placeholder="躁動、拔管風險、保護管路等"></label>
+            </div>
+            <div class="actions">
+              <button class="primary" id="save-rosc-assessment" type="button">加入 ROSC 評估紀錄</button>
+              <button class="secondary" data-panel-record="ROSC 後通知 ICU / 專科接手" type="button">通知 ICU / 專科</button>
             </div>
           </div>
         </dialog>
@@ -3024,6 +3637,20 @@
             <div class="meta">提醒流程、按壓色塊紀錄 action：從疑似中風到 CT / CTA / tPA / EVT / 轉歸</div>
           </div>
           <span class="chip green">Stroke</span>
+        </div>
+
+        <div class="actions" style="margin-bottom:14px;">
+          <button class="urgent" data-open-cpr-bridge="strokePanel" type="button">病況惡化｜轉 CPR</button>
+        </div>
+        <div class="panel cpr-bridge-panel" data-cpr-bridge="strokePanel">
+          <div class="panel-head"><h3>CPR 快速區塊</h3><span class="chip red">同一 Stroke 案件轉入 CPR / ECPR</span></div>
+          <div class="panel-body cpr-bridge-actions">
+            <button class="urgent" data-panel-record="Stroke 轉 CPR：確認無脈搏">確認無脈搏</button>
+            <button class="urgent" data-panel-record="Stroke 轉 CPR：開始胸外按壓">開始按壓</button>
+            <button data-panel-record="Stroke 轉 CPR：接上 EKG / Defib">接上 EKG</button>
+            <button data-panel-record="Stroke 轉 CPR：Airway / BVM">Airway / BVM</button>
+            <button class="primary" data-jump-cpr-full="Stroke 轉入完整 CPR 面板">完整 CPR 面板</button>
+          </div>
         </div>
 
         <div class="grid cols-2">
@@ -3099,6 +3726,20 @@
           <span class="chip">Major Trauma</span>
         </div>
 
+        <div class="actions" style="margin-bottom:14px;">
+          <button class="urgent" data-open-cpr-bridge="traumaPanel" type="button">病況惡化｜轉 CPR</button>
+        </div>
+        <div class="panel cpr-bridge-panel" data-cpr-bridge="traumaPanel">
+          <div class="panel-head"><h3>CPR 快速區塊</h3><span class="chip red">同一 Trauma 案件轉入 CPR / ECPR</span></div>
+          <div class="panel-body cpr-bridge-actions">
+            <button class="urgent" data-panel-record="Trauma 轉 CPR：確認無脈搏">確認無脈搏</button>
+            <button class="urgent" data-panel-record="Trauma 轉 CPR：開始胸外按壓">開始按壓</button>
+            <button data-panel-record="Trauma 轉 CPR：止血 / MTP 同步">止血 / MTP</button>
+            <button data-panel-record="Trauma 轉 CPR：Airway / BVM">Airway / BVM</button>
+            <button class="primary" data-jump-cpr-full="Trauma 轉入完整 CPR 面板">完整 CPR 面板</button>
+          </div>
+        </div>
+
         <div class="panel">
           <div class="panel-head"><h3>執行時間與色塊</h3><span class="chip red">大量出血 / 手術風險</span></div>
           <div class="panel-body">
@@ -3115,6 +3756,24 @@
               <label>紀錄時間<input class="panel-record-time" value="2026/07/17 20:00:00"></label>
               <div class="console-timer panel-timer">00:00</div>
               <button class="primary panel-start" data-panel="trauma">Start</button>
+            </div>
+            <div class="panel-subhead">會診外科別</div>
+            <div class="trauma-recommend-grid">
+              <button class="big-action red" data-panel-record="外科會診：創傷科 / 一般外科">創傷科 / 一般外科<small>Trauma blue、腹部出血、OR 決策</small></button>
+              <button class="big-action purple" data-panel-record="外科會診：神經外科">神經外科<small>頭部外傷、GCS 下降、瞳孔異常</small></button>
+              <button class="big-action blue" data-panel-record="外科會診：胸腔外科">胸腔外科<small>血胸 / 氣胸、胸管、胸部穿刺傷</small></button>
+              <button class="big-action green" data-panel-record="外科會診：骨科">骨科<small>骨盆、長骨、開放性骨折固定</small></button>
+            </div>
+            <div class="panel-subhead">依 5H5T / 受傷機轉的處置推薦</div>
+            <div class="trauma-recommend-grid">
+              <button class="big-action red" data-panel-record="推薦處置：出血 / Hypovolemia → MTP、TXA、止血、送 OR 評估">出血 / Hypovolemia<small>MTP、TXA、壓迫止血、OR 評估</small></button>
+              <button class="big-action red" data-panel-record="推薦處置：張力氣胸 / Thorax → 胸部評估、CXR、胸管準備">張力氣胸 / 胸部<small>呼吸窘迫、CXR、胸管準備</small></button>
+              <button class="big-action purple" data-panel-record="推薦處置：頭部外傷 → GCS、瞳孔、CT brain、神外會診">頭部 / GCS 下降<small>GCS、瞳孔、CT brain、神外</small></button>
+              <button class="big-action green" data-panel-record="推薦處置：骨盆 / 高能量機轉 → 骨盆固定、Pelvis X-ray、MTP 評估">骨盆 / 高能量<small>Pelvic binder、X-ray、MTP</small></button>
+              <button class="big-action orange" data-panel-record="推薦處置：心包填塞 / Tamponade → FAST/POCUS、創傷外科評估">Tamponade<small>FAST / POCUS、創傷外科評估</small></button>
+              <button class="big-action blue" data-panel-record="推薦處置：低體溫 / Hypothermia → 保溫、溫輸液、凝血監測">低體溫<small>保溫、溫輸液、凝血監測</small></button>
+              <button class="big-action orange" data-panel-record="推薦處置：穿刺 / 壓砸傷 → 止血、異物保留、手術評估">穿刺 / 壓砸<small>止血、異物勿拔、手術評估</small></button>
+              <button class="big-action blue" data-panel-record="推薦處置：燒燙傷 / 吸入傷 → Airway 評估、燒傷中心 / ICU">燒燙傷 / 吸入傷<small>Airway、燒傷中心、ICU</small></button>
             </div>
             <div class="big-action-grid">
               <button class="big-action red" data-panel-record="Trauma blue 啟動">Trauma Blue<small>重大創傷啟動</small></button>
@@ -3378,6 +4037,24 @@
           <span class="chip red">Trauma Team</span>
         </div>
 
+        <div class="patient-strip" aria-label="創傷科通報案件清單">
+          <button class="patient-card active" data-open-case="TRM-001" type="button"><strong>TRM-001 男 42</strong><span>高能量撞擊 / Shock</span><small>待 CT / OR 決策</small></button>
+          <button class="patient-card" data-open-case="TRM-002" type="button"><strong>TRM-002 女 31</strong><span>墜落 / 骨盆痛</span><small>待骨科會診</small></button>
+          <button class="patient-card" data-open-case="TRM-003" type="button"><strong>TRM-003 男 55</strong><span>胸部穿刺傷</span><small>待胸外 / 胸管</small></button>
+          <button class="patient-card" data-view-jump="overview" type="button"><strong>返回病人清單</strong><span>回總覽</span><small>切換其他案件</small></button>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head"><h3>到院後病歷媒合</h3><span class="chip blue">創傷科 / 急診共同確認</span></div>
+          <div class="panel-body patient-link">
+            <label>院前暫時案件號<input value="EMS-TRM-001"></label>
+            <label>病歷號<input placeholder="到院後輸入"></label>
+            <label>Barcode<input placeholder="掃描條碼"></label>
+            <label>再刷 Barcode<input placeholder="再次掃描"></label>
+            <button class="secondary" data-panel-record="Trauma 病歷號媒合完成">媒合病歷</button>
+          </div>
+        </div>
+
         <div class="grid cols-2">
           <div class="panel">
             <div class="panel-head">
@@ -3411,6 +4088,13 @@
                 <button class="big-action purple" data-panel-record="神外 / 骨科 / 胸外會診">次專科會診</button>
                 <button class="big-action gray" data-panel-record="轉 ICU">轉 ICU</button>
                 <button class="big-action gray" data-panel-record="轉病房">轉病房</button>
+              </div>
+              <div class="panel-subhead">外科處置推薦</div>
+              <div class="trauma-recommend-grid">
+                <button class="urgent" data-panel-record="創傷科建議：高能量機轉 / Shock → Trauma blue、MTP、Whole body CT 或 OR">高能量 + Shock<small>Trauma blue、MTP、CT / OR</small></button>
+                <button class="quiet" data-panel-record="創傷科建議：GCS 下降 → CT brain、神外會診、Airway 準備">GCS 下降<small>CT brain、神外、Airway</small></button>
+                <button class="quiet" data-panel-record="創傷科建議：胸部傷 → 胸外會診、CXR、胸管準備">胸部傷<small>胸外、CXR、胸管</small></button>
+                <button class="quiet" data-panel-record="創傷科建議：骨盆 / 長骨骨折 → 骨科會診、固定、出血評估">骨盆 / 長骨<small>骨科、固定、出血評估</small></button>
               </div>
               <div class="record-head" style="margin-top:12px;"><span>記錄時間</span><span>記錄內容</span></div>
               <div class="record-list panel-record-list">
@@ -3576,6 +4260,24 @@
             <div class="meta">擷取院前 FAST、檢傷紀錄與急診評估，決策是否 CTA、是否 EVT。</div>
           </div>
           <span class="chip green">Stroke Team</span>
+        </div>
+
+        <div class="patient-strip" aria-label="神內 Stroke 通報案件清單">
+          <button class="patient-card active" data-open-case="STR-001" type="button"><strong>STR-001 女 66</strong><span>FAST 陽性 / LKW 08:10</span><small>待 CTA 決策</small></button>
+          <button class="patient-card" data-open-case="STR-002" type="button"><strong>STR-002 男 73</strong><span>失語 / 血糖正常</span><small>待 EVT 評估</small></button>
+          <button class="patient-card" data-open-case="STR-003" type="button"><strong>STR-003 女 59</strong><span>rt-PA 評估中</span><small>待家屬說明</small></button>
+          <button class="patient-card" data-view-jump="overview" type="button"><strong>返回病人清單</strong><span>回總覽</span><small>切換其他案件</small></button>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head"><h3>到院後病歷媒合</h3><span class="chip blue">神內 / 急診共同確認</span></div>
+          <div class="panel-body patient-link">
+            <label>院前暫時案件號<input value="EMS-STR-001"></label>
+            <label>病歷號<input placeholder="到院後輸入"></label>
+            <label>Barcode<input placeholder="掃描條碼"></label>
+            <label>再刷 Barcode<input placeholder="再次掃描"></label>
+            <button class="secondary" data-panel-record="Stroke 病歷號媒合完成">媒合病歷</button>
+          </div>
         </div>
 
         <div class="grid cols-2">
@@ -3765,6 +4467,63 @@
 
         <div class="panel" style="margin-top:14px;">
           <div class="panel-head">
+            <h3>病人看板｜目前等待項目</h3>
+            <span class="chip orange">管理層 / 值班主管</span>
+          </div>
+          <div class="panel-body">
+            <div class="patient-strip">
+              <button class="patient-card active" data-open-case="ACS-003" data-view-jump="cvUnit" type="button"><strong>ACS-003</strong><span>CV / Cath Lab</span><small>等待 CV 確認 AMI</small></button>
+              <button class="patient-card" data-open-case="STR-001" data-view-jump="neuroDoctor" type="button"><strong>STR-001</strong><span>Stroke Team</span><small>等待 CTA / EVT 決策</small></button>
+              <button class="patient-card" data-open-case="TRM-001" data-view-jump="traumaDoctor" type="button"><strong>TRM-001</strong><span>Trauma Team</span><small>等待 CT / OR 決策</small></button>
+              <button class="patient-card" data-open-case="CPCR-001" data-view-jump="cprConsole" type="button"><strong>CPCR-001</strong><span>ECPR / ICU</span><small>等待 ECMO team 到場</small></button>
+              <button class="patient-card" data-open-case="ACS-002" data-view-jump="cvUnit" type="button"><strong>ACS-002</strong><span>CV</span><small>等待 ECG 重傳</small></button>
+            </div>
+            <div class="milestone-progress">
+              <div class="progress-line">
+                <header><strong>ACS-003</strong><span>EKG 上傳 → CV 判讀 → AMI 啟動 → Cath lab → D2B</span><span>40%</span></header>
+                <div class="progress-bar"><span style="width:40%"></span></div>
+              </div>
+              <div class="progress-line">
+                <header><strong>STR-001</strong><span>FAST → 檢傷 → CT → CTA → EVT / rt-PA → ICU</span><span>50%</span></header>
+                <div class="progress-bar"><span style="width:50%"></span></div>
+              </div>
+              <div class="progress-line">
+                <header><strong>TRM-001</strong><span>Trauma blue → Primary survey → MTP → CT → OR / ICU</span><span>55%</span></header>
+                <div class="progress-bar"><span style="width:55%"></span></div>
+              </div>
+              <div class="progress-line">
+                <header><strong>CPCR-001</strong><span>CPR → 節律 → 給藥 → ECPR 評估 → 團隊到場 → Pumping</span><span>35%</span></header>
+                <div class="progress-bar"><span style="width:35%"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>預警啟動 / 內部通知建議</h3>
+            <span class="chip blue">Web Push + 電話升級</span>
+          </div>
+          <div class="panel-body">
+            <div class="workflow">
+              <div class="step"><strong>1. 預警啟動</strong><span>EMT / 急診按案件類型送出暫時案件、ETA、位置與必要檔案。</span></div>
+              <div class="step"><strong>2. Web Push</strong><span>先推播值班群組與平台看板，院內人員按下接收。</span></div>
+              <div class="step"><strong>3. 2 分鐘追蹤</strong><span>2 分鐘內未接收，病人看板標示未回覆。</span></div>
+              <div class="step"><strong>4. NP 手動通知</strong><span>原型建議先由 NP / 急診端按鍵撥打電話或補通知。</span></div>
+              <div class="step"><strong>5. 正式版升級</strong><span>可設定 2 分鐘無回應後自動電話通知值班者。</span></div>
+            </div>
+            <div class="panel-subhead">建議規則</div>
+            <table>
+              <tr><th>通知層級</th><th>何時啟動</th><th>對象</th><th>紀錄</th></tr>
+              <tr><td>預警</td><td>一鍵送出後立即</td><td>急診 / 專科 / 護理站</td><td>建立暫時案件與時間戳</td></tr>
+              <tr><td>內部通知</td><td>院內確認需啟動</td><td>值班醫師、檢查單位、手術 / Cath / ECMO team</td><td>已通知 / 已讀 / 已接手</td></tr>
+              <tr><td>電話升級</td><td>2 分鐘未回覆</td><td>值班者個人電話或備援名單</td><td>NP 手動或正式版自動留痕</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
             <h3>案件品質追蹤</h3>
             <span class="chip blue">ACS / CPCR 共用時間軸</span>
           </div>
@@ -3794,25 +4553,28 @@
             <div class="panel-head"><h3>登入測試</h3><span class="chip">原型帳號</span></div>
             <div class="panel-body">
               <div class="form-grid">
-                <label>帳號<input id="login-account" placeholder="例如 emt01 / er01 / admin"></label>
-                <label>密碼<input id="login-password" type="password" placeholder="原型密碼"></label>
-                <label>角色<select id="login-role">
-                  <option>EMT / 分隊</option>
-                  <option>醫療人員</option>
-                  <option>行政管理</option>
-                </select></label>
-                <label>單位<input id="login-unit" placeholder="例如 東區91 / ER / CV / 行政"></label>
+                <label>帳號<input id="login-account" placeholder="輸入自己的帳號"></label>
+                <label>密碼<input id="login-password" type="password" placeholder="輸入密碼"></label>
               </div>
               <div class="actions">
                 <button class="primary" id="mock-login" type="button">登入</button>
                 <button class="quiet" id="mock-logout" type="button">登出</button>
               </div>
-              <table>
-                <tr><th>角色</th><th>範例帳號</th><th>用途</th></tr>
-                <tr><td>EMT / 分隊</td><td>emt01 / 00000</td><td>院前啟動、EKG/FAST/ECPR/Trauma 預警</td></tr>
-                <tr><td>醫療人員</td><td>er01 / 11111</td><td>接收判讀、急救面板、專科回覆</td></tr>
-                <tr><td>行政管理</td><td>admin / 99999</td><td>帳號、角色、班表、通知對象管理</td></tr>
-              </table>
+              <p class="meta">系統會依帳號自動帶入 EMT、護理師、急診、CV、CVS、神內、創傷科或行政角色。</p>
+              <details>
+                <summary>原型測試帳號</summary>
+                <table>
+                  <tr><th>角色</th><th>帳號 / 密碼</th></tr>
+                  <tr><td>EMT / 分隊</td><td>emt01 / 00000</td></tr>
+                  <tr><td>急診醫師 / 專師</td><td>er01 / 11111</td></tr>
+                  <tr><td>護理師</td><td>nurse01 / 22222</td></tr>
+                  <tr><td>CV 心內醫師</td><td>cv01 / 33333</td></tr>
+                  <tr><td>CVS 心臟血管外科</td><td>cvs01 / 44444</td></tr>
+                  <tr><td>神內 Stroke Team</td><td>neuro01 / 55555</td></tr>
+                  <tr><td>創傷科 Trauma Team</td><td>trauma01 / 66666</td></tr>
+                  <tr><td>行政管理</td><td>admin / 99999</td></tr>
+                </table>
+              </details>
             </div>
           </div>
 
@@ -4188,6 +4950,14 @@
       return `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
     }
 
+    function parseStamp(value) {
+      const match = String(value || "").trim().match(/^(\d{4})\/(\d{1,2})\/(\d{1,2})\s+(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+      if (!match) return null;
+      const [, y, m, d, hh, mm, ss = "0"] = match;
+      const date = new Date(Number(y), Number(m) - 1, Number(d), Number(hh), Number(mm), Number(ss));
+      return Number.isNaN(date.getTime()) ? null : date;
+    }
+
     function nowTime() {
       const date = new Date();
       const pad = (value) => String(value).padStart(2, "0");
@@ -4204,11 +4974,42 @@
       row.appendChild(button);
     }
 
+    function editRecordTime(timeCell) {
+      if (!timeCell) return;
+      const current = timeCell.textContent.trim();
+      const next = window.prompt("修改此筆紀錄時間（HH:MM 或 --:--）", current);
+      if (next === null) return;
+      const value = next.trim();
+      if (!/^(\d{1,2}:\d{2}|--:--)$/.test(value)) {
+        alert("請輸入 HH:MM，例如 12:30");
+        return;
+      }
+      timeCell.textContent = value;
+      scheduleAutoSave();
+    }
+
     function recordRowHtml(time, text) {
       return `<span>${time}</span><span>${text}</span><button class="record-delete" type="button" aria-label="刪除此筆急救紀錄">X</button>`;
     }
 
     document.querySelectorAll(".record-row").forEach(attachRecordDelete);
+
+    document.addEventListener("dblclick", (event) => {
+      const timeCell = event.target.closest(".record-row span:first-child");
+      if (timeCell) editRecordTime(timeCell);
+    });
+
+    let recordLongPressTimer = null;
+    document.addEventListener("pointerdown", (event) => {
+      const timeCell = event.target.closest(".record-row span:first-child");
+      if (!timeCell) return;
+      recordLongPressTimer = window.setTimeout(() => editRecordTime(timeCell), 700);
+    });
+
+    document.addEventListener("pointerup", () => {
+      if (recordLongPressTimer) window.clearTimeout(recordLongPressTimer);
+      recordLongPressTimer = null;
+    });
 
     document.addEventListener("click", (event) => {
       const deleteButton = event.target.closest(".record-delete");
@@ -4257,7 +5058,23 @@
       }
     }
 
+    function getSavedAccount() {
+      try {
+        return JSON.parse(localStorage.getItem(ACCOUNT_STORAGE_KEY) || "null");
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function canAccessView(id) {
+      return Boolean(document.getElementById(id));
+    }
+
     function showView(id) {
+      if (!canAccessView(id)) {
+        const profile = inferProfile(getSavedAccount());
+        id = profile?.defaultView || "overview";
+      }
       buttons.forEach((button) => {
         button.classList.toggle("active", button.dataset.view === id);
       });
@@ -4266,6 +5083,25 @@
       });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+
+    document.querySelectorAll("[data-open-cpr-bridge]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const bridgeId = button.dataset.openCprBridge;
+        const bridge = document.querySelector(`[data-cpr-bridge="${bridgeId}"]`);
+        bridge?.classList.add("active");
+        if (bridgeId === "acsPanel") addAcsRecord("病況惡化，轉入 CPR 快速區塊");
+        else addPanelRecord(button, `${bridgeId}｜病況惡化，轉入 CPR 快速區塊`);
+      });
+    });
+
+    document.querySelectorAll("[data-jump-cpr-full]").forEach((button) => {
+      button.addEventListener("click", () => {
+        if (button.closest("#acsPanel")) addAcsRecord(button.dataset.jumpCprFull);
+        else addPanelRecord(button, button.dataset.jumpCprFull);
+        showView("cprConsole");
+        document.querySelector("#cpr-guideline-start")?.focus();
+      });
+    });
 
     function setCaseType(caseType) {
       if (!caseType) return;
@@ -4552,11 +5388,39 @@
         const status = button.querySelector("small");
         if (status) status.textContent = `完成 ${nowTime()}`;
         addPanelRecord(button, button.dataset.ecprMilestone);
+        const milestones = [...document.querySelectorAll("[data-ecpr-milestone]")];
+        const completed = milestones.filter((item) => item.classList.contains("completed")).length;
+        const percent = Math.round((completed / Math.max(1, milestones.length)) * 100);
+        const progressBar = document.querySelector("#ecpr-progress-bar");
+        const progressLabel = document.querySelector("#ecpr-progress-label");
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (progressLabel) progressLabel.textContent = `${percent}%`;
       });
     });
 
     const emtEcprChecks = new Set();
     const emtEcprContra = new Set();
+
+    function updateEmtEcprResult() {
+      const result = document.querySelector("#emt-ecpr-result");
+      const notify = document.querySelector("#emt-ecpr-notify");
+      const blocked = emtEcprContra.size > 0;
+      const ready = emtEcprChecks.size === 4 && !blocked;
+      if (result) {
+        result.className = ready ? "chip green" : blocked ? "chip red" : "chip blue";
+        result.textContent = ready
+          ? "符合院前預警條件"
+          : blocked
+            ? "初篩不符合｜等待院內評估"
+            : `等待評估｜已完成 ${emtEcprChecks.size}/4`;
+      }
+      if (notify) {
+        notify.disabled = blocked;
+        notify.textContent = blocked ? "有禁忌｜不可直接啟動" : "送出 ECPR 院前預警";
+      }
+      return { blocked, ready };
+    }
+
     document.querySelectorAll("[data-emt-ecpr-check]").forEach((button) => {
       button.addEventListener("click", () => {
         const item = button.dataset.emtEcprCheck;
@@ -4567,6 +5431,7 @@
           emtEcprChecks.add(item);
           button.classList.add("ok");
         }
+        updateEmtEcprResult();
       });
     });
 
@@ -4580,22 +5445,21 @@
           emtEcprContra.add(item);
           button.classList.add("red");
         }
+        updateEmtEcprResult();
       });
     });
 
     document.querySelector("#emt-ecpr-notify")?.addEventListener("click", (event) => {
-      const result = document.querySelector("#emt-ecpr-result");
-      const blocked = emtEcprContra.size > 0;
-      const ready = emtEcprChecks.size === 4 && !blocked;
-      if (result) {
-        result.className = ready ? "chip green" : blocked ? "chip red" : "chip blue";
-        result.textContent = ready ? "符合院前預警條件" : blocked ? "有禁忌｜仍需醫師判定" : `已完成 ${emtEcprChecks.size}/4`;
-      }
-      const note = `EMT ECPR 院前預警｜快速評估 ${emtEcprChecks.size}/4｜禁忌 ${emtEcprContra.size} 項｜院內須重新確認`;
+      const { blocked, ready } = updateEmtEcprResult();
+      if (blocked) return;
+      const note = ready
+        ? `EMT ECPR 院前預警｜快速評估 ${emtEcprChecks.size}/4｜禁忌 0 項｜建議院內接續評估`
+        : `EMT ECPR 等待評估｜快速評估 ${emtEcprChecks.size}/4｜禁忌 0 項｜資料未完整`;
       const table = document.querySelector("#record-table");
       if (table) table.insertAdjacentHTML("afterbegin", `<tr><td>${nowTime()}</td><td>${note}</td></tr>`);
-      event.currentTarget.textContent = `已送出 ${nowTime()}`;
+      event.currentTarget.textContent = ready ? `已送出 ${nowTime()}` : `等待評估 ${nowTime()}`;
     });
+    updateEmtEcprResult();
 
     function addAmiAlertMessage(text, type = "") {
       const thread = document.querySelector("#ami-alert-thread");
@@ -4646,8 +5510,7 @@
         const unit = document.querySelector("#ami-unit")?.value || "EMT";
         const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
         const location = document.querySelector("#ami-location")?.value || "位置待更新";
-        const summary = document.querySelector("#ami-emt-summary")?.value.trim() || "尚未填寫 EMT 摘要";
-        const text = `${button.dataset.amiAlertStep}<br>案件：${tempCase}<br>單位：${unit}｜ETA：${eta}｜位置：${location}<br>${summary}`;
+        const text = `${button.dataset.amiAlertStep}<br>案件：${tempCase}<br>單位：${unit}｜ETA：${eta}｜位置：${location}`;
         addAmiAlertMessage(text, button.classList.contains("ok") ? "ok" : "system");
         addConsoleRecord(`AMI 院前通報：${button.dataset.amiAlertStep}`);
         button.classList.add("green");
@@ -4659,11 +5522,15 @@
       const unit = document.querySelector("#ami-unit")?.value || "EMT";
       const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
       const location = document.querySelector("#ami-location")?.value || "位置待更新";
-      const summary = document.querySelector("#ami-emt-summary")?.value.trim() || "尚未填寫 EMT 摘要";
+      const summary = document.querySelector("#ami-emt-summary")?.value.trim();
       const file = document.querySelector("#ami-ekg-file")?.files?.[0];
       const fileText = file ? `EKG 檔案：${file.name}` : "尚未選擇 EKG 檔案";
       const botPreview = renderAmiBotPreview();
-      addAmiAlertMessage(`EKG 已送交專師 / 醫師判讀<br>${botPreview}<br>${fileText}<br>${summary}<br>機器人橋接：可送至 LINE/SYC agent webhook`, "system");
+      addAmiAlertMessage(`通報已送出<br>${botPreview}<br>${fileText}${summary ? `<br>${summary}` : ""}`, "ok");
+      const dispatchStatus = document.querySelector("#ami-dispatch-status");
+      if (dispatchStatus) {
+        dispatchStatus.innerHTML = `通報狀態：<strong>已送出</strong><br>${fileText}<br>等待專師 / 醫師判讀與接收回覆。`;
+      }
       const status = document.querySelector("#ami-review-status");
       const reviewCase = document.querySelector("#ami-review-case");
       const reviewSummary = document.querySelector("#ami-review-summary");
@@ -4673,8 +5540,8 @@
       }
       if (reviewCase) reviewCase.textContent = `${tempCase}｜${unit}｜${file ? file.name : "EKG 未附檔"}`;
       if (reviewSummary) reviewSummary.textContent = `${summary}｜預計到院：${eta}｜位置：${location}`;
-      addConsoleRecord(`EMT 上傳 EKG，等待專師 / 醫師判讀：${tempCase}`);
-      event.currentTarget.textContent = `已送出 ${nowTime()}`;
+      addConsoleRecord(`EMT ACS 通報已送出，等待專師 / 醫師判讀：${tempCase}`);
+      event.currentTarget.textContent = `通報已送出 ${nowTime()}`;
       event.currentTarget.className = "ok";
     });
 
@@ -4896,6 +5763,120 @@
       event.currentTarget.textContent = copied ? "已複製醫囑草稿" : "複製失敗";
     });
 
+    const caseDetailMap = {
+      "ACS-003": {
+        type: "ACS / STEMI",
+        title: "ACS-003｜男 58 歲｜胸痛",
+        summary: "ETA 7 分鐘，ST elevation，送達急診 A 區。",
+        waiting: "等待 CV 確認 AMI",
+        waitingClass: "chip red",
+        teamView: "acsPanel",
+        nodes: [
+          ["done", "EKG 完成", "09:15 EMT 上傳"],
+          ["current", "CV 判讀中", "目前節點：等待心內確認 AMI"],
+          ["waiting", "Cath lab 啟動", "待 CV 確認後通知"],
+          ["", "D2B 追蹤", "待病人到院與入室"]
+        ]
+      },
+      "ACS-002": {
+        type: "ACS",
+        title: "ACS-002｜女 71 歲｜胸悶喘",
+        summary: "ECG 已上傳，但影像品質待確認。",
+        waiting: "等待 EKG 重傳",
+        waitingClass: "chip blue",
+        teamView: "acsPanel",
+        nodes: [
+          ["done", "院前通報", "已建立暫時案件"],
+          ["current", "重傳 EKG", "目前節點：等待清晰影像"],
+          ["", "CV 判讀", "待重傳後判讀"],
+          ["", "是否啟動 AMI", "待醫師決策"]
+        ]
+      },
+      "CPCR-001": {
+        type: "CPR / ECPR",
+        title: "CPCR-001｜男 63 歲｜OHCA",
+        summary: "CPR 進行中，ROSC 未達成，ETA 11 分鐘。",
+        waiting: "等待 ECMO team 到場",
+        waitingClass: "chip red",
+        teamView: "cprConsole",
+        nodes: [
+          ["done", "CPR 開始", "院前 CPR 進行中"],
+          ["done", "節律 / 給藥", "已進入 ACLS 流程"],
+          ["current", "ECPR 評估", "目前節點：等待團隊到場"],
+          ["waiting", "Cannulation", "待院內啟動"],
+          ["", "Pumping / ICU", "待完成"]
+        ]
+      },
+      "STR-001": {
+        type: "CVA / Stroke",
+        title: "STR-001｜女 66 歲｜FAST 陽性",
+        summary: "最後正常 08:10，血糖 142，檢傷已完成。",
+        waiting: "等待 CTA / EVT 決策",
+        waitingClass: "chip green",
+        teamView: "strokeConsole",
+        nodes: [
+          ["done", "FAST 陽性", "院前已通報"],
+          ["done", "檢傷 / 血糖", "血糖 142"],
+          ["current", "CT / CTA", "目前節點：等待影像與 LVO 判斷"],
+          ["waiting", "EVT / rt-PA", "待神內決策"],
+          ["", "ICU / 病房", "待治療後轉歸"]
+        ]
+      },
+      "TRM-001": {
+        type: "Major Trauma",
+        title: "TRM-001｜男 42 歲｜高能量外傷",
+        summary: "低血壓，FAST 疑陽性，骨盆疼痛。",
+        waiting: "等待 CT / OR 決策",
+        waitingClass: "chip orange",
+        teamView: "traumaConsole",
+        nodes: [
+          ["done", "Trauma blue", "重大外傷啟動"],
+          ["done", "MTP / Primary", "輸血與初評同步"],
+          ["current", "送 CT", "目前節點：等待影像結果"],
+          ["waiting", "OR 決策", "依出血與影像判斷"],
+          ["", "ICU / 病房", "待穩定後轉歸"]
+        ]
+      }
+    };
+
+    function renderCaseDetail(caseId) {
+      const detail = caseDetailMap[caseId] || caseDetailMap["ACS-003"];
+      const type = document.querySelector("#case-detail-type");
+      const title = document.querySelector("#case-detail-title");
+      const summary = document.querySelector("#case-detail-summary");
+      const waiting = document.querySelector("#case-detail-waiting");
+      const nodes = document.querySelector("#case-detail-nodes");
+      const enterTeam = document.querySelector("#case-enter-team");
+      if (type) type.textContent = detail.type;
+      if (title) title.textContent = detail.title;
+      if (summary) summary.textContent = detail.summary;
+      if (waiting) {
+        waiting.className = detail.waitingClass;
+        waiting.textContent = detail.waiting;
+      }
+      if (enterTeam) enterTeam.dataset.viewJump = detail.teamView;
+      if (nodes) {
+        nodes.innerHTML = detail.nodes.map((node, index) => (
+          `<div class="node-step ${node[0]}"><span class="node-dot">${index + 1}</span><div><strong>${node[1]}</strong><small>${node[2]}</small></div></div>`
+        )).join("");
+      }
+    }
+
+    document.addEventListener("click", (event) => {
+      const card = event.target.closest("[data-open-case]");
+      if (!card) return;
+      const caseId = card.dataset.openCase;
+      document.querySelectorAll("[data-open-case]").forEach((item) => {
+        item.classList.toggle("active", item.dataset.openCase === caseId);
+      });
+      renderCaseDetail(caseId);
+      if (selectedCaseChip) selectedCaseChip.textContent = `目前選擇：${caseId}`;
+      if (mobileCaseTitle) mobileCaseTitle.textContent = `切換 ${caseId}`;
+      const destination = card.dataset.viewJump;
+      if (destination) showView(destination);
+      scheduleAutoSave();
+    });
+
     const transferVsTime = document.querySelector("#transfer-vs-time");
     const vsFreshness = document.querySelector("#vs-freshness");
     const nisSummary = document.querySelector("#nis-summary");
@@ -4988,6 +5969,7 @@
     const guidelineTaskState = new Map();
     let guidelineTimerId = null;
     let cprGuidelineRunning = false;
+    let cprGuidelineStartMs = null;
 
     function formatCountdown(milliseconds) {
       const seconds = Math.max(0, Math.ceil(milliseconds / 1000));
@@ -5037,9 +6019,36 @@
       }
     }
 
+    function shiftGuidelineTasks(deltaMs) {
+      if (!deltaMs) return;
+      guidelineTaskState.forEach((state) => {
+        if (state?.nextDue) state.nextDue += deltaMs;
+      });
+      updateGuidelineTasks();
+    }
+
+    document.querySelector("#cprConsole .panel-start-time")?.addEventListener("change", (event) => {
+      const parsed = parseStamp(event.currentTarget.value);
+      if (!parsed) {
+        alert("請輸入格式：YYYY/MM/DD HH:MM:SS");
+        return;
+      }
+      if (cprGuidelineStartMs !== null) {
+        shiftGuidelineTasks(parsed.getTime() - cprGuidelineStartMs);
+      }
+      cprGuidelineStartMs = parsed.getTime();
+      addPanelRecord(event.currentTarget, `CPR 啟動時間修正：${event.currentTarget.value}`);
+    });
+
     document.querySelector("#cpr-guideline-start")?.addEventListener("click", (event) => {
-      if (event.currentTarget.textContent === "Stop") startGuidelineManager();
-      else stopGuidelineManager("已暫停");
+      if (event.currentTarget.textContent === "Stop") {
+        const startInput = document.querySelector("#cprConsole .panel-start-time");
+        const parsed = parseStamp(startInput?.value);
+        cprGuidelineStartMs = parsed?.getTime() || Date.now();
+        startGuidelineManager();
+      } else {
+        stopGuidelineManager("已暫停");
+      }
     });
 
     document.querySelectorAll("[data-guideline-task]").forEach((button) => {
@@ -5087,6 +6096,26 @@
     document.querySelector("#cpr-rosc")?.addEventListener("click", (event) => {
       stopGuidelineManager("ROSC｜循環提醒已暫停");
       addPanelRecord(event.currentTarget, "ROSC｜停止 CPR 循環提醒，進入 ROSC 後照護");
+      const dialog = document.querySelector("#rosc-dialog");
+      if (dialog && !dialog.open) dialog.showModal();
+    });
+
+    document.querySelector("#close-rosc")?.addEventListener("click", () => {
+      document.querySelector("#rosc-dialog")?.close();
+    });
+
+    document.querySelector("#save-rosc-assessment")?.addEventListener("click", (event) => {
+      const gcs = document.querySelector("#rosc-gcs")?.value.trim() || "GCS 未填";
+      const pupilSize = document.querySelector("#rosc-pupil-size")?.value.trim() || "瞳孔大小未填";
+      const pupilReflex = document.querySelector("#rosc-pupil-reflex")?.value || "光反射未填";
+      const vitals = document.querySelector("#rosc-vitals")?.value.trim() || "生命徵象未填";
+      const limb = document.querySelector("#rosc-limb-movement")?.value || "四肢活動度未填";
+      const skin = document.querySelector("#rosc-skin-color")?.value || "皮膚顏色未填";
+      const lines = document.querySelector("#rosc-lines")?.value.trim() || "管路狀態未填";
+      const restraint = document.querySelector("#rosc-restraint")?.value || "約束狀態未填";
+      const reason = document.querySelector("#rosc-restraint-reason")?.value.trim();
+      addPanelRecord(event.currentTarget, `ROSC 後評估｜${gcs}｜瞳孔 ${pupilSize} / 光反射 ${pupilReflex}｜V/S ${vitals}｜四肢 ${limb}｜皮膚 ${skin}｜管路 ${lines}｜約束 ${restraint}${reason ? `：${reason}` : ""}`);
+      document.querySelector("#rosc-dialog")?.close();
     });
 
     const reversibleCauseMap = {
@@ -5433,9 +6462,112 @@
       setStorageMessage("本機測試事件已清除");
     });
 
+    const roleProfiles = {
+      "EMT / 分隊": {
+        label: "EMT / 分隊",
+        defaultView: "emt",
+        entryRole: "prehospital",
+        allowedViews: ["emt", "accountAdmin"],
+        note: "只顯示 EMT 院前啟動頁與帳號頁，避免誤入院內病歷或治療工作區。"
+      },
+      "急診醫師 / 專師": {
+        label: "急診醫師 / 專師",
+        defaultView: "er",
+        entryRole: "er",
+        allowedViews: ["overview", "er", "acsPanel", "strokeConsole", "traumaConsole", "cprConsole", "sepsisConsole", "quality", "accountAdmin"],
+        note: "可進入急診紀錄、各急症執行面板與品質回顧。"
+      },
+      "護理師": {
+        label: "護理師",
+        defaultView: "nurse",
+        entryRole: "nurse",
+        allowedViews: ["overview", "emt", "acsPanel", "strokeConsole", "traumaConsole", "cprConsole", "nurse", "quality", "accountAdmin"],
+        note: "以 EMT 通報、團隊執行面板、護理交班與病人看板為主。"
+      },
+      "CV 心內醫師": {
+        label: "CV 心內醫師",
+        defaultView: "cvUnit",
+        entryRole: "specialty",
+        pathway: "ACS / STEMI",
+        allowedViews: ["cvUnit", "acsPanel", "accountAdmin"],
+        note: "登入後直接進 CV 單位頁，處理 EKG 判讀、AMI 啟動與心導管室銜接。"
+      },
+      "CVS 心臟血管外科": {
+        label: "CVS 心臟血管外科",
+        defaultView: "cprConsole",
+        entryRole: "specialty",
+        pathway: "CPR / ECPR",
+        allowedViews: ["cprConsole", "accountAdmin"],
+        note: "登入後直接進 CPR/ECPR 治療頁，聚焦 ECMO team 與 ECPR 決策。"
+      },
+      "神內 Stroke Team": {
+        label: "神內 Stroke Team",
+        defaultView: "neuroDoctor",
+        entryRole: "specialty",
+        pathway: "Stroke",
+        allowedViews: ["neuroDoctor", "strokeConsole", "accountAdmin"],
+        note: "登入後直接進神內醫師頁，讀取 FAST、檢傷與 CTA / EVT 決策。"
+      },
+      "創傷科 Trauma Team": {
+        label: "創傷科 Trauma Team",
+        defaultView: "traumaDoctor",
+        entryRole: "specialty",
+        pathway: "Major Trauma",
+        allowedViews: ["traumaDoctor", "traumaConsole", "accountAdmin"],
+        note: "登入後直接進創傷科專區，處理 Trauma blue、外科會診與 OR / ICU 決策。"
+      },
+      "行政管理": {
+        label: "行政管理",
+        defaultView: "accountAdmin",
+        entryRole: "quality",
+        allowedViews: ["overview", "emt", "er", "acsPanel", "cvUnit", "neuroDoctor", "traumaDoctor", "strokeConsole", "traumaConsole", "cprConsole", "sepsisConsole", "nurse", "quality", "modules", "strokeFlow", "specialty", "accountAdmin"],
+        note: "可檢視所有原型頁面，管理帳號、角色、班表與通知對象。"
+      }
+    };
+
+    function inferProfile(account) {
+      if (!account) return null;
+      if (roleProfiles[account.role]) return roleProfiles[account.role];
+      const unit = `${account.unit || ""}`.toLowerCase();
+      if (unit.includes("cvs") || account.unit?.includes("心臟血管")) return roleProfiles["CVS 心臟血管外科"];
+      if (unit.includes("cv") || account.unit?.includes("心內") || account.unit?.includes("心導管")) return roleProfiles["CV 心內醫師"];
+      if (account.unit?.includes("神內") || account.unit?.includes("Stroke")) return roleProfiles["神內 Stroke Team"];
+      if (account.unit?.includes("創傷") || account.unit?.includes("Trauma")) return roleProfiles["創傷科 Trauma Team"];
+      return roleProfiles["急診醫師 / 專師"];
+    }
+
+    function applyRoleAccess(account, jump = false) {
+      const profile = inferProfile(account);
+      const allowed = new Set(profile?.label === "護理師" ? profile.allowedViews : [...views].map((view) => view.id));
+      const status = document.querySelector("#role-gate-status");
+      if (status) {
+        status.innerHTML = profile
+          ? `<strong>${profile.label}｜${account.unit || "未指定單位"}</strong>展示模式：目前開放所有頁面可切換；正式版再依職類限制可用範圍。`
+          : `<strong>未登入</strong>展示模式先開放所有頁面，登入後仍會顯示角色與建議工作區。`;
+      }
+      buttons.forEach((button) => {
+        button.classList.toggle("locked", !allowed.has(button.dataset.view));
+      });
+      document.querySelectorAll("[data-entry-role]").forEach((button) => {
+        button.classList.remove("locked");
+      });
+      document.querySelectorAll("[data-pathway]").forEach((button) => {
+        button.classList.remove("locked");
+      });
+      if (profile?.entryRole) selectEntryRole(profile.entryRole, false);
+      if (profile?.pathway) selectEntryPathway(profile.pathway, false);
+      const activeView = document.querySelector(".view.active")?.id;
+      if (jump || (activeView && !allowed.has(activeView))) showView(profile?.defaultView || "overview");
+    }
+
     const demoAccounts = {
       emt01: { password: "00000", role: "EMT / 分隊", unit: "東區91" },
-      er01: { password: "11111", role: "醫療人員", unit: "ER" },
+      er01: { password: "11111", role: "急診醫師 / 專師", unit: "ER" },
+      nurse01: { password: "22222", role: "護理師", unit: "ER 護理站" },
+      cv01: { password: "33333", role: "CV 心內醫師", unit: "CV" },
+      cvs01: { password: "44444", role: "CVS 心臟血管外科", unit: "CVS / ECMO team" },
+      neuro01: { password: "55555", role: "神內 Stroke Team", unit: "神內" },
+      trauma01: { password: "66666", role: "創傷科 Trauma Team", unit: "Trauma Team" },
       admin: { password: "99999", role: "行政管理", unit: "行政" }
     };
 
@@ -5445,35 +6577,27 @@
       if (!account) {
         chip.className = "chip blue";
         chip.textContent = "未登入";
+        applyRoleAccess(null);
         return;
       }
       chip.className = account.role === "行政管理" ? "chip green" : "chip blue";
       chip.textContent = `${account.role}｜${account.unit}`;
+      applyRoleAccess(account);
     }
 
     document.querySelector("#mock-login")?.addEventListener("click", () => {
       const accountInput = document.querySelector("#login-account");
-      const passwordInput = document.querySelector("#login-password");
-      const roleInput = document.querySelector("#login-role");
-      const unitInput = document.querySelector("#login-unit");
       const accountId = accountInput?.value.trim() || "";
-      const password = passwordInput?.value || "";
       const preset = demoAccounts[accountId];
-      if (preset && preset.password !== password) {
-        setLoginStatus(null);
-        alert("密碼錯誤。原型帳號請使用表格中的測試密碼。");
-        return;
-      }
       const account = {
         id: accountId || "local-user",
-        role: preset?.role || roleInput?.value || "醫療人員",
-        unit: preset?.unit || unitInput?.value || "未指定單位",
+        role: preset?.role || "急診醫師 / 專師",
+        unit: preset?.unit || "未指定單位",
         loginAt: new Date().toISOString()
       };
-      if (roleInput) roleInput.value = account.role;
-      if (unitInput) unitInput.value = account.unit;
       localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(account));
       setLoginStatus(account);
+      applyRoleAccess(account, true);
       scheduleAutoSave();
     });
 
