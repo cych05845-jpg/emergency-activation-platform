@@ -880,6 +880,258 @@
       border: 1px solid rgba(62, 120, 226, .28);
     }
 
+    #cprConsole .clinical-cpr-layout {
+      grid-template-columns: 220px minmax(620px, 2fr) 220px 190px;
+    }
+
+    #cprConsole .clinical-cpr-layout > .clinical-column:nth-child(1) {
+      order: 1;
+    }
+
+    #cprConsole .clinical-cpr-layout > .clinical-column:nth-child(2) {
+      order: 3;
+    }
+
+    #cprConsole .clinical-cpr-layout > .clinical-column:nth-child(3) {
+      order: 2;
+    }
+
+    #cprConsole .clinical-cpr-layout > .clinical-column:nth-child(4) {
+      order: 4;
+    }
+
+    #cprConsole .clinical-record-panel {
+      min-height: 720px;
+    }
+
+    #cprConsole .clinical-record-panel .panel-body {
+      min-height: 650px;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    #cprConsole .clinical-record-panel .record-list {
+      min-height: 0;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+
+    #cprConsole .clinical-action-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #cprConsole .clinical-action-grid button,
+    #cprConsole .treatment-control {
+      width: 100%;
+    }
+
+    #cprConsole .narrative-record {
+      order: -1;
+      margin-top: 0;
+    }
+
+    #cprConsole .narrative-record.collapsed .panel-subhead,
+    #cprConsole .narrative-record.collapsed .chips,
+    #cprConsole .narrative-record.collapsed textarea,
+    #cprConsole .narrative-record.collapsed .actions {
+      display: none;
+    }
+
+    .special-record-toggle {
+      width: 100%;
+      justify-content: center;
+      font-weight: 800;
+      min-height: 42px;
+    }
+
+    .poison-contact-box {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid rgba(239, 68, 68, .25);
+      border-radius: 8px;
+      background: rgba(254, 226, 226, .55);
+      color: #7f1d1d;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .ecpr-precheck-panel .panel-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .ecpr-precheck-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .ecpr-precheck-card {
+      min-height: 92px;
+      border: 1px solid rgba(22, 163, 74, .28);
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #14532d;
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .ecpr-exclusion-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .ecpr-exclusion-card {
+      min-height: 54px;
+      border: 1px solid rgba(239, 68, 68, .28);
+      border-radius: 8px;
+      background: #fff1f2;
+      color: #7f1d1d;
+      font-weight: 800;
+    }
+
+    .ami-activation-flow {
+      display: grid;
+      grid-template-columns: minmax(280px, 1.05fr) minmax(320px, 1fr);
+      gap: 14px;
+    }
+
+    .ami-step-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .ami-step-list button {
+      justify-content: flex-start;
+      min-height: 48px;
+      text-align: left;
+    }
+
+    .ami-alert-thread {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .ami-alert-message {
+      padding: 9px 10px;
+      border-radius: 8px;
+      background: #1f2937;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .ami-alert-message.system {
+      background: #312e81;
+    }
+
+    .ami-alert-message.ok {
+      background: #064e3b;
+    }
+
+    .ami-match-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .ami-ambulance-board {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .ami-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .ami-quick-tile {
+      min-height: 92px;
+      border-radius: 8px;
+      border: 2px solid rgba(17, 24, 39, .18);
+      background: #fef3c7;
+      color: #111827;
+      font-size: 28px;
+      font-weight: 950;
+      line-height: 1.12;
+      text-align: center;
+    }
+
+    .ami-quick-tile.blue {
+      background: #0ea5e9;
+      color: #fff;
+    }
+
+    .ami-quick-tile.green {
+      background: #84cc16;
+      color: #fff;
+    }
+
+    .ami-quick-tile.white {
+      background: #f8fafc;
+      color: #0f344e;
+    }
+
+    .ami-quick-tile.orange {
+      background: #facc15;
+    }
+
+    .ami-quick-tile.active {
+      outline: 4px solid #2563eb;
+      outline-offset: -4px;
+      transform: translateY(-1px);
+    }
+
+    .ami-bot-preview {
+      min-height: 76px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(37, 99, 235, .22);
+      background: #eff6ff;
+      color: #1e3a8a;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .push-status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .push-log {
+      display: grid;
+      gap: 6px;
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, .35);
+    }
+
+    .push-log-row {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 8px;
+      padding: 7px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid rgba(226, 232, 240, .9);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
     .clinical-record-panel .record-row {
       background: rgba(255, 255, 255, .48);
     }
@@ -1062,11 +1314,18 @@
 
     .record-head {
       display: grid;
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 90px 1fr 48px;
       background: #70a0ff;
       color: #101820;
       font-weight: 700;
       border-bottom: 1px solid #3e78e2;
+    }
+
+    .record-head::after {
+      content: "刪除";
+      padding: 7px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, .55);
     }
 
     .record-head span,
@@ -1082,10 +1341,26 @@
 
     .record-row {
       display: grid;
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 90px 1fr 48px;
       background: rgba(255, 255, 255, .36);
       border-bottom: 1px solid rgba(255, 255, 255, .7);
       min-height: 34px;
+    }
+
+    .record-delete {
+      min-height: 34px;
+      padding: 0;
+      border-radius: 0;
+      border: 0;
+      border-left: 1px solid rgba(255, 255, 255, .7);
+      background: rgba(255, 255, 255, .45);
+      color: #991b1b;
+      font-weight: 900;
+    }
+
+    .record-delete:hover {
+      background: #fee2e2;
+      color: #7f1d1d;
     }
 
     .med-row {
@@ -1821,6 +2096,98 @@
           </div>
         </div>
 
+        <div class="panel" style="margin-top:14px;">
+          <div class="panel-head">
+            <h3>EMT｜AMI 一鍵啟動與入院媒合</h3>
+            <span class="chip red">仿 LINE 通報流程</span>
+          </div>
+          <div class="panel-body">
+            <div class="ami-activation-flow">
+              <div>
+                <div class="form-grid">
+                  <label>院前暫時案件號<input id="ami-temp-case-id" value="EMS-AMI-20260720-001"></label>
+                  <label>救護單位 / 車號<input id="ami-unit" value="東區91"></label>
+                  <label>預計到院<input id="ami-eta" value="7 分鐘"></label>
+                  <label>病人位置<input id="ami-location" placeholder="救護車 / 急診入口 / 檢傷區"></label>
+                  <label class="full">EMT 摘要<textarea id="ami-emt-summary">胸痛 40 分鐘，12 lead ECG 疑似 anterior STEMI，已上傳 ECG，N/S 500cc + 留置針，生命徵象穩定。</textarea></label>
+                  <label class="full">EKG 照片 / 檔案<input id="ami-ekg-file" type="file" accept="image/*,.pdf"></label>
+                </div>
+                <div class="ami-ambulance-board">
+                  <div class="ami-quick-grid" aria-label="救護車內 AMI 快速通報大按鈕">
+                    <button class="ami-quick-tile green" data-ami-quick="醫院：嘉基醫院" type="button">嘉基<br>醫院</button>
+                    <button class="ami-quick-tile blue" data-ami-quick="性別：男性" type="button">男性</button>
+                    <button class="ami-quick-tile white" data-ami-quick="年齡：61-70 歲" type="button">61-70<small> 歲</small></button>
+                    <button class="ami-quick-tile" data-ami-quick="主訴：胸悶" type="button">胸悶</button>
+                    <button class="ami-quick-tile" data-ami-quick="主訴：喘" type="button">喘</button>
+                    <button class="ami-quick-tile" data-ami-quick="主訴：上腹痛" type="button">上腹痛</button>
+                    <button class="ami-quick-tile orange" data-ami-quick="病史：糖尿病" type="button">糖尿病<br>病史</button>
+                    <button class="ami-quick-tile orange" data-ami-quick="病史：心臟病" type="button">心臟病<br>病史</button>
+                  </div>
+                  <div class="ami-bot-preview" id="ami-bot-preview">機器人通報內容會依按鈕自動整理。</div>
+                </div>
+                <div class="ami-step-list" style="margin-top:10px;">
+                  <button class="secondary" id="ami-send-ekg-review" type="button">1. 送出 EKG 給專師 / 醫師判讀</button>
+                  <button class="quiet" data-ami-alert-step="更新病人位置與預計到院時間，CV / 心導管室 / 急診同步可見">2. 更新位置 / 預計到院時間</button>
+                </div>
+              </div>
+
+              <div>
+                <div class="ami-alert-thread" id="ami-alert-thread" aria-label="AMI 通報對話紀錄">
+                  <div class="ami-alert-message system">系統等待 EMT 啟動 AMI。暫時案件號會先作為共同追蹤點。</div>
+                </div>
+                <div class="ami-bot-preview" style="margin-top:10px;">
+                  機器人銜接規劃：本程式送出暫時案件號、EKG 檔案、快速按鈕資料、預計到院與位置到 LINE/SYC agent webhook；機器人回傳值班名單、確認啟動、各人員接收狀態，再同步回本平台。
+                </div>
+                <div class="panel" style="margin-top:10px;">
+                  <div class="panel-head">
+                    <h3>Firebase Web Push 通知</h3>
+                    <span class="chip" id="push-permission-chip">尚未啟用</span>
+                  </div>
+                  <div class="panel-body">
+                    <div class="form-grid">
+                      <label>本裝置角色<select id="push-role">
+                        <option>急診專師 / 醫師</option>
+                        <option>CV 心內醫師</option>
+                        <option>心導管室</option>
+                        <option>急診護理站</option>
+                        <option>EMT</option>
+                      </select></label>
+                      <label>接收案件<select id="push-topic">
+                        <option>AMI / STEMI</option>
+                        <option>CPR / ECPR</option>
+                        <option>Stroke</option>
+                        <option>Major Trauma</option>
+                      </select></label>
+                      <label>通知狀態<input id="push-status" readonly value="等待申請通知權限"></label>
+                      <label class="full">FCM Token / 裝置識別<input id="push-token" placeholder="正式版由 Firebase getToken() 自動產生"></label>
+                    </div>
+                    <div class="actions">
+                      <button class="primary" id="enable-web-push" type="button">允許通知 / 註冊裝置</button>
+                      <button class="secondary" id="simulate-web-push" type="button">模擬 EMT 推播</button>
+                      <button class="quiet" id="copy-push-payload" type="button">複製推播 payload</button>
+                    </div>
+                    <div class="push-status-grid">
+                      <span class="chip blue">前景：頁面內通知</span>
+                      <span class="chip orange">背景：Service Worker</span>
+                      <span class="chip green">HTTPS 後正式啟用</span>
+                    </div>
+                    <div class="push-log" id="push-log">
+                      <div class="push-log-row"><span>--:--</span><span>等待 EMT 發出 AMI/ECPR/Stroke/Trauma 通報。</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ami-match-grid">
+                  <label>病歷號<input id="ami-chart-no" placeholder="到院後輸入"></label>
+                  <label>Barcode<input id="ami-barcode-1" placeholder="掃描條碼"></label>
+                  <label>再刷 Barcode<input id="ami-barcode-2" placeholder="再次掃描"></label>
+                  <button class="secondary" id="ami-match-patient" type="button">媒合病人</button>
+                </div>
+                <p class="meta">建議正式版以「院前暫時案件號」串起 EMT、CV、心導管室與急診；到院後再以病歷號 / Barcode 完成媒合，避免只知道有人啟動卻不知道病人在哪。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <section class="view" id="cardio">
@@ -1959,6 +2326,27 @@
               <span class="chip red">胸痛 ACS</span>
               <span class="chip blue">院前暫時案件 EMS-ACS-001</span>
               <span class="chip green">到院後可合併病歷號</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:14px;">
+          <div class="panel-head">
+            <h3>院前 EKG 判讀與 AMI 啟動</h3>
+            <span class="chip orange" id="ami-review-status">等待 EMT 上傳</span>
+          </div>
+          <div class="panel-body">
+            <div class="case-banner" style="margin-bottom:12px;">
+              <div>
+                <h3 id="ami-review-case">尚未收到院前 EKG</h3>
+                <p id="ami-review-summary">EMT 上傳 EKG 後，專師 / 急診醫師 / CV 醫師可在此判讀；確認 AMI 後再正式啟動 CV 與心導管室。</p>
+              </div>
+              <button class="primary" id="ami-confirm-activation" type="button">判讀為 AMI，正式啟動</button>
+            </div>
+            <div class="actions">
+              <button class="secondary" id="ami-review-stemi" type="button">標記疑似 STEMI</button>
+              <button class="quiet" id="ami-review-repeat-ekg" type="button">要求重傳 / 重做 EKG</button>
+              <button class="quiet" id="ami-review-not-ami" type="button">判讀：暫不啟動 AMI</button>
             </div>
           </div>
         </div>
@@ -2266,6 +2654,24 @@
           </div>
         </div>
 
+        <div class="panel ecpr-precheck-panel">
+          <div class="panel-head"><h3>ECPR 評估中</h3><span class="chip orange">接收 EMT 院前初篩</span></div>
+          <div class="panel-body">
+            <div class="ecpr-precheck-grid">
+              <button class="ecpr-precheck-card" data-panel-record="ECPR 初篩符合：18-70 歲">18 - 70 歲</button>
+              <button class="ecpr-precheck-card" data-panel-record="ECPR 初篩符合：可電擊">可電擊</button>
+              <button class="ecpr-precheck-card" data-panel-record="ECPR 初篩符合：目擊倒地">目擊倒地</button>
+              <button class="ecpr-precheck-card" data-panel-record="ECPR 初篩符合：Bystander CPR">Bystander CPR</button>
+            </div>
+            <div class="ecpr-exclusion-grid">
+              <button class="ecpr-exclusion-card" data-panel-record="ECPR 排除條件確認：末期病人">末期病人</button>
+              <button class="ecpr-exclusion-card" data-panel-record="ECPR 排除條件確認：長期臥床超過 6 個月">長期臥床 &gt; 6 個月</button>
+              <button class="ecpr-exclusion-card" data-panel-record="ECPR 排除條件確認：嚴重失智 / 植物人">嚴重失智 / 植物人</button>
+            </div>
+            <button class="urgent" data-panel-record="符合 ECPR 個案，NP 直接啟動">符合個案：NP 直接啟動</button>
+          </div>
+        </div>
+
         <div class="clinical-cpr-layout">
           <div class="clinical-column">
             <div class="panel">
@@ -2315,7 +2721,8 @@
                 <div class="record-list panel-record-list" id="cpr-guideline-records">
                   <div class="record-row"><span>--:--</span><span>CPR / ECPR 工作區待啟動</span></div>
                 </div>
-                <div class="narrative-record">
+                <div class="narrative-record collapsed" id="special-record-box">
+                  <button class="quiet special-record-toggle" id="toggle-special-record" type="button">展開特殊紀錄 / 敘述紀錄</button>
                   <div class="panel-subhead">敘述／特殊紀錄</div>
                   <div class="chips" style="margin-top:8px;">
                     <button class="chip" data-narrative-tag="醫師解釋病情">醫師解釋病情</button>
@@ -2369,6 +2776,11 @@
                   <button class="cause-card" data-cause="toxins">T 毒物</button>
                   <button class="cause-card" data-cause="pulmonary">T 肺栓塞</button>
                   <button class="cause-card" data-cause="coronary">T 冠脈栓塞</button>
+                </div>
+                <div class="poison-contact-box">
+                  <strong>毒物中心諮詢</strong><br>
+                  台北榮總毒物諮詢：02-2871-7121<br>
+                  台中榮總毒物醫學部：04-2359-2525 #3671 / #83535
                 </div>
               </div>
             </div>
@@ -3598,11 +4010,33 @@
       return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
+    function attachRecordDelete(row) {
+      if (!row || row.querySelector(".record-delete")) return;
+      const button = document.createElement("button");
+      button.className = "record-delete";
+      button.type = "button";
+      button.textContent = "X";
+      button.setAttribute("aria-label", "刪除此筆急救紀錄");
+      row.appendChild(button);
+    }
+
+    function recordRowHtml(time, text) {
+      return `<span>${time}</span><span>${text}</span><button class="record-delete" type="button" aria-label="刪除此筆急救紀錄">X</button>`;
+    }
+
+    document.querySelectorAll(".record-row").forEach(attachRecordDelete);
+
+    document.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest(".record-delete");
+      if (!deleteButton) return;
+      deleteButton.closest(".record-row")?.remove();
+    });
+
     function addConsoleRecord(text) {
       if (!consoleRecordList) return;
       const row = document.createElement("div");
       row.className = "record-row";
-      row.innerHTML = `<span>${nowTime()}</span><span>${text}</span>`;
+      row.innerHTML = recordRowHtml(nowTime(), text);
       consoleRecordList.prepend(row);
     }
 
@@ -3610,7 +4044,7 @@
       if (!acsRecordList) return;
       const row = document.createElement("div");
       row.className = "record-row";
-      row.innerHTML = `<span>${nowTime()}</span><span>${acsCurrentRole}：${text}</span>`;
+      row.innerHTML = recordRowHtml(nowTime(), `${acsCurrentRole}：${text}`);
       acsRecordList.prepend(row);
       if (acsRecordTime) acsRecordTime.value = nowStamp();
     }
@@ -3635,7 +4069,7 @@
       renderMedicationList(config.meds || []);
       renderButtonList(procedureList, config.procedures || [], 0);
       if (consoleRecordList) {
-        consoleRecordList.innerHTML = `<div class="record-row"><span>${nowTime()}</span><span>${caseType} 面板已載入，等待啟動</span></div>`;
+        consoleRecordList.innerHTML = `<div class="record-row">${recordRowHtml(nowTime(), `${caseType} 面板已載入，等待啟動`)}</div>`;
       }
     }
 
@@ -3779,7 +4213,7 @@
       if (!list) return;
       const row = document.createElement("div");
       row.className = "record-row";
-      row.innerHTML = `<span>${nowTime()}</span><span>${text}</span>`;
+      row.innerHTML = recordRowHtml(nowTime(), text);
       list.prepend(row);
       if (recordTimeInput) recordTimeInput.value = nowStamp();
     }
@@ -3848,6 +4282,15 @@
     document.querySelector("#endo-action")?.addEventListener("click", (event) => {
       const size = document.querySelector("#endo-size")?.value || "7.5";
       addPanelRecord(event.currentTarget, `On Endo｜Size ${size}｜位置與 ETCO₂ 待確認`);
+    });
+
+    document.querySelector("#toggle-special-record")?.addEventListener("click", (event) => {
+      const box = document.querySelector("#special-record-box");
+      if (!box) return;
+      box.classList.toggle("collapsed");
+      event.currentTarget.textContent = box.classList.contains("collapsed")
+        ? "展開特殊紀錄 / 敘述紀錄"
+        : "收合特殊紀錄 / 敘述紀錄";
     });
 
     const narrativeTags = new Set();
@@ -3963,6 +4406,239 @@
       event.currentTarget.textContent = `已送出 ${nowTime()}`;
     });
 
+    function addAmiAlertMessage(text, type = "") {
+      const thread = document.querySelector("#ami-alert-thread");
+      if (!thread) return;
+      const message = document.createElement("div");
+      message.className = `ami-alert-message ${type}`.trim();
+      message.innerHTML = `<strong>${nowTime()}</strong><br>${text}`;
+      thread.appendChild(message);
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    const amiQuickValues = new Set();
+
+    function renderAmiBotPreview() {
+      const preview = document.querySelector("#ami-bot-preview");
+      if (!preview) return "";
+      const tempCase = document.querySelector("#ami-temp-case-id")?.value || "未建立暫時案件號";
+      const unit = document.querySelector("#ami-unit")?.value || "EMT";
+      const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
+      const location = document.querySelector("#ami-location")?.value || "位置待更新";
+      const selected = [...amiQuickValues].join("｜") || "尚未點選快速條件";
+      const text = `【AMI 院前 EKG 判讀】${tempCase}<br>${unit}｜預計到院：${eta}｜位置：${location}<br>${selected}`;
+      preview.innerHTML = text;
+      return text;
+    }
+
+    document.querySelectorAll("[data-ami-quick]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.amiQuick;
+        if (amiQuickValues.has(value)) {
+          amiQuickValues.delete(value);
+          button.classList.remove("active");
+        } else {
+          amiQuickValues.add(value);
+          button.classList.add("active");
+        }
+        renderAmiBotPreview();
+      });
+    });
+
+    ["#ami-temp-case-id", "#ami-unit", "#ami-eta", "#ami-location"].forEach((selector) => {
+      document.querySelector(selector)?.addEventListener("input", renderAmiBotPreview);
+    });
+
+    document.querySelectorAll("[data-ami-alert-step]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const tempCase = document.querySelector("#ami-temp-case-id")?.value || "未建立暫時案件號";
+        const unit = document.querySelector("#ami-unit")?.value || "EMT";
+        const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
+        const location = document.querySelector("#ami-location")?.value || "位置待更新";
+        const summary = document.querySelector("#ami-emt-summary")?.value.trim() || "尚未填寫 EMT 摘要";
+        const text = `${button.dataset.amiAlertStep}<br>案件：${tempCase}<br>單位：${unit}｜ETA：${eta}｜位置：${location}<br>${summary}`;
+        addAmiAlertMessage(text, button.classList.contains("ok") ? "ok" : "system");
+        addConsoleRecord(`AMI 院前通報：${button.dataset.amiAlertStep}`);
+        button.classList.add("green");
+      });
+    });
+
+    document.querySelector("#ami-send-ekg-review")?.addEventListener("click", (event) => {
+      const tempCase = document.querySelector("#ami-temp-case-id")?.value || "未建立暫時案件號";
+      const unit = document.querySelector("#ami-unit")?.value || "EMT";
+      const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
+      const location = document.querySelector("#ami-location")?.value || "位置待更新";
+      const summary = document.querySelector("#ami-emt-summary")?.value.trim() || "尚未填寫 EMT 摘要";
+      const file = document.querySelector("#ami-ekg-file")?.files?.[0];
+      const fileText = file ? `EKG 檔案：${file.name}` : "尚未選擇 EKG 檔案";
+      const botPreview = renderAmiBotPreview();
+      addAmiAlertMessage(`EKG 已送交專師 / 醫師判讀<br>${botPreview}<br>${fileText}<br>${summary}<br>機器人橋接：可送至 LINE/SYC agent webhook`, "system");
+      const status = document.querySelector("#ami-review-status");
+      const reviewCase = document.querySelector("#ami-review-case");
+      const reviewSummary = document.querySelector("#ami-review-summary");
+      if (status) {
+        status.className = "chip orange";
+        status.textContent = "待專師 / 醫師判讀";
+      }
+      if (reviewCase) reviewCase.textContent = `${tempCase}｜${unit}｜${file ? file.name : "EKG 未附檔"}`;
+      if (reviewSummary) reviewSummary.textContent = `${summary}｜預計到院：${eta}｜位置：${location}`;
+      addConsoleRecord(`EMT 上傳 EKG，等待專師 / 醫師判讀：${tempCase}`);
+      event.currentTarget.textContent = `已送出 ${nowTime()}`;
+      event.currentTarget.className = "ok";
+    });
+
+    document.querySelector("#ami-review-stemi")?.addEventListener("click", (event) => {
+      const status = document.querySelector("#ami-review-status");
+      if (status) {
+        status.className = "chip red";
+        status.textContent = "疑似 STEMI";
+      }
+      addAcsRecord("院前 EKG 判讀：疑似 STEMI");
+      addAmiAlertMessage("專師 / 醫師標記：院前 EKG 疑似 STEMI，等待正式啟動。", "system");
+      event.currentTarget.classList.add("green");
+    });
+
+    document.querySelector("#ami-review-repeat-ekg")?.addEventListener("click", () => {
+      const status = document.querySelector("#ami-review-status");
+      if (status) {
+        status.className = "chip blue";
+        status.textContent = "要求重傳 / 重做 EKG";
+      }
+      addAcsRecord("院前 EKG 判讀：要求重傳 / 重做 EKG");
+      addAmiAlertMessage("已通知 EMT：請重傳 EKG 或到院後立即重做 12 lead ECG。");
+    });
+
+    document.querySelector("#ami-review-not-ami")?.addEventListener("click", () => {
+      const status = document.querySelector("#ami-review-status");
+      if (status) {
+        status.className = "chip";
+        status.textContent = "暫不啟動 AMI";
+      }
+      addAcsRecord("院前 EKG 判讀：暫不啟動 AMI");
+      addAmiAlertMessage("判讀結果：暫不啟動 AMI，持續依胸痛 / ACS 流程觀察。");
+    });
+
+    document.querySelector("#ami-confirm-activation")?.addEventListener("click", (event) => {
+      const tempCase = document.querySelector("#ami-temp-case-id")?.value || "未建立暫時案件號";
+      const status = document.querySelector("#ami-review-status");
+      if (status) {
+        status.className = "chip green";
+        status.textContent = "AMI 已正式啟動";
+      }
+      addAcsRecord(`判讀確認 AMI，正式啟動 CV / 心導管室：${tempCase}`);
+      addAmiAlertMessage(`【AMI 通報成功】${tempCase}<br>已通知：CV 值班醫師、心導管室、急診醫師 / 專師、護理團隊<br>接收狀態：等待各單位確認`, "ok");
+      event.currentTarget.textContent = `已啟動 ${nowTime()}`;
+      event.currentTarget.className = "ok";
+    });
+
+    document.querySelector("#ami-match-patient")?.addEventListener("click", (event) => {
+      const chartNo = document.querySelector("#ami-chart-no")?.value.trim();
+      const barcode1 = document.querySelector("#ami-barcode-1")?.value.trim();
+      const barcode2 = document.querySelector("#ami-barcode-2")?.value.trim();
+      if (!chartNo || !barcode1 || !barcode2) {
+        addAmiAlertMessage("病歷媒合未完成：請輸入病歷號並完成 Barcode / 再刷 Barcode。");
+        return;
+      }
+      if (barcode1 !== barcode2) {
+        addAmiAlertMessage("病歷媒合失敗：兩次 Barcode 不一致，請重新掃描。");
+        return;
+      }
+      addAmiAlertMessage(`病歷媒合完成：病歷號 ${chartNo}，Barcode 已雙重確認。`, "ok");
+      addConsoleRecord(`AMI 病歷媒合完成：${chartNo}`);
+      event.currentTarget.textContent = "已媒合";
+      event.currentTarget.className = "ok";
+    });
+
+    function buildPushPayload() {
+      const tempCase = document.querySelector("#ami-temp-case-id")?.value || "EMS-AMI-UNKNOWN";
+      const role = document.querySelector("#push-role")?.value || "急診專師 / 醫師";
+      const topic = document.querySelector("#push-topic")?.value || "AMI / STEMI";
+      const eta = document.querySelector("#ami-eta")?.value || "未填預計到院時間";
+      const location = document.querySelector("#ami-location")?.value || "位置待更新";
+      const quick = [...amiQuickValues].join("｜") || "未點選快速條件";
+      return {
+        toRole: role,
+        topic,
+        title: `院前通報：${topic}`,
+        body: `${tempCase}｜預計到院 ${eta}｜${location}`,
+        data: {
+          tempCaseId: tempCase,
+          pathway: topic,
+          eta,
+          location,
+          quick,
+          openView: "acsPanel"
+        }
+      };
+    }
+
+    function addPushLog(text) {
+      const log = document.querySelector("#push-log");
+      if (!log) return;
+      const row = document.createElement("div");
+      row.className = "push-log-row";
+      row.innerHTML = `<span>${nowTime()}</span><span>${text}</span>`;
+      log.prepend(row);
+    }
+
+    document.querySelector("#enable-web-push")?.addEventListener("click", async () => {
+      const chip = document.querySelector("#push-permission-chip");
+      const status = document.querySelector("#push-status");
+      const token = document.querySelector("#push-token");
+      if (!("Notification" in window)) {
+        if (chip) {
+          chip.className = "chip red";
+          chip.textContent = "瀏覽器不支援";
+        }
+        if (status) status.value = "此瀏覽器不支援 Web Notification";
+        addPushLog("此瀏覽器不支援 Web Notification。正式版請改用支援 Push API 的瀏覽器。");
+        return;
+      }
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const mockToken = `prototype-token-${Date.now().toString(36)}`;
+        if (chip) {
+          chip.className = "chip green";
+          chip.textContent = "已允許通知";
+        }
+        if (status) status.value = "已允許通知；正式版改接 Firebase getToken()";
+        if (token) token.value = mockToken;
+        addPushLog(`裝置已註冊原型 token：${mockToken}`);
+        if ("serviceWorker" in navigator && window.isSecureContext) {
+          try {
+            await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+            addPushLog("Service Worker 已註冊，背景推播骨架已就緒。");
+          } catch (error) {
+            addPushLog("Service Worker 註冊失敗，請確認 firebase-messaging-sw.js 與 HTTPS 部署位置。");
+          }
+        } else {
+          addPushLog("目前不是 HTTPS 或瀏覽器不支援 Service Worker；正式推播需部署到 HTTPS。");
+        }
+      } else {
+        if (chip) {
+          chip.className = "chip red";
+          chip.textContent = "通知未允許";
+        }
+        if (status) status.value = "使用者未允許通知";
+        addPushLog("通知權限未允許，背景推播無法顯示。");
+      }
+    });
+
+    document.querySelector("#simulate-web-push")?.addEventListener("click", () => {
+      const payload = buildPushPayload();
+      addPushLog(`${payload.title}｜${payload.body}`);
+      addAmiAlertMessage(`Firebase 推播模擬<br>${payload.title}<br>${payload.body}<br>接收角色：${payload.toRole}`, "ok");
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(payload.title, { body: payload.body, tag: payload.data.tempCaseId });
+      }
+    });
+
+    document.querySelector("#copy-push-payload")?.addEventListener("click", async (event) => {
+      const payload = buildPushPayload();
+      const copied = await copyText(JSON.stringify(payload, null, 2));
+      event.currentTarget.textContent = copied ? "已複製 payload" : "複製失敗";
+    });
+
     const selectedAssessments = new Set();
     const selectedOrders = new Set();
     const clinicalDraftRecords = document.querySelector("#clinical-draft-records");
@@ -4005,7 +4681,7 @@
       if (clinicalDraftRecords.textContent.includes("尚未建立")) clinicalDraftRecords.innerHTML = "";
       const row = document.createElement("div");
       row.className = "record-row";
-      row.innerHTML = `<span>${nowTime()}</span><span>${clinicalDraftText().replace(/\n/g, "<br>")}</span>`;
+      row.innerHTML = recordRowHtml(nowTime(), clinicalDraftText().replace(/\n/g, "<br>"));
       clinicalDraftRecords.prepend(row);
     });
 
